@@ -1,152 +1,171 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { ArrowRight, Building2, Award, Users } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Particles } from "@/components/ui/particles"
+import Image from "next/image"
+import { useState, useRef, useCallback, useEffect } from "react"
+import Autoplay from "embla-carousel-autoplay"
+import * as Lucide from "lucide-react"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel"
 import Link from "next/link"
-import { useBanner } from "@/hooks/use-banner"
+
+interface Slide {
+  id: string
+  imageUrl: string
+  title: string
+  highlight: string
+  description: string
+  primaryCta: { label: string; href: string }
+  secondaryCta: { label: string; href: string }
+}
+
+const staticSlides: Slide[] = [
+  {
+    id: "slide-1",
+    imageUrl: "/images/rayzor/hero-carousel/banner-6.png",
+    title: "We're India's —",
+    highlight: "Packaging Engineers.",
+    description:
+      "we don't just manufacture films — we engineer your entire packaging supply chain. From concept creation to factory production and global export.",
+    primaryCta: { label: "Our Products", href: "/services" },
+    secondaryCta: { label: "Get Enquiry", href: "/contact" },
+  },
+  {
+    id: "slide-2",
+    imageUrl: "/images/rayzor/hero-carousel/banner-7.png",
+    title: "Performance,",
+    highlight: "Protected.",
+    description:
+      "Durable, moisture-resistant LDPE film rolls, pouches, bags and sheets — manufactured in-house at our Madurai facility for over two decades.",
+    primaryCta: { label: "View LDPE Range", href: "/services" },
+    secondaryCta: { label: "Get Enquiry", href: "/contact" },
+  },
+  {
+    id: "slide-3",
+    imageUrl: "/images/rayzor/hero-carousel/banner-8.png",
+    title: "Engineered",
+    highlight: "For Export.",
+    description:
+      "Container liners, pallet covers, and export-grade palletization — from concept to container, we manage your packaging with precision.",
+    primaryCta: { label: "Our Solutions", href: "/services" },
+    secondaryCta: { label: "Contact Us", href: "/contact" },
+  },
+]
 
 export function HeroSection() {
-  const [isReady, setIsReady] = useState(false)
-  const { banner } = useBanner("home")
+  const [slides] = useState<Slide[]>(staticSlides)
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+
+  const autoplayRef = useRef(
+    Autoplay({ delay: 6000, stopOnInteraction: false, stopOnMouseEnter: true, playOnInit: true })
+  )
+
+  const handleSelect = useCallback(() => {
+    if (api) setCurrent(api.selectedScrollSnap())
+  }, [api])
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsReady(true), 300)
-    return () => clearTimeout(timer)
-  }, [])
-
-  // Determine the image source
-  const heroImage = banner?.images?.[0] || banner?.image || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
-
-  const stats = [
-    { icon: Building2, label: "Projects Completed", value: "500+" },
-    { icon: Award, label: "Years Experience", value: "15+" },
-    { icon: Users, label: "Happy Clients", value: "300+" },
-  ]
+    if (!api) return
+    setCurrent(api.selectedScrollSnap())
+    api.on("select", handleSelect)
+    api.on("reInit", handleSelect)
+    return () => {
+      api.off("select", handleSelect)
+      api.off("reInit", handleSelect)
+    }
+  }, [api, handleSelect])
 
   return (
-    <section
-      className="relative min-h-[75vh] md:min-h-[80vh] flex items-center overflow-hidden bg-[#fefaf6]"
-    >
-      {/* Particles Background */}
-      <Particles
-        className="absolute inset-0 z-0"
-        quantity={150}
-        ease={80}
-        color="#014a74"
-        size={0.5}
-        staticity={30}
-        refresh={false}
-      />
+    <section className="relative w-full overflow-hidden bg-ink">
+      <Carousel
+        setApi={setApi}
+        plugins={[autoplayRef.current]}
+        opts={{ loop: true, duration: 30, skipSnaps: false }}
+        className="w-full"
+      >
+        <CarouselContent>
+          {slides.map((s, index) => (
+            <CarouselItem key={s.id} className="basis-full min-w-0 shrink-0 grow-0">
+              {/* Full-height slide */}
+              <div className="relative w-full" style={{ height: "calc(100vh - 64px)", minHeight: 500 }}>
 
-      <div className="container mx-auto px-6 md:px-12 py-20 md:py-24 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-8">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={isReady ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-4"
-            >
-              <div className="inline-block">
-                <span className="text-sm font-bold tracking-widest text-[#f58420] uppercase">
-                  Premium Facade Solutions
-                </span>
-              </div>
-              
-              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-                <span className="text-[#014a74]">Building</span>
-                <br />
-                <span className="text-[#282828]">Tomorrow's</span>
-                <br />
-                <span className="text-[#f58420]">Architecture</span>
-              </h1>
-              
-              <p className="text-lg md:text-xl text-[#282828]/70 max-w-xl leading-relaxed">
-                Transform your vision into reality with our expert facade construction services. 
-                From ACP cladding to structural glazing, we deliver excellence.
-              </p>
-            </motion.div>
+                {/* ── IMAGE: fills entire slide ── */}
+                <Image
+                  src={s.imageUrl}
+                  alt={s.title + " " + s.highlight}
+                  fill
+                  className="object-cover object-center"
+                  sizes="100vw"
+                  priority={index === 0}
+                  quality={90}
+                />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isReady ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="flex flex-wrap gap-4"
-            >
-              <Button 
-                asChild
-                size="lg" 
-                className="bg-[#014a74] hover:bg-[#014a74]/90 text-white px-8 py-6 text-base"
-              >
-                <Link href="/portfolio">
-                  View Our Work <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </Button>
-              
-              <Button 
-                asChild
-                size="lg" 
-                variant="outline"
-                className="border-2 border-[#014a74] text-[#014a74] hover:bg-[#014a74] hover:text-white px-8 py-6 text-base"
-              >
-                <Link href="/contact">
-                  Get a Quote
-                </Link>
-              </Button>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isReady ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="grid grid-cols-3 gap-6 pt-8 border-t border-[#014a74]/20"
-            >
-              {stats.map((stat, index) => (
-                <div key={index} className="space-y-2">
-                  <stat.icon className="w-6 h-6 text-[#f58420]" />
-                  <div className="text-2xl md:text-3xl font-bold text-[#014a74]">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs md:text-sm text-[#282828]/60 leading-tight">
-                    {stat.label}
+                {/* ── WHITE CARD: top-left, floating over image ── */}
+                <div className="absolute top-0 left-0 z-20 bg-white/95 backdrop-blur-md p-4 sm:p-5 md:p-7 lg:p-10 xl:p-12 w-[70%] sm:w-[50%] md:w-[38%] lg:w-[32%] xl:w-[28%] shadow-2xl" style={{ borderBottomRightRadius: "1.25rem" }}>
+                  <p className="text-brand text-[9px] sm:text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1.5 sm:mb-2 md:mb-3">
+                    Rayzor Industrial Packaging
+                  </p>
+                  <h1
+                    className="font-heading text-ink"
+                    style={{
+                      fontSize: "clamp(1.3rem, 2.5vw, 2.8rem)",
+                      fontWeight: 700,
+                      lineHeight: 1.1,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {s.title}
+                    <br />
+                    {s.highlight}
+                  </h1>
+                  <p className="text-steel text-xs lg:text-sm leading-relaxed mt-3 lg:mt-4 max-w-xs lg:max-w-sm hidden md:block line-clamp-3">
+                    {s.description}
+                  </p>
+                  <div className="flex items-center gap-2 mt-3 sm:mt-4 md:mt-5 lg:mt-6">
+                    <Link
+                      href={s.primaryCta.href}
+                      className="inline-flex items-center gap-1 bg-brand text-white text-[10px] sm:text-[11px] md:text-xs lg:text-[13px] font-bold px-3 sm:px-4 md:px-5 lg:px-7 py-2 sm:py-2.5 md:py-2.5 lg:py-3 rounded-full hover:bg-brand-deep transition-colors shadow-md whitespace-nowrap"
+                    >
+                      {s.primaryCta.label}
+                      <Lucide.ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                    </Link>
+                    <Link
+                      href={s.secondaryCta.href}
+                      className="inline-flex items-center text-ink text-[10px] sm:text-[11px] md:text-xs lg:text-[13px] font-bold px-3 sm:px-4 md:px-5 lg:px-7 py-2 sm:py-2.5 md:py-2.5 lg:py-3 rounded-full border border-ink/15 hover:bg-ink hover:text-white transition-colors whitespace-nowrap"
+                    >
+                      {s.secondaryCta.label}
+                    </Link>
                   </div>
                 </div>
-              ))}
-            </motion.div>
-          </div>
 
-          {/* Right Image */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isReady ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="relative h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl"
-          >
-            <img
-              src={heroImage}
-              alt="Modern building facade"
-              className="w-full h-full object-cover"
+
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+
+      {/* ── SLIDE INDICATORS ── */}
+      {slides.length > 1 && (
+        <div className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 bg-ink/40 backdrop-blur-sm px-4 py-2 rounded-full">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`transition-all duration-300 rounded-full ${
+                index === current
+                  ? "w-7 h-2 bg-white"
+                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
+              }`}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#014a74]/30 to-transparent" />
-            
-            {/* Floating Badge */}
-            <Link href="/portfolio" className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm text-[#282828]/60 mb-1">Featured Project</div>
-                  <div className="text-lg font-bold text-[#014a74] group-hover:text-[#f58420] transition-colors">Premium Facade Design</div>
-                </div>
-                <ArrowRight className="w-6 h-6 text-[#f58420] group-hover:translate-x-1 transition-transform" />
-              </div>
-            </Link>
-          </motion.div>
+          ))}
         </div>
-      </div>
+      )}
     </section>
   )
 }

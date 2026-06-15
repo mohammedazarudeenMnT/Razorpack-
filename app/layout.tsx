@@ -1,49 +1,49 @@
 import type React from "react";
 import type { Metadata } from "next";
-import { Poppins, Open_Sans } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { DynamicMetadata } from "@/components/DynamicMetadata";
-import { SmoothCursor } from "@/components/ui/smooth-cursor";
 import FloatingContactButtons from "@/components/FloatingContactButtons";
+import { cn } from "@/lib/utils";
 
-const poppins = Poppins({
-  subsets: ["latin"],
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
+  variable: "--font-ibm-plex-sans",
 });
 
-const openSans = Open_Sans({
-  subsets: ["latin"],
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin", "latin-ext"],
   weight: ["400", "500", "600"],
-  variable: "--font-open-sans",
+  variable: "--font-ibm-plex-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Blufacade | Inspiring Skylines - Premium Facade Solutions",
+  title: "Rayzorpack | Premium Packaging Solutions & LDPE Films",
   description:
-    "Blufacade specializes in innovative, high-quality facade solutions including ACP, structural glazing, aluminium doors & windows, HPL, and spider glazing.",
+    "Rayzor Industrial Packaging Pvt Ltd is the leading manufacturer of premium packaging materials, LDPE Film Rolls, and Poly Bags in Madurai, Tamil Nadu.",
   generator: "Next.js",
   icons: {
     icon: [{ url: "/favicon.ico", sizes: "any" }],
   },
   manifest: "/site.webmanifest",
-  metadataBase: new URL("https://www.blufacade.com"),
+  metadataBase: new URL("https://www.rayzorpack.com"),
   openGraph: {
-    title: "Blufacade | Inspiring Skylines",
+    title: "Rayzorpack | Premium Packaging Solutions",
     description:
-      "Premium facade solutions that redefine the visual identity of modern buildings.",
-    url: "https://www.blufacade.com",
-    siteName: "Blufacade",
+      "Leading manufacturer of premium packaging materials, LDPE Film Rolls, and Poly Bags.",
+    url: "https://www.rayzorpack.com",
+    siteName: "Rayzorpack",
     type: "website",
     locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blufacade | Inspiring Skylines",
+    title: "Rayzorpack | Premium Packaging Solutions",
     description:
-      "Premium facade solutions that redefine the visual identity of modern buildings.",
+      "Leading manufacturer of premium packaging materials, LDPE Film Rolls, and Poly Bags.",
   },
 };
 
@@ -53,19 +53,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn(ibmPlexSans.variable, ibmPlexMono.variable)}>
       <head>
         <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#014a74" />
+        <meta name="theme-color" content="#1689cf" />
       </head>
       <body
-        className={`${poppins.variable} ${openSans.variable} font-sans antialiased`}
+        className="font-sans antialiased"
         suppressHydrationWarning
       >
-        <SmoothCursor />
         <DynamicMetadata />
         {children}
-        <FloatingContactButtons />
+        {/* <FloatingContactButtons /> */}
         <Toaster />
         <Analytics />
       </body>

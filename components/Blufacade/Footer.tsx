@@ -1,268 +1,255 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Instagram,
-  Linkedin,
-  Facebook,
-  Twitter,
-  Youtube,
-  MessageCircle,
-  Send,
-} from "lucide-react";
-import Image from "next/image";
+import { useRef } from "react";
 import Link from "next/link";
-import {
-  TextHoverEffect,
-  FooterBackgroundGradient,
-} from "@/components/ui/hover-footer";
-import { useServices } from "@/hooks/use-services";
-import { useContact } from "@/hooks/use-contact";
+import Image from "next/image";
+import * as Lucide from "lucide-react";
+import { siteConfig } from "@/config/site";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-const footerLinks = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Contact", href: "/contact" },
-];
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function Footer() {
-  const { services } = useServices(1, 3); // Fetch first 3 services for footer
-  const { contactInfo } = useContact();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const watermarkRef = useRef<HTMLSpanElement>(null);
 
-  // Dynamic social links from contact info
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const navLinks = [
+    { label: "Header", href: "/" },
+    { label: "Details", href: "/about" },
+    { label: "Specs", href: "/services" },
+    { label: "Gallery", href: "/portfolio" },
+  ];
+
+  const productLinks = [
+    { label: "LDPE Film Rolls", href: "/services/ldpe-film-rolls" },
+    { label: "LDPE Bags", href: "/services/ldpe-bags" },
+    { label: "VCI Poly Bags", href: "/services/vci-poly-bags" },
+    { label: "Stretch Films", href: "/services/stretch-films" },
+    { label: "HDPE Bags", href: "/services/hdpe-bags" },
+    { label: "Bubble Wrap", href: "/services/bubble-wrap" },
+  ];
+
   const socialLinks = [
-    {
-      label: "Facebook",
-      href: contactInfo?.facebook,
-      icon: <Facebook className="h-5 w-5" />,
+    { label: "Website", href: "/" },
+    { label: "Facebook", href: siteConfig.social.facebook || "#" },
+    { label: "Twitter", href: siteConfig.social.twitter || "#" },
+    { label: "Instagram", href: siteConfig.social.instagram || "#" },
+  ];
+
+  useGSAP(
+    () => {
+      if (!watermarkRef.current) return;
+
+      // Scroll trigger fade in and scale
+      gsap.fromTo(
+        watermarkRef.current,
+        {
+          y: "20%",
+          opacity: 0,
+          scale: 0.95,
+        },
+        {
+          y: "0%",
+          opacity: 1,
+          scale: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: 1,
+          },
+        },
+      );
+
+      // Continuous loop for a shining shimmer highlight sheen sweeping across the watermark
+      gsap.to(watermarkRef.current, {
+        backgroundPosition: "200% center",
+        duration: 8,
+        ease: "power1.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
     },
-    {
-      label: "Twitter",
-      href: contactInfo?.twitter,
-      icon: <Twitter className="h-5 w-5" />,
-    },
-    {
-      label: "LinkedIn",
-      href: contactInfo?.linkedin || "https://www.linkedin.com/company/blufacade/",
-      icon: <Linkedin className="h-5 w-5" />,
-    },
-    {
-      label: "Instagram",
-      href: contactInfo?.instagram || "https://www.instagram.com/blufacade_/",
-      icon: <Instagram className="h-5 w-5" />,
-    },
-    {
-      label: "YouTube",
-      href: contactInfo?.youtube,
-      icon: <Youtube className="h-5 w-5" />,
-    },
-    {
-      label: "WhatsApp",
-      href: contactInfo?.whatsapp,
-      icon: <MessageCircle className="h-5 w-5" />,
-    },
-    {
-      label: "Telegram",
-      href: contactInfo?.telegram,
-      icon: <Send className="h-5 w-5" />,
-    },
-  ].filter(link => link.href); // Only show links that have URLs
+    { scope: containerRef },
+  );
+
   return (
     <footer
-      id="contact"
-      className="bg-[#1a1a1a] text-white relative overflow-hidden"
+      ref={containerRef}
+      className="relative bg-surface text-ink pt-12 pb-8 md:pb-12 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-10 relative z-10">
-        {/* Contact Info Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16"
+      {/* ── Top divider: branded strip ── */}
+      <div className="relative z-10 flex items-center gap-4 max-w-7xl mx-auto px-6 md:px-12 -mt-6 md:-mt-8 mb-8 md:mb-12">
+        <div className="flex-1 h-px bg-linear-to-r from-transparent to-line" />
+        <div className="flex items-center gap-2.5 bg-surface px-4 py-2">
+          <Image
+            src="/images/rayzor/logo/Rayzor Final Logo File-03.png"
+            alt="Rayzorpack"
+            width={24}
+            height={24}
+            className="w-6 h-6 object-contain"
+          />
+          <span className="font-heading font-extrabold text-sm tracking-tight">
+            <span className="text-[#2D2D2D]">RAYZOR</span><span className="text-[#44B8E8]">PACK</span>
+          </span>
+        </div>
+        <div className="flex-1 h-px bg-linear-to-l from-transparent to-line" />
+      </div>
+
+      {/* Gigantic watermark text in background */}
+      <div className="absolute inset-x-0 -bottom-8 hidden md:flex justify-center items-end select-none pointer-events-none z-0 overflow-hidden h-full">
+        <span
+          ref={watermarkRef}
+          className="text-[18vw] font-sans font-black tracking-tighter leading-none uppercase bg-clip-text text-transparent origin-bottom will-change-transform"
+          style={{
+            backgroundImage:
+              "linear-gradient(120deg, rgba(45,45,45,0.06) 15%, rgba(45,45,45,0.2) 40%, rgba(68,184,232,0.15) 60%, rgba(68,184,232,0.25) 75%, rgba(45,45,45,0.06) 90%)",
+            backgroundSize: "200% auto",
+            backgroundPosition: "0% center",
+          }}
         >
-          {/* Company Info */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg text-[#f58420] mb-4">Company</h4>
-            <div className="mb-4 flex justify-start">
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden w-48 sm:w-60">
-                <div className="h-12 sm:h-16 w-full relative">
-                  <Image
-                    src="/images/logo2/Blufacade Logo PNG.png"
-                    alt="Blufacade - Inspiring Skylines"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-            <p className="text-white/70 text-sm leading-relaxed max-w-sm">
-              Innovating iconic facades through premium materials, expert
-              engineering, and design excellence.
-            </p>
-          </div>
+          RAYZORPACK
+        </span>
+      </div>
 
-          {/* Contact Details */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg text-[#f58420]">Contact Us</h4>
-            <div className="space-y-3">
-              <a
-                href={`tel:${contactInfo?.primaryPhone || '9994162996'}`}
-                className="flex items-center gap-3 text-white/80 hover:text-[#f58420] transition-colors"
-              >
-                <Phone className="w-5 h-5 shrink-0" />
-                <span className="text-sm">{contactInfo?.primaryPhone || '9994162996'}</span>
-              </a>
-              <a
-                href={`mailto:${contactInfo?.email || 'blufacadein@gmail.com'}`}
-                className="flex items-center gap-3 text-white/80 hover:text-[#f58420] transition-colors"
-              >
-                <Mail className="w-5 h-5 shrink-0" />
-                <span className="text-sm">{contactInfo?.email || 'blufacadein@gmail.com'}</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Office Locations */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg text-[#f58420]">Locations</h4>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 shrink-0 mt-0.5 text-[#f58420]" />
-                <div className="text-sm text-white/80">
-                  <p className="font-semibold">{contactInfo?.city || 'Chennai'} (Head Office)</p>
-                  <p>{contactInfo?.address || '#35/39, S5, Avyaya Apartments'}</p>
-                  <p>{contactInfo?.city || 'East Tambaram'}, {contactInfo?.state || 'Chennai'} - {contactInfo?.postcode || '600059'}</p>
-                </div>
-              </div>
-              {contactInfo?.serviceAreas && (
-                <div className="pt-2 border-t border-white/20">
-                  <p className="text-xs font-semibold text-[#f58420] mb-2">
-                    BRANCHES
-                  </p>
-                  <p className="text-sm text-white/70">{contactInfo.serviceAreas}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Links Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="border-t border-white/20 py-12"
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            <div>
-              <h5 className="font-bold text-sm text-[#f58420] mb-4 uppercase">
-                Menu
-              </h5>
-              <ul className="space-y-2">
-                {footerLinks.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-white/70 hover:text-white text-sm transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h5 className="font-bold text-sm text-[#f58420] mb-4 uppercase">
-                Services
-              </h5>
-              <ul className="space-y-2 text-sm text-white/70">
-                {services.length > 0 ? (
-                  services.map((service: any) => (
-                    <li key={service._id}>
-                      <Link
-                        href={`/services/${service.slug}`}
-                        className="hover:text-white transition-colors"
-                      >
-                        {service.serviceName}
-                      </Link>
-                    </li>
-                  ))
-                ) : (
-                  <>
-                    <li>ACP Cladding</li>
-                    <li>Glass Facades</li>
-                    <li>Aluminum Systems</li>
-                  </>
-                )}
-              </ul>
-            </div>
-          </div>
-
-          {/* Social Links & BNI Logo */}
-          <div className="flex flex-col md:flex-row items-center justify-start gap-12 pt-8 border-t border-white/20">
-            <div className="flex items-center gap-6">
-              <p className="text-sm font-semibold text-[#f58420] uppercase">
-                Follow Us
-              </p>
-              <div className="flex gap-4">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/70 hover:text-[#f58420] hover:border-[#f58420] transition-colors"
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 relative z-10">
+        {/* Main Footer Columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-8 pb-10 md:pb-16">
+          {/* Column 1: Navigation */}
+          <div className="lg:col-span-2">
+            <h3 className="font-sans font-extrabold text-[#1b1c19] text-lg tracking-tight mb-6">
+              Navigation
+            </h3>
+            <ul className="space-y-3">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-neutral-500 hover:text-[#006196] transition-colors text-sm font-medium"
                   >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-
-            {/* BNI Member Logo */}
-            <div className="relative w-full max-w-[140px] h-[80px] rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <Image
-                src="/proud-bni-member.jpg"
-                alt="Proud BNI Member"
-                fill
-                className="object-contain"
-              />
-            </div>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-        </motion.div>
+
+          {/* Column 2: Other Pages */}
+          <div className="lg:col-span-3">
+            <h3 className="font-sans font-extrabold text-[#1b1c19] text-lg tracking-tight mb-6">
+              Other Pages
+            </h3>
+            <ul className="space-y-3">
+              {productLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-neutral-500 hover:text-[#006196] transition-colors text-sm font-medium"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Social Media */}
+          <div className="lg:col-span-3">
+            <h3 className="font-sans font-extrabold text-[#1b1c19] text-lg tracking-tight mb-6">
+              Social Media
+            </h3>
+            <ul className="space-y-3">
+              {socialLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target={link.href !== "/" ? "_blank" : undefined}
+                    rel={link.href !== "/" ? "noopener noreferrer" : undefined}
+                    className="text-neutral-500 hover:text-[#006196] transition-colors text-sm font-medium"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Newsletter Subscription */}
+          <div className="col-span-2 sm:col-span-2 lg:col-span-4 flex flex-col justify-start">
+            <h3 className="font-sans font-extrabold text-ink text-base md:text-lg tracking-tight mb-3 md:mb-4">
+              Subscribe to Our Newsletter
+            </h3>
+            <p className="text-steel text-xs md:text-sm mb-4 md:mb-6 leading-relaxed">
+              Stay up-to-date with Rayzorpack latest packaging innovations,
+              products launch, and other cool things - all delivered in your
+              inbox.
+            </p>
+
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="flex flex-col gap-4 max-w-sm"
+            >
+              <input
+                type="email"
+                placeholder="Enter your email..."
+                className="w-full bg-transparent border-b border-[#bfc7d2] py-2 text-sm text-[#1b1c19] placeholder-neutral-400 focus:outline-none focus:border-[#006196] transition-colors font-medium"
+                required
+              />
+              <button
+                type="submit"
+                className="bg-[#1b1c19] hover:bg-[#006196] text-white px-6 py-2.5 rounded-full text-sm font-bold w-fit transition-all shadow-md hover:shadow-lg active:scale-95"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/20 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center text-xs text-white/60">
-          <p>© 2025 Blufacade. All rights reserved.</p>
-          <div className="flex gap-6 mt-4 md:mt-0">
-            <Link
-              href="/privacy-policy"
-              className="hover:text-white transition-colors"
-            >
-              Privacy Policy
-            </Link>
+        <div className="border-t border-line pt-6 md:pt-8 flex flex-col items-center md:flex-row md:justify-between gap-4 md:gap-6 relative z-10 text-center md:text-left">
+          {/* Terms and Privacy */}
+          <div className="flex gap-4 md:gap-6 text-xs md:text-sm font-bold text-ink">
             <Link
               href="/terms-conditions"
-              className="hover:text-white transition-colors"
+              className="hover:text-[#006196] transition-colors"
             >
               Terms & Conditions
             </Link>
+            <Link
+              href="/privacy-policy"
+              className="hover:text-[#006196] transition-colors"
+            >
+              Privacy Policy
+            </Link>
           </div>
+
+          {/* Copyright */}
+          <div className="text-xs md:text-sm text-steel font-medium">
+            © 2026 Rayzor Industrial Packaging Pvt Ltd.
+          </div>
+
+          {/* Back to Top */}
+          <button
+            onClick={scrollToTop}
+            className="flex items-center gap-2.5 group hover:opacity-85 transition-opacity"
+            aria-label="Scroll to top"
+          >
+            <div className="border border-[#1b1c19] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider text-[#1b1c19] flex items-center justify-center">
+              Back to Top
+            </div>
+            <div className="w-8 h-8 rounded-full border border-[#1b1c19] flex items-center justify-center text-[#1b1c19] group-hover:bg-[#1b1c19] group-hover:text-white transition-all">
+              <Lucide.ArrowUpRight className="w-4 h-4" />
+            </div>
+          </button>
         </div>
       </div>
-
-      {/* Text Hover Effect - Hidden on mobile, visible on large screens */}
-      <div className="lg:flex hidden h-[30rem] -mt-52 -mb-36 relative z-20 pointer-events-none">
-        <TextHoverEffect text="BLUFACADE" className="z-50" />
-      </div>
-
-      {/* Background Gradient */}
-      <FooterBackgroundGradient />
     </footer>
   );
 }

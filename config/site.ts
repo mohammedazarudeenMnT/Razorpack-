@@ -1,80 +1,74 @@
 export const siteConfig = {
-  name: "Blufacade",
-  tagline: "Inspiring Skylines",
-  description: "At Blufacade, we specialize in delivering innovative, high-quality facade solutions that redefine the visual identity and performance of modern buildings.",
-  url: "https://www.blufacade.com",
+  name: "Rayzorpack",
+  tagline: "Industrial Packaging Solutions",
+  description: "Rayzor Industrial Packaging Pvt Ltd is the leading manufacturer of premium packaging materials, LDPE Film Rolls, and Poly Bags in Madurai, Tamil Nadu.",
+  url: "https://www.rayzorpack.com",
   
   contact: {
-    phone: "9994162996",
-    email: "blufacadein@gmail.com",
-    address: "#35/39, S5, Avyaya Apartments, East Tambaram, Chennai - 600059",
+    phone: "+91 9087787879",
+    secondaryPhone: "+91 9087787875",
+    tertiaryPhone: "+91 9087787876",
+    email: "sales@rayzorpack.com",
+    address: "No:59, SIDCO Industrial Estate, Kappalur, Madurai - 625008, Tamilnadu, India",
+    city: "Madurai",
+    state: "Tamil Nadu",
+    postcode: "625008"
   },
   
-  branches: ["Chennai", "Madurai", "Dindigul"],
+  serviceAreas: "Madurai | Chennai | Bangalore",
   
   social: {
-    instagram: "https://www.instagram.com/blufacade_/",
-    linkedin: "https://www.linkedin.com/company/blufacade/",
-    facebook: "https://www.facebook.com/Blufacade",
+    instagram: "https://www.instagram.com/rayzorpack/",
+    linkedin: "https://www.linkedin.com/company/rayzorpack/",
+    facebook: "https://www.facebook.com/RayzorPack",
+    twitter: "https://x.com/RayzorPack"
   },
   
   services: [
     {
-      id: "acp",
-      title: "ACP (Aluminium Composite Panel)",
-      description: "Premium aluminium composite panels for modern building exteriors with excellent durability and aesthetic appeal.",
-      icon: "Building2",
+      id: "ldpe-film-rolls",
+      title: "LDPE Film Rolls",
+      description: "Premium quality LDPE film rolls offering superior strength and stretchability for industrial packaging needs.",
+      icon: "Package",
     },
     {
-      id: "aluminium-doors-windows",
-      title: "Aluminium Doors and Windows",
-      description: "High-quality aluminium doors and windows designed for durability, energy efficiency, and modern aesthetics.",
-      icon: "DoorOpen",
+      id: "ldpe-bags",
+      title: "LDPE Bags",
+      description: "Durable, tear-resistant LDPE bags available in custom sizes for secure product handling and transit.",
+      icon: "ShoppingBag",
     },
     {
-      id: "structural-glazing",
-      title: "Structural Glazing",
-      description: "Advanced structural glazing systems that create seamless glass facades with superior weather resistance.",
+      id: "vci-poly-bags",
+      title: "VCI Poly Bags & Covers",
+      description: "Advanced anti-corrosion VCI poly bags designed to protect metal components from rust and moisture.",
+      icon: "Shield",
+    },
+    {
+      id: "stretch-films",
+      title: "Stretch Films",
+      description: "High-cling stretch films for secure pallet wrapping, providing excellent load stability.",
       icon: "Layers",
     },
     {
-      id: "hpl",
-      title: "HPL (High-Pressure Laminate)",
-      description: "Durable high-pressure laminate cladding solutions for exterior and interior applications.",
-      icon: "LayoutGrid",
+      id: "hdpe-bags",
+      title: "HDPE Bags",
+      description: "High-density polyethylene bags providing exceptional tensile strength and chemical resistance.",
+      icon: "Box",
     },
     {
-      id: "dgu-semi-unitised",
-      title: "DGU Semi Unitised",
-      description: "Double glazed unit semi-unitised systems for enhanced thermal and acoustic insulation.",
-      icon: "Square",
-    },
-    {
-      id: "canopy-work",
-      title: "Canopy Work",
-      description: "Custom canopy solutions that provide shelter while enhancing architectural beauty.",
-      icon: "Umbrella",
-    },
-    {
-      id: "glass-partition",
-      title: "Glass Partition",
-      description: "Elegant glass partition systems for modern office spaces and commercial interiors.",
-      icon: "PanelLeft",
-    },
-    {
-      id: "spider-glazing",
-      title: "Spider Glazing",
-      description: "Innovative spider glazing systems for stunning frameless glass facades.",
-      icon: "Sparkles",
-    },
+      id: "bubble-wrap",
+      title: "Bubble Wrap Rolls",
+      description: "Protective bubble wrap cushioning to safeguard fragile items during shipping and storage.",
+      icon: "CircleDashed",
+    }
   ],
   
   themeColors: {
-    primary: "#014a74",
-    secondary: "#f58420",
-    background: "#fefaf6",
-    dark: "#012d47",
-    lightBlue: "#0369a1",
+    primary: "#006196",
+    secondary: "#feb234",
+    background: "#fbf9f4",
+    dark: "#1b1c19",
+    accent: "#feb234",
   },
 }
 

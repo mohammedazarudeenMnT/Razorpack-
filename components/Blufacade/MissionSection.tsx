@@ -1,135 +1,306 @@
-"use client"
+"use client";
 
-import { useRef, useState, useEffect } from "react"
-import { motion, useScroll, useTransform, useInView, useSpring } from "framer-motion"
-import { ArrowRight, Award, Users, Calendar, TrendingUp } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import { useRef, useState, useEffect, useCallback } from "react";
+import { ArrowDownRight, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { WordRotate } from "@/components/ui/word-rotate";
+import { NumberTicker } from "@/components/ui/number-ticker";
+import { BorderBeam } from "@/components/ui/border-beam";
+import { RevealOnScroll } from "@/components/gsap/reveal-on-scroll";
 
-// Stat Counter Component
-interface StatCounterProps {
-  icon: React.ReactNode
-  value: number
-  label: string
-  suffix: string
-}
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-function StatCounter({ icon, value, label, suffix }: StatCounterProps) {
-  const countRef = useRef(null)
-  const isInView = useInView(countRef, { once: false })
-  const [hasAnimated, setHasAnimated] = useState(false)
-  const springValue = useSpring(0, {
-    stiffness: 50,
-    damping: 10,
-  })
+const whyChooseUsData = [
+  {
+    num: "01",
+    title: "Precision Quality & Structural Strength",
+    description:
+      "Every batch of our LDPE films and poly bags undergoes rigorous tensile strength, tear resistance, and gauge consistency testing in our state-of-the-art laboratory in Madurai.",
+    image: "/images/rayzor/why-choose-us/quality.png",
+    spec: "100% QA CHECKED",
+  },
+  {
+    num: "02",
+    title: "Proprietary VCI Rust Prevention",
+    description:
+      "Our advanced Vapor Corrosion Inhibitor (VCI) poly bags and sheets chemically shield metal components, preventing oxidation and rust during international shipping.",
+    image: "/images/rayzor/why-choose-us/vci.png",
+    spec: "VCI RUST SHIELD",
+  },
+  {
+    num: "03",
+    title: "Sustainable Material Engineering",
+    description:
+      "Formulated with premium, high-strength recyclable polymers, our packaging films minimize carbon footprint while maintaining exceptional puncture resistance.",
+    image: "/images/rayzor/why-choose-us/sustainability.png",
+    spec: "100% RECYCLABLE",
+  },
+  {
+    num: "04",
+    title: "Reliable High-Volume Supply Network",
+    description:
+      "With high-capacity extrusion machinery and a robust distribution network, we guarantee on-time shipping schedules for corporate industrial clients worldwide.",
+    image: "/images/rayzor/why-choose-us/logistics.png",
+    spec: "99% ON-TIME",
+  },
+];
+
+const stats = [
+  { value: 100, label: "Quality Assurance", suffix: "%" },
+  { value: 500, label: "Happy Clients", suffix: "+" },
+  { value: 25, label: "Years Experience", suffix: "+" },
+  { value: 99, label: "On-Time Delivery", suffix: "%" },
+];
+
+function AccordionItem({
+  item,
+  index,
+  isActive,
+  onActivate,
+}: {
+  item: (typeof whyChooseUsData)[0];
+  index: number;
+  isActive: boolean;
+  onActivate: (i: number) => void;
+}) {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  // Expose refs for parent to control
+  useEffect(() => {
+    const content = contentRef.current;
+    if (!content) return;
+    // Set data attributes so parent can query
+    content.setAttribute("data-accordion-content", String(index));
+  }, [index]);
 
   useEffect(() => {
-    if (isInView && !hasAnimated) {
-      springValue.set(value)
-      setHasAnimated(true)
-    } else if (!isInView && hasAnimated) {
-      springValue.set(0)
-      setHasAnimated(false)
-    }
-  }, [isInView, value, springValue, hasAnimated])
+    const inner = innerRef.current;
+    if (!inner) return;
+    inner.setAttribute("data-accordion-inner", String(index));
+  }, [index]);
 
-  const displayValue = useTransform(springValue, (latest) => Math.floor(latest))
+  // Initialize: first item open, rest closed (no animation)
+  useEffect(() => {
+    const content = contentRef.current;
+    const inner = innerRef.current;
+    if (!content || !inner) return;
+    if (!isActive) {
+      gsap.set(content, { height: 0, overflow: "hidden" });
+      gsap.set(inner, { opacity: 0, y: 10 });
+    }
+  }, []);
 
   return (
-    <motion.div
-      className="bg-white p-6 rounded-xl flex flex-col items-center text-center group hover:bg-[#fefaf6] transition-colors duration-300 shadow-lg"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      whileHover={{ y: -5 }}
+    <div
+      onMouseEnter={() => onActivate(index)}
+      onClick={() => onActivate(index)}
+      className="border-b border-line"
     >
-      <motion.div
-        className="mb-4 text-[#f58420]"
-        whileHover={{ rotate: 360, scale: 1.1 }}
-        transition={{ duration: 0.8 }}
-      >
-        {icon}
-      </motion.div>
-      <motion.div ref={countRef} className="text-3xl font-bold text-[#014a74] transition-colors duration-300 flex items-center">
-        <motion.span>{displayValue}</motion.span>
-        <span>{suffix}</span>
-      </motion.div>
-      <p className="text-[#282828]/70 transition-colors duration-300 text-sm mt-1">{label}</p>
-      <motion.div className="w-10 h-0.5 bg-[#f58420] mt-3 group-hover:w-16 transition-all duration-300" />
-    </motion.div>
-  )
+      {/* Header Row */}
+      <div className="flex items-center justify-between py-6 md:py-8 cursor-pointer">
+        <div className="flex items-baseline gap-4 md:gap-10 flex-1 pr-4">
+          <span
+            className="font-mono text-sm md:text-base w-6 md:w-8 tabular-nums transition-colors duration-300"
+            style={{ color: isActive ? "#1689cf" : "#3f485080" }}
+          >
+            {item.num}
+          </span>
+          <h3
+            className="text-lg sm:text-xl md:text-[2rem] font-heading font-bold tracking-tight leading-tight transition-colors duration-300"
+            style={{ color: isActive ? "#1b1c19" : "#1b1c19cc" }}
+          >
+            {item.title}
+          </h3>
+        </div>
+
+        {/* Toggle Button */}
+        <div
+          className="w-10 h-10 md:w-11 md:h-11 rounded-md flex items-center justify-center border transition-all duration-400"
+          style={{
+            backgroundColor: isActive ? "#006196" : "#1b1c19",
+            borderColor: isActive ? "#006196" : "#1b1c19",
+            transform: isActive ? "rotate(180deg)" : "rotate(0deg)",
+          }}
+        >
+          {isActive ? (
+            <X className="w-4 h-4 text-white" />
+          ) : (
+            <ArrowDownRight className="w-4 h-4 text-white" />
+          )}
+        </div>
+      </div>
+
+      {/* Collapsible Content — GSAP controlled */}
+      <div ref={contentRef} className="overflow-hidden">
+        <div ref={innerRef} className="pb-8 pt-2 flex flex-col gap-5">
+          {/* Description + CTA */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5">
+            <p className="text-steel text-sm sm:text-base md:text-lg leading-relaxed max-w-3xl">
+              {item.description}
+            </p>
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 text-brand font-bold text-sm hover:text-brand-deep transition-colors shrink-0 group/link"
+            >
+              Explore our services
+              <ArrowDownRight className="w-4 h-4 -rotate-45 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+            </Link>
+          </div>
+
+          {/* Full-width Image with spec overlay + BorderBeam */}
+          <div className="relative w-full aspect-16/10 sm:aspect-21/9 rounded-md overflow-hidden border border-line bg-ink">
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority={index === 0}
+            />
+            <BorderBeam
+              size={150}
+              duration={6}
+              colorFrom="#1689cf"
+              colorTo="#feb234"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function MissionSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  })
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const prevIndex = useRef<number>(0);
+  const isAnimating = useRef(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 50])
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        ".accordion-row",
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          stagger: 0.08,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".accordion-list",
+            start: "top 80%",
+          },
+        },
+      );
+    },
+    { scope: sectionRef },
+  );
 
-  const stats = [
-    { icon: <Award />, value: 250, label: "Projects Completed", suffix: "+" },
-    { icon: <Users />, value: 500, label: "Happy Clients", suffix: "+" },
-    { icon: <Calendar />, value: 15, label: "Years Experience", suffix: "" },
-    { icon: <TrendingUp />, value: 99, label: "Satisfaction Rate", suffix: "%" },
-  ]
+  const handleActivate = useCallback(
+    (newIndex: number) => {
+      if (newIndex === activeIndex || isAnimating.current) return;
+      isAnimating.current = true;
+
+      const list = listRef.current;
+      if (!list) {
+        isAnimating.current = false;
+        return;
+      }
+
+      const oldContent = list.querySelector(
+        `[data-accordion-content="${activeIndex}"]`,
+      ) as HTMLElement;
+      const oldInner = list.querySelector(
+        `[data-accordion-inner="${activeIndex}"]`,
+      ) as HTMLElement;
+      const newContent = list.querySelector(
+        `[data-accordion-content="${newIndex}"]`,
+      ) as HTMLElement;
+      const newInner = list.querySelector(
+        `[data-accordion-inner="${newIndex}"]`,
+      ) as HTMLElement;
+
+      if (!oldContent || !newContent || !oldInner || !newInner) {
+        isAnimating.current = false;
+        return;
+      }
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          isAnimating.current = false;
+        },
+      });
+
+      const dur = 0.4;
+
+      // Fade out old inner instantly
+      tl.to(oldInner, { opacity: 0, duration: 0.15, ease: "power2.in" }, 0);
+
+      // Close old + open new SIMULTANEOUSLY so total height stays constant
+      tl.to(oldContent, { height: 0, duration: dur, ease: "power2.inOut", overflow: "hidden" }, 0.1);
+
+      tl.set(newContent, { overflow: "hidden" }, 0.1);
+      tl.set(newInner, { opacity: 0, y: 8 }, 0.1);
+      tl.to(newContent, { height: "auto", duration: dur, ease: "power2.inOut" }, 0.1);
+
+      // Fade in new inner after height is mostly done
+      tl.to(newInner, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 0.3);
+      tl.set(newContent, { overflow: "visible" });
+
+      prevIndex.current = activeIndex;
+      setActiveIndex(newIndex);
+    },
+    [activeIndex],
+  );
 
   return (
-    <section id="mission" ref={sectionRef} className="py-24 px-4 bg-[#1a1a1a] text-white overflow-hidden">
-      <div className="container mx-auto max-w-6xl">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Our Mission</h2>
-            <p className="text-white/80 text-lg mb-6 text-justify">
-              At <span className="text-[#f58420] font-semibold">Blufacade</span>, we are committed to delivering exceptional facade solutions that enhance the beauty and
-              performance of buildings while prioritizing sustainability and innovation.
-            </p>
-            <p className="text-white/80 text-lg mb-8 text-justify">
-              Our team of experts combines years of experience with cutting-edge technology to create facades that
-              stand the test of time.
-            </p>
-            <Button asChild className="bg-[#f58420] hover:bg-[#f58420]/90 text-white">
-              <Link href="/about">
-                Learn More <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative"
-          >
-            <div className="relative rounded-xl overflow-hidden shadow-2xl border border-white/10">
-              <img
-                src="images/our_mission/our_mission.jpeg"
-                alt="Mission"
-                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-700"
+    <section
+      id="mission"
+      ref={sectionRef}
+      className="py-8 px-4 sm:px-6 md:px-8 bg-surface text-ink overflow-hidden relative"
+    >
+      <div className="w-full max-w-7xl mx-auto relative z-10">
+        {/* ─── SECTION HEADER with WordRotate ─── */}
+        <RevealOnScroll effect="fadeIn">
+          <div className="mb-16 text-center">
+            <span className="text-sm font-bold text-brand uppercase tracking-widest flex items-center justify-center gap-2 mb-4">
+              <span className="w-8 h-0.5 bg-brand" /> Why Choose Us{" "}
+              <span className="w-8 h-0.5 bg-brand" />
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-extrabold text-ink tracking-tight max-w-3xl mx-auto">
+              Engineering & Quality Standards
+            </h2>
+            <div className="mt-4 flex items-center justify-center gap-2 text-lg md:text-xl text-steel">
+              Built on{" "}
+              <WordRotate
+                words={["Precision", "Reliability", "Excellence", "Innovation"]}
+                className="text-brand font-bold"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#014a74]/50 to-transparent" />
             </div>
-            <motion.div
-              className="absolute -bottom-6 -right-6 w-32 h-32 rounded-full bg-[#f58420]/20 blur-3xl"
-              style={{ y: y2 }}
-            />
-          </motion.div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
-          {stats.map((stat, index) => (
-            <StatCounter key={index} {...stat} />
+          </div>
+        </RevealOnScroll>
+
+        {/* ─── GSAP ACCORDION LIST ─── */}
+        <div ref={listRef} className="accordion-list flex flex-col mb-16">
+          {whyChooseUsData.map((item, index) => (
+            <div key={index} className="accordion-row">
+              <AccordionItem
+                item={item}
+                index={index}
+                isActive={activeIndex === index}
+                onActivate={handleActivate}
+              />
+            </div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

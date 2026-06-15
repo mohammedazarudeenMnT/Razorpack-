@@ -2,9 +2,7 @@
 
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useTestimonials } from "@/hooks/use-testimonials";
 import { Loader2, Quote, Star } from "lucide-react";
-import Image from "next/image";
 
 // Animated number component
 function AnimatedCounter({
@@ -38,7 +36,7 @@ function AnimatedCounter({
       },
     };
     controls.start();
-  }, [to, duration]);
+  }, [to, duration, from]);
 
   useEffect(() => {
     const unsubscribe = rounded.onChange((value) => {
@@ -53,74 +51,49 @@ function AnimatedCounter({
 const STATIC_TESTIMONIALS = [
   {
     _id: "static-1",
-    name: "Ananth Ramachandran",
+    name: "Vikram Logistics",
     location: "Chennai, TN",
     content:
-      "Blufacade transformed our corporate headquarters with their high-performance structural glazing. Their attention to detail and engineering precision is unmatched.",
+      "Rayzorpack's LDPE films have completely eliminated our transit damage issues. The puncture resistance and stretchability are exactly what we needed for our heavy-duty pallets.",
     rating: 5,
-    serviceType: "Structural Glazing",
+    serviceType: "LDPE Film Rolls",
     avatar: "",
   },
   {
     _id: "static-2",
-    name: "Meera Krishnan",
-    location: "Bangalore, KA",
+    name: "AutoParts India",
+    location: "Pune, MH",
     content:
-      "The ACP cladding work done by Blufacade for our commercial complex is exceptional. The finish is professional and it significantly improved the building's aesthetic value.",
+      "We shifted to their VCI Poly Bags 6 months ago, and our rust complaints have dropped to zero. Truly reliable anti-corrosion packaging.",
     rating: 5,
-    serviceType: "ACP Cladding",
+    serviceType: "VCI Poly Bags",
     avatar: "",
   },
   {
     _id: "static-3",
-    name: "Sanjay Mehta",
-    location: "Mumbai, MH",
+    name: "Kannan Textiles",
+    location: "Tirupur, TN",
     content:
-      "We chose Blufacade for our high-rise project's aluminium windows and doors. The team delivered ahead of schedule and the quality of materials far exceeded our expectations.",
+      "The custom printed LDPE bags provided by Rayzorpack not only protect our garments but also enhance our brand visibility. Great quality and timely delivery.",
     rating: 5,
-    serviceType: "Aluminium Solutions",
+    serviceType: "Custom LDPE Bags",
     avatar: "",
   },
   {
     _id: "static-4",
-    name: "Rajesh Kumar",
-    location: "Coimbatore, TN",
-    content:
-      "Exceptional service from design to installation. The double glazed units have significantly improved our building's energy efficiency and sound insulation.",
-    rating: 5,
-    serviceType: "DGU Partition",
-    avatar: "",
-  },
-  {
-    _id: "static-5",
-    name: "Vikram Reddy",
-    location: "Hyderabad, TS",
-    content:
-      "Their spider glazing system at our entrance atrium is a masterpiece. It provides the perfect transparency and structural integrity we were looking for.",
-    rating: 5,
-    serviceType: "Spider Glazing",
-    avatar: "",
-  },
-  {
-    _id: "static-6",
-    name: "Deepa Nair",
+    name: "Global Exports",
     location: "Kochi, KL",
     content:
-      "Blufacade's HPL cladding provided the perfect natural wood look for our resort exterior without the maintenance issues. Truly impressed with the durability.",
+      "Their heavy-duty shrink films secure our shipments perfectly. We appreciate the consistent micron thickness and clarity in every single batch.",
     rating: 5,
-    serviceType: "HPL Cladding",
+    serviceType: "Shrink Films",
     avatar: "",
   },
 ];
 
 export function TestimonialsSection() {
-  const { testimonials, isLoading } = useTestimonials();
-
-  // Determine which testimonials to display
-  const baseTestimonials =
-    testimonials && testimonials.length > 0
-      ? testimonials
-      : STATIC_TESTIMONIALS;
+  const isLoading = false;
+  const baseTestimonials = STATIC_TESTIMONIALS;
 
   // Split testimonials into two groups for two vertical columns
   const firstCol = baseTestimonials.filter((_, i) => i % 2 === 0);
@@ -136,14 +109,14 @@ export function TestimonialsSection() {
     reverse?: boolean;
     duration?: number;
   }) => {
-    // Duplicate items for seamless loop (4x for wider container)
+    // Duplicate items for seamless loop
     const duplicatedItems = [...items, ...items, ...items, ...items];
 
     return (
       <div className="flex flex-row overflow-hidden w-full relative pointer-events-none fade-mask">
-        {/* Fade gradient overlays - Subtle edge fade */}
-        <div className="absolute inset-y-0 left-0 w-6 bg-linear-to-r from-[#014a74] to-transparent z-10" />
-        <div className="absolute inset-y-0 right-0 w-6 bg-linear-to-l from-[#014a74] to-transparent z-10" />
+        {/* Fade gradient overlays */}
+        <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-[#1a3d2b] to-transparent z-10" />
+        <div className="absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-[#1a3d2b] to-transparent z-10" />
 
         <motion.div
           animate={{
@@ -159,48 +132,37 @@ export function TestimonialsSection() {
           {duplicatedItems.map((testimonial, index) => (
             <div
               key={`${testimonial._id}-${index}`}
-              className="w-[420px] shrink-0 bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/10 relative flex flex-col pointer-events-auto group hover:bg-white/15 transition-all duration-300"
+              className="w-[420px] shrink-0 bg-[#0f1a12]/50 backdrop-blur-md p-8 rounded-xl border border-white/5 relative flex flex-col pointer-events-auto group hover:bg-[#0f1a12]/80 transition-all duration-300"
             >
-              <Quote className="absolute top-6 right-8 w-10 h-10 text-white/10 group-hover:text-white/20 transition-colors" />
+              <Quote className="absolute top-6 right-8 w-10 h-10 text-white/5 group-hover:text-[#e8a020]/20 transition-colors" />
 
               <div className="flex gap-1 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className={`w-3.5 h-3.5 ${
+                    className={`w-4 h-4 ${
                       i < testimonial.rating
-                        ? "text-[#f58420] fill-[#f58420]"
+                        ? "text-[#e8a020] fill-[#e8a020]"
                         : "text-white/20"
                     }`}
                   />
                 ))}
               </div>
 
-              <p className="text-white/95 leading-relaxed mb-6 italic text-lg font-medium line-clamp-4">
+              <p className="text-white/90 leading-relaxed mb-6 italic text-lg font-medium">
                 "{testimonial.content}"
               </p>
 
               <div className="mt-auto flex items-center gap-4">
-                <div className="relative w-12 h-12 rounded-2xl overflow-hidden bg-white/10 border border-white/20 shadow-md shrink-0">
-                  {testimonial.avatar ? (
-                    <Image
-                      src={testimonial.avatar}
-                      alt={testimonial.name}
-                      fill
-                      className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/60 font-black text-lg">
-                      {testimonial.name.charAt(0)}
-                    </div>
-                  )}
+                <div className="relative w-12 h-12 rounded-full overflow-hidden bg-[#e8a020]/20 border border-[#e8a020]/30 shrink-0 flex items-center justify-center text-[#e8a020] font-black text-xl">
+                  {testimonial.name.charAt(0)}
                 </div>
                 <div>
                   <h4 className="font-bold text-white text-base leading-tight">
                     {testimonial.name}
                   </h4>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[12px] text-[#f58420] font-bold">
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-[12px] text-[#e8a020] font-bold">
                       {testimonial.location}
                     </span>
                     <span className="w-1 h-1 bg-white/30 rounded-full" />
@@ -220,25 +182,15 @@ export function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="relative py-32 bg-[#014a74] overflow-hidden"
+      className="relative py-32 bg-[#1a3d2b] overflow-hidden"
     >
       {/* Background Subtle Patterns */}
       <div className="absolute inset-0 pointer-events-none select-none z-0">
-        {/* Subtle Decorative Aura */}
-        <div className="absolute top-0 right-0 w-200 h-200 bg-[#f58420]/10 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-200 h-200 bg-white/5 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/2" />
-
-        {/* Subliminal Grid */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `radial-gradient(white 0.5px, transparent 0.5px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
+        <div className="absolute top-0 right-0 w-200 h-200 bg-[#e8a020]/5 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-200 h-200 bg-[#0f1a12]/50 rounded-full blur-[150px] translate-y-1/2 -translate-x-1/2" />
       </div>
 
-      <div className="relative w-full max-w-[95%] xl:max-w-[1600px] mx-auto px-4 md:px-8 z-10 grid lg:grid-cols-[1fr_1.5fr] gap-8 items-center">
+      <div className="relative w-full max-w-[95%] xl:max-w-[1600px] mx-auto px-4 md:px-8 z-10 grid lg:grid-cols-[1fr_1.5fr] gap-12 items-center">
         {/* Left Content */}
         <div className="relative max-w-xl">
           <motion.div
@@ -247,9 +199,8 @@ export function TestimonialsSection() {
             viewport={{ once: true }}
             className="flex items-center gap-3 mb-6"
           >
-            <div className="h-0.5 w-12 bg-[#f58420]" />
-            <span className="text-[#f58420] font-black text-sm tracking-widest uppercase">
-              What they say
+            <span className="inline-block text-xs font-bold text-brand uppercase tracking-widest mb-2 border border-brand/30 px-3 py-1 rounded-md">
+              What They Say
             </span>
           </motion.div>
 
@@ -258,11 +209,11 @@ export function TestimonialsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[0.9] mb-8"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-extrabold text-white leading-[1.1] mb-6 md:mb-8"
           >
-            Trusted by the <br />
-            <span className="text-[#f58420]">Architectural</span> <br />
-            Community
+            Trusted by <br />
+            <span className="text-brand">Industry</span> <br />
+            Leaders
           </motion.h2>
 
           <motion.p
@@ -270,10 +221,10 @@ export function TestimonialsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-white/60 leading-relaxed mb-10"
+            className="text-lg font-sans text-white/70 leading-relaxed mb-10"
           >
-            Our commitment to engineering excellence and aesthetic precision has
-            made us the preferred choice for iconic developments.
+            Our commitment to quality manufacturing and engineering precision has
+            made us the preferred packaging partner for top industrial brands.
           </motion.p>
 
           <motion.div
@@ -284,37 +235,31 @@ export function TestimonialsSection() {
             className="grid grid-cols-2 gap-8 py-10 border-y border-white/10"
           >
             <div>
-              <div className="text-5xl font-black text-white">
+              <div className="text-5xl font-heading font-black text-white">
                 <AnimatedCounter to={500} duration={2.5} />
-                <span className="text-[#f58420]">+</span>
+                <span className="text-[#e8a020]">+</span>
               </div>
-              <div className="text-xs font-bold text-white/30 uppercase tracking-widest mt-2">
-                Projects Delivered
+              <div className="text-xs font-bold text-white/40 uppercase tracking-widest mt-2">
+                Clients Served
               </div>
             </div>
             <div>
-              <div className="text-5xl font-black text-white">
+              <div className="text-5xl font-heading font-black text-white">
                 <AnimatedCounter to={98} duration={2.5} />
-                <span className="text-[#f58420]">%</span>
+                <span className="text-[#e8a020]">%</span>
               </div>
-              <div className="text-xs font-bold text-white/30 uppercase tracking-widest mt-2">
-                Client Satisfaction
+              <div className="text-xs font-bold text-white/40 uppercase tracking-widest mt-2">
+                Satisfaction Rate
               </div>
             </div>
           </motion.div>
         </div>
 
         {/* Right Columns (Marquee) */}
-        {isLoading ? (
-          <div className="flex justify-center items-center py-20">
-            <Loader2 className="w-8 h-8 text-[#f58420] animate-spin" />
-          </div>
-        ) : (
-          <div className="flex flex-col gap-6 relative w-full overflow-hidden">
-            <HorizontalMarquee items={firstCol} duration={80} />
-            <HorizontalMarquee items={secondCol} reverse={true} duration={85} />
-          </div>
-        )}
+        <div className="flex flex-col gap-6 relative w-full overflow-hidden">
+          <HorizontalMarquee items={firstCol} duration={60} />
+          <HorizontalMarquee items={secondCol} reverse={true} duration={65} />
+        </div>
       </div>
     </section>
   );

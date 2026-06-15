@@ -1,67 +1,66 @@
 'use client';
 
-import { useClientLogos } from '@/hooks/use-client-logos';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+const STATIC_LOGOS = [
+  { _id: '1', name: 'Google', logo: '/images/logos/google.svg' },
+  { _id: '2', name: 'Amazon', logo: '/images/logos/amazon.svg' },
+  { _id: '3', name: 'Cisco', logo: '/images/logos/cisco.svg' },
+  { _id: '4', name: 'TCS', logo: '/images/logos/tcs.svg' },
+  { _id: '5', name: 'Samsung', logo: '/images/logos/samsung.svg' },
+];
+
 export function ClientLogosSection() {
-  const { clientLogos, isLoading } = useClientLogos(true);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted || isLoading) {
+  if (!isMounted) {
     return (
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-[#f7f5f0]">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-center">
-            <Loader2 className="w-6 h-6 animate-spin text-[#014a74]" />
+            <Loader2 className="w-6 h-6 animate-spin text-[#1a3d2b]" />
           </div>
         </div>
       </section>
     );
   }
 
-  if (clientLogos.length === 0) {
-    return null;
-  }
-
   // Duplicate logos multiple times for seamless loop on mobile
-  const duplicatedLogos = [...clientLogos, ...clientLogos, ...clientLogos];
+  const duplicatedLogos = [...STATIC_LOGOS, ...STATIC_LOGOS, ...STATIC_LOGOS];
 
   return (
-    <section className="py-20 bg-white overflow-hidden">
+    <section className="py-20 bg-surface overflow-hidden border-t border-line">
       <div className="container mx-auto px-6 mb-10">
         <div className="text-center mb-4">
-          <p className="text-[#f58420] font-black text-xl tracking-widest uppercase mb-4">
+          <span className="inline-block text-xs font-bold text-brand uppercase tracking-widest mb-4 border border-brand/20 px-3 py-1 rounded-md">
             Trusted By
-          </p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#014a74]">
-            Our <span className="text-[#f58420]">Happy Clients</span>
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-extrabold text-ink">
+            Our Happy Clients
           </h2>
-          <p className="text-base text-[#282828]/70 max-w-2xl mx-auto mt-4">
-            Trusted partnerships delivering exceptional facade solutions
-          </p>
         </div>
       </div>
 
       <div className="relative">
         {/* Gradient Overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-white to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-white to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#f7f5f0] to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#f7f5f0] to-transparent z-10" />
 
         {/* Marquee Container */}
         <div className="marquee-container">
-          <div className="marquee-content">
+          <div className="marquee-content grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
             {duplicatedLogos.map((logo, index) => (
               <div
                 key={`${logo._id}-${index}`}
-                className="marquee-item shrink-0 mx-4 md:mx-8"
+                className="marquee-item shrink-0 mx-8 md:mx-12"
               >
-                <div className="relative w-32 h-16 md:w-52 md:h-20 transition-all duration-300 hover:scale-105">
+                <div className="relative w-32 h-16 md:w-40 md:h-20 transition-all duration-300">
                   <Image
                     src={logo.logo}
                     alt={logo.name}
@@ -84,7 +83,7 @@ export function ClientLogosSection() {
         .marquee-content {
           display: flex;
           align-items: center;
-          animation: logos-marquee 30s linear infinite;
+          animation: logos-marquee 40s linear infinite;
           will-change: transform;
           width: max-content;
         }
@@ -104,13 +103,13 @@ export function ClientLogosSection() {
 
         @media (max-width: 768px) {
           .marquee-content {
-            animation-duration: 18s;
+            animation-duration: 25s;
           }
         }
 
         @media (max-width: 480px) {
           .marquee-content {
-            animation-duration: 15s;
+            animation-duration: 20s;
           }
         }
       `}</style>

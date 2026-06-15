@@ -87,29 +87,29 @@ function SingleLineVelocity({ text, baseVelocity, className }: SingleLineVelocit
 }
 
 export function MarqueeSection() {
-  const topText = "Premium Facade Solutions"
-  const bottomText = "Innovating Iconic Facades"
+  const topText = "PREMIUM LDPE FILM ROLLS • VCI POLY BAGS • STRETCH FILMS •"
+  const bottomText = "ISO 9001:2015 CERTIFIED • PAN INDIA DELIVERY • ECO-FRIENDLY •"
 
   return (
-    <div className="relative py-16 overflow-hidden bg-[#fefaf6]">
-      {/* Top Strip - Light Blue, tilted, moving right */}
+    <div className="relative py-16 overflow-hidden bg-[#f7f5f0]">
+      {/* Top Strip - Green, tilted, moving right */}
       <div className="relative -rotate-2 -mx-4 mb-4">
-        <div className="bg-[#3b9eff] py-6 overflow-hidden">
+        <div className="bg-[#1a3d2b] py-6 overflow-hidden border-y border-[#1a3d2b]/20 shadow-xl">
           <SingleLineVelocity
             text={topText}
             baseVelocity={1}
-            className="text-[#1a1a1a] text-5xl md:text-6xl lg:text-7xl font-medium mx-8 tracking-tight"
+            className="text-[#e8a020] text-4xl md:text-5xl lg:text-6xl font-heading font-black mx-8 tracking-widest uppercase"
           />
         </div>
       </div>
 
-      {/* Bottom Strip - Yellow/Gold, tilted opposite, moving left */}
+      {/* Bottom Strip - Amber, tilted opposite, moving left */}
       <div className="relative rotate-2 -mx-4">
-        <div className="bg-[#ffc845] py-6 overflow-hidden">
+        <div className="bg-[#e8a020] py-6 overflow-hidden border-y border-[#e8a020]/20 shadow-xl">
           <SingleLineVelocity
             text={bottomText}
             baseVelocity={-1}
-            className="text-[#1a1a1a] text-5xl md:text-6xl lg:text-7xl font-medium mx-8 tracking-tight"
+            className="text-[#1a3d2b] text-4xl md:text-5xl lg:text-6xl font-heading font-black mx-8 tracking-widest uppercase"
           />
         </div>
       </div>
