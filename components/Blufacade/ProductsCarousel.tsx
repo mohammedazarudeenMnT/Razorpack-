@@ -220,7 +220,7 @@ export function ProductsCarousel() {
   return (
     <section
       ref={containerRef}
-      className="bg-background overflow-x-hidden overflow-y-hidden relative pt-10 md:pt-16 pb-20 md:h-screen md:flex md:flex-col md:justify-center w-full max-w-full"
+      className="bg-background overflow-x-hidden overflow-y-hidden relative py-10 md:py-16 md:h-screen md:flex md:flex-col md:justify-center w-full max-w-full"
     >
       {/* Header */}
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 mb-6 md:mb-10 text-center z-30 relative">

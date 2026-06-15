@@ -63,13 +63,13 @@ export function CaseStudyStrip() {
   return (
     <section
       ref={containerRef}
-      className="bg-surface structural-grid overflow-hidden py-20 md:py-28 relative"
+      className="bg-surface structural-grid overflow-hidden py-10 md:py-16 relative"
     >
       {/* Background radial overlay to fade grid lines at edges */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_center,transparent,var(--color-surface))] pointer-events-none z-0" />
 
       {/* ─── HEADER ─── */}
-      <div className="bento-header px-6 md:px-10 pb-20 text-center relative z-10">
+      <div className="bento-header px-6 md:px-10 pb-10 md:pb-12 text-center relative z-10">
         <RevealOnScroll effect="fadeIn">
           <span className="inline-block text-xs font-bold text-brand uppercase tracking-widest mb-4 border border-brand/20 px-3 py-1 rounded-md">
             About Us

@@ -276,7 +276,7 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="relative bg-surface py-12 overflow-hidden"
+      className="relative bg-surface py-10 md:py-16 overflow-hidden"
     >
       <div className="relative z-10 w-full px-4 sm:px-6 md:px-8">
         {/* ─── SECTION HEADER ─── */}

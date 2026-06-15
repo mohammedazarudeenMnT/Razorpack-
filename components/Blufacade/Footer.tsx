@@ -83,7 +83,7 @@ export function Footer() {
   return (
     <footer
       ref={containerRef}
-      className="relative bg-surface text-ink pt-12 pb-8 md:pb-12 overflow-hidden"
+      className="relative bg-surface text-ink py-10 md:py-16 overflow-hidden"
     >
       {/* ── Top divider: branded strip ── */}
       <div className="relative z-10 flex items-center gap-4 max-w-7xl mx-auto px-6 md:px-12 -mt-6 md:-mt-8 mb-8 md:mb-12">

@@ -264,7 +264,7 @@ export function MissionSection() {
     <section
       id="mission"
       ref={sectionRef}
-      className="py-8 px-4 sm:px-6 md:px-8 bg-surface text-ink overflow-hidden relative"
+      className="py-10 md:py-16 px-4 sm:px-6 md:px-8 bg-surface text-ink overflow-hidden relative"
     >
       <div className="w-full max-w-7xl mx-auto relative z-10">
         {/* ─── SECTION HEADER with WordRotate ─── */}

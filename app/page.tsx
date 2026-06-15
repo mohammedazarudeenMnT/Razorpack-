@@ -38,16 +38,9 @@ export default function Home() {
         </div>
         <CaseStudyStrip />
         <ProductsCarousel />
-        <div className="mt-12 md:mt-20">
-          <ServicesSection />
-        </div>
-        <div className="mt-12 md:mt-20">
-          <MissionSection />
-        </div>
-
-        <div className="mt-12 md:mt-20">
-          <Footer />
-        </div>
+        <ServicesSection />
+        <MissionSection />
+        <Footer />
       </main>
     </DemoWrapper>
   );
