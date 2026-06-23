@@ -38,6 +38,13 @@ export default function BannersPage() {
   const [homeImages, setHomeImages] = useState<string[]>([]);
   const [homeFiles, setHomeFiles] = useState<(File | null)[]>([null, null, null]);
 
+  // Hero slides content (for home page)
+  const [slides, setSlides] = useState([
+    { imageUrl: "", title: "", highlight: "", tagline: "", description: "", primaryCtaLabel: "", primaryCtaHref: "", secondaryCtaLabel: "", secondaryCtaHref: "" },
+    { imageUrl: "", title: "", highlight: "", tagline: "", description: "", primaryCtaLabel: "", primaryCtaHref: "", secondaryCtaLabel: "", secondaryCtaHref: "" },
+    { imageUrl: "", title: "", highlight: "", tagline: "", description: "", primaryCtaLabel: "", primaryCtaHref: "", secondaryCtaLabel: "", secondaryCtaHref: "" },
+  ]);
+
   const [loading, setLoading] = useState<boolean>(false);
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -57,6 +64,7 @@ export default function BannersPage() {
         const b = res.data.data as {
           image: string;
           images?: string[];
+          slides?: any[];
           status?: string;
         };
         setImageUrl(b.image || "");
@@ -73,6 +81,15 @@ export default function BannersPage() {
           setHomeImages(["", "", ""]);
         } else {
           setHomeImages([]);
+        }
+
+        // Load slides data
+        if (key === "home" && b.slides && b.slides.length > 0) {
+          const paddedSlides = [...b.slides];
+          while (paddedSlides.length < 3) {
+            paddedSlides.push({ imageUrl: "", title: "", highlight: "", tagline: "", description: "", primaryCtaLabel: "", primaryCtaHref: "", secondaryCtaLabel: "", secondaryCtaHref: "" });
+          }
+          setSlides(paddedSlides.slice(0, 3));
         }
       } else {
         setImageUrl("");
@@ -158,8 +175,7 @@ export default function BannersPage() {
       form.append("status", status);
 
       if (pageKey === "home") {
-        // For home page, send existing images that should be preserved
-        // Filter out blob URLs (newly selected files) and empty strings
+        // For home page, send existing images
         const existingImagesOnly = homeImages.filter(
           (img) => img && !img.startsWith("blob:")
         );
@@ -174,6 +190,12 @@ export default function BannersPage() {
             form.append(`image${index + 1}`, file);
           }
         });
+
+        // Send slides data
+        const validSlides = slides.filter(s => s.title || s.imageUrl);
+        if (validSlides.length > 0) {
+          form.append("slides", JSON.stringify(validSlides));
+        }
       } else {
         // For other pages, single image
         if (imageUrl && !file) {
@@ -222,7 +244,7 @@ export default function BannersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-[#014a74]">
+          <h1 className="text-3xl font-bold text-[#221E1F]">
             Banner Manager
           </h1>
           <p className="text-gray-600 mt-1">
@@ -231,7 +253,7 @@ export default function BannersPage() {
         </div>
       </div>
 
-      <Card className="border-0 shadow-lg">
+      <Card className="border-0 shadow-lg bg-white">
         <CardContent className="p-6 space-y-6">
           <div className="grid md:grid-cols-3 gap-6">
             <div className="space-y-4">
@@ -271,7 +293,7 @@ export default function BannersPage() {
                     <Button
                       type="button"
                       onClick={onChooseImage}
-                      className="bg-[#f58420] hover:bg-[#d97419] text-white"
+                      className="bg-[#26A8E0] hover:bg-[#1a8abf] text-white"
                     >
                       <Upload className="mr-2 h-4 w-4" />
                       Choose Image
@@ -291,11 +313,104 @@ export default function BannersPage() {
                 </>
               )}
 
+              {/* ── HERO SLIDE CONTENT EDITOR (Home only) ── */}
+              {pageKey === "home" && (
+                <div className="mt-8 space-y-5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1 h-6 bg-[#26A8E0] rounded-full" />
+                    <div>
+                      <h3 className="font-bold text-base text-[#221E1F]">Hero Carousel Slides</h3>
+                      <p className="text-xs text-gray-400 mt-0.5">Manage the content for each homepage hero slide</p>
+                    </div>
+                  </div>
+
+                  {slides.map((slide, idx) => (
+                    <details key={idx} className="group border border-gray-200 rounded-xl overflow-hidden" open={idx === 0}>
+                      <summary className="flex items-center justify-between px-5 py-3.5 bg-gray-50/80 cursor-pointer select-none hover:bg-gray-100 transition-colors">
+                        <div className="flex items-center gap-3">
+                          <span className="w-7 h-7 rounded-lg bg-[#26A8E0]/10 text-[#26A8E0] font-bold text-xs flex items-center justify-center">{idx + 1}</span>
+                          <span className="font-semibold text-sm text-[#221E1F]">{slide.title || `Slide ${idx + 1}`}</span>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      </summary>
+
+                      <div className="px-5 py-4 space-y-4 border-t border-gray-100">
+                        {/* Image is managed via upload on the right side */}
+
+                        {/* Row 2: Title + Highlight */}
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 block">Subtitle</label>
+                            <input
+                              className="w-full border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:border-[#26A8E0] focus:ring-1 focus:ring-[#26A8E0]/20 outline-none transition-colors"
+                              placeholder="We're India's —"
+                              value={slide.title}
+                              onChange={(e) => { const s = [...slides]; s[idx] = { ...s[idx], title: e.target.value }; setSlides(s); }}
+                            />
+                          </div>
+                          <div>
+                            <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 block">Headline (use \n for break)</label>
+                            <input
+                              className="w-full border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:border-[#26A8E0] focus:ring-1 focus:ring-[#26A8E0]/20 outline-none transition-colors"
+                              placeholder="Packaging\nEngineers."
+                              value={slide.highlight}
+                              onChange={(e) => { const s = [...slides]; s[idx] = { ...s[idx], highlight: e.target.value }; setSlides(s); }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Row 3: Tagline + Description */}
+                        <div>
+                          <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 block">Tagline (right side)</label>
+                          <input
+                            className="w-full border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:border-[#26A8E0] focus:ring-1 focus:ring-[#26A8E0]/20 outline-none transition-colors"
+                            placeholder="Top performance requires\nmore than protection"
+                            value={slide.tagline}
+                            onChange={(e) => { const s = [...slides]; s[idx] = { ...s[idx], tagline: e.target.value }; setSlides(s); }}
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 block">Description</label>
+                          <input
+                            className="w-full border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:border-[#26A8E0] focus:ring-1 focus:ring-[#26A8E0]/20 outline-none transition-colors"
+                            placeholder="Engineering your entire packaging supply chain..."
+                            value={slide.description}
+                            onChange={(e) => { const s = [...slides]; s[idx] = { ...s[idx], description: e.target.value }; setSlides(s); }}
+                          />
+                        </div>
+
+                        {/* Row 4: CTA */}
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 block">Button Text</label>
+                            <input
+                              className="w-full border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:border-[#26A8E0] focus:ring-1 focus:ring-[#26A8E0]/20 outline-none transition-colors"
+                              placeholder="Explore Products"
+                              value={slide.primaryCtaLabel}
+                              onChange={(e) => { const s = [...slides]; s[idx] = { ...s[idx], primaryCtaLabel: e.target.value }; setSlides(s); }}
+                            />
+                          </div>
+                          <div>
+                            <label className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1.5 block">Button Link</label>
+                            <input
+                              className="w-full border border-gray-200 rounded-lg px-3.5 py-2 text-sm focus:border-[#26A8E0] focus:ring-1 focus:ring-[#26A8E0]/20 outline-none transition-colors"
+                              placeholder="/products"
+                              value={slide.primaryCtaHref}
+                              onChange={(e) => { const s = [...slides]; s[idx] = { ...s[idx], primaryCtaHref: e.target.value }; setSlides(s); }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              )}
+
               <Button
                 type="button"
                 onClick={handleSave}
                 disabled={loading}
-                className="w-full bg-[#014a74] hover:bg-[#012d47] text-white"
+                className="w-full bg-[#221E1F] hover:bg-[#333] text-white mt-4"
               >
                 {loading ? (
                   <>
@@ -314,58 +429,45 @@ export default function BannersPage() {
 
               {pageKey === "home" ? (
                 <div className="mt-2 space-y-4">
-                  <p className="text-sm text-gray-600">
-                    Upload banner image for the home page
-                  </p>
-                  {[0].map((index) => (
-                    <div key={index} className="space-y-2">
+                  <p className="text-xs text-gray-400 mb-3">Live preview of your hero slides</p>
+
+                  {/* Slide image upload + preview */}
+                  {slides.map((slide, idx) => (
+                    <div key={idx} className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <Label className="text-sm">Banner Image</Label>
-                        {homeImages[index] && (
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeHomeImage(index)}
-                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                          >
-                            <X className="h-4 w-4 mr-1" />
-                            Remove
+                        <Label className="text-sm font-semibold">Slide {idx + 1} Image</Label>
+                        {homeImages[idx] && (
+                          <Button type="button" variant="ghost" size="sm" onClick={() => removeHomeImage(idx)} className="text-red-500 hover:text-red-600 hover:bg-red-50 h-7 text-xs">
+                            <X className="h-3 w-3 mr-1" /> Remove
                           </Button>
                         )}
                       </div>
-                      <div className="relative w-full h-48 rounded-lg overflow-hidden bg-gray-100 border">
-                        {homeImages[index] ? (
-                          <Image
-                            src={homeImages[index]}
-                            alt={`Home banner ${index + 1}`}
-                            fill
-                            className="object-cover"
-                          />
+
+                      {/* Preview card */}
+                      <div className="relative w-full h-40 rounded-xl overflow-hidden bg-[#221E1F] border border-gray-200">
+                        {homeImages[idx] ? (
+                          <Image src={homeImages[idx]} alt={`Slide ${idx + 1}`} fill className="object-cover opacity-60" />
+                        ) : slide.imageUrl ? (
+                          <Image src={slide.imageUrl} alt={`Slide ${idx + 1}`} fill className="object-cover opacity-60" />
                         ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                            <ImageIcon className="h-8 w-8 mb-2" />
-                            <p className="text-sm">No image selected</p>
-                          </div>
+                          <div className="absolute inset-0 bg-gradient-to-br from-[#221E1F] to-[#333]" />
                         )}
+                        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
+                        <div className="relative z-10 h-full flex flex-col justify-center px-4 py-3">
+                          <span className="text-white/50 text-[9px] font-bold uppercase tracking-widest mb-1">Slide {idx + 1}</span>
+                          <p className="text-white/70 text-[10px] mb-0.5">{slide.title || "Subtitle..."}</p>
+                          <h3 className="text-white font-extrabold text-base leading-tight tracking-tight">
+                            {slide.highlight ? slide.highlight.replace(/\\n/g, " ") : "Headline..."}
+                          </h3>
+                        </div>
                       </div>
-                      <Button
-                        type="button"
-                        onClick={() => onChooseHomeImage(index)}
-                        variant="outline"
-                        size="sm"
-                        className="w-full"
-                      >
-                        <Upload className="mr-2 h-4 w-4" />
-                        Choose Banner Image
+
+                      {/* Upload button */}
+                      <Button type="button" onClick={() => onChooseHomeImage(idx)} variant="outline" size="sm" className="w-full text-xs">
+                        <Upload className="mr-2 h-3.5 w-3.5" />
+                        {homeImages[idx] ? "Change Image" : "Upload Slide Image"}
                       </Button>
-                      <input
-                        ref={homeFileInputRefs[index]}
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => onHomeFileChange(e, index)}
-                      />
+                      <input ref={homeFileInputRefs[idx]} type="file" accept="image/*" className="hidden" onChange={(e) => onHomeFileChange(e, idx)} />
                     </div>
                   ))}
 

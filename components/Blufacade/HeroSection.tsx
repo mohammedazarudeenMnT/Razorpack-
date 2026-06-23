@@ -6,6 +6,7 @@ import Autoplay from "embla-carousel-autoplay";
 import * as Lucide from "lucide-react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useHeroSlides, type HeroSlide } from "@/hooks/use-hero-slides";
 
 gsap.registerPlugin(useGSAP);
 import {
@@ -78,7 +79,21 @@ const staticSlides: Slide[] = [
 ];
 
 export function HeroSection() {
-  const [slides] = useState<Slide[]>(staticSlides);
+  const { slides: dynamicSlides } = useHeroSlides();
+
+  // Map dynamic slides to Slide format, fallback to static
+  const slides: Slide[] = dynamicSlides.length > 0
+    ? dynamicSlides.map((s: HeroSlide, i: number) => ({
+        id: `slide-${i}`,
+        imageUrl: s.imageUrl,
+        title: s.title,
+        highlight: s.highlight,
+        tagline: s.tagline,
+        description: s.description,
+        primaryCta: { label: s.primaryCtaLabel || "Explore Products", href: s.primaryCtaHref || "/products" },
+        secondaryCta: { label: s.secondaryCtaLabel || "Contact Us", href: s.secondaryCtaHref || "/contact" },
+      }))
+    : staticSlides;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -291,10 +306,10 @@ export function HeroSection() {
                               href={s.primaryCta.href}
                               className="group/cta inline-flex items-center gap-0 text-white"
                             >
-                              <span className="text-xs sm:text-sm md:text-base lg:text-[17px] font-bold tracking-tight border-b-2 sm:border-b-[2.5px] border-white/70 pb-1 sm:pb-1.5 group-hover/cta:border-[#1689cf] group-hover/cta:text-[#1689cf] transition-colors duration-300 mr-3 sm:mr-4">
+                              <span className="text-xs sm:text-sm md:text-base lg:text-[17px] font-bold tracking-tight border-b-2 sm:border-b-[2.5px] border-white/70 pb-1 sm:pb-1.5 group-hover/cta:border-[var(--brand-blue)] group-hover/cta:text-[var(--brand-blue)] transition-colors duration-300 mr-3 sm:mr-4">
                                 {s.primaryCta.label}
                               </span>
-                              <span className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full border-[1.5px] sm:border-[2px] border-white/30 flex items-center justify-center group-hover/cta:border-[#1689cf] group-hover/cta:bg-[#1689cf] transition-all duration-300 text-white/80 group-hover/cta:text-white">
+                              <span className="w-8 h-8 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full border-[1.5px] sm:border-[2px] border-white/30 flex items-center justify-center group-hover/cta:border-[var(--brand-blue)] group-hover/cta:bg-[var(--brand-blue)] transition-all duration-300 text-white/80 group-hover/cta:text-white">
                                 <Lucide.ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-[18px] md:h-[18px]" />
                               </span>
                             </Link>
@@ -367,7 +382,7 @@ export function HeroSection() {
               <br />
               Industry Leaders
             </h3>
-            <div className="w-10 h-[3px] bg-[#1689cf] mt-3 rounded-full"></div>
+            <div className="w-10 h-[3px] bg-[var(--brand-blue)] mt-3 rounded-full"></div>
           </div>
 
           {/* Right: Marquee of logos */}

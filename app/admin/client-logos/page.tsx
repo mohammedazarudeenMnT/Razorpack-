@@ -186,13 +186,13 @@ export default function ClientLogosPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-[#014a74]">Client Logos</h1>
+          <h1 className="text-3xl font-bold text-[#221E1F]">Client Logos</h1>
           <p className="text-gray-600 mt-1">Manage client logos for the homepage marquee</p>
         </div>
 
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={resetForm} className="bg-[#014a74] hover:bg-[#014a74]/90">
+            <Button onClick={resetForm} className="bg-[#221E1F] hover:bg-[#221E1F]/90">
               <Plus className="w-4 h-4 mr-2" />
               Add Client Logo
             </Button>
@@ -286,7 +286,7 @@ export default function ClientLogosPage() {
                 <Button
                   type="submit"
                   disabled={isSubmitting || (!imageFile && !imagePreview)}
-                  className="flex-1 bg-[#014a74] hover:bg-[#014a74]/90"
+                  className="flex-1 bg-[#221E1F] hover:bg-[#221E1F]/90"
                 >
                   {isSubmitting ? (
                     <>
@@ -305,7 +305,7 @@ export default function ClientLogosPage() {
 
       {isLoading ? (
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-[#014a74]" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#221E1F]" />
         </div>
       ) : error ? (
         <Card>

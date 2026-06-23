@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Blufacade/Header";
 import { Footer } from "@/components/Blufacade/Footer";
-import { DynamicPageBanner } from "@/components/DynamicPageBanner";
+import { PageHero } from "@/components/Blufacade/pages/PageHero";
 import { ServiceDetailContent } from "@/components/Blufacade/pages/ServiceDetailContent";
+import { FALLBACK_SERVICES } from "@/lib/fallback-services";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -50,10 +51,22 @@ async function getServiceBySlug(slug: string, increment = false) {
       });
     }
 
-    return service;
+    if (service) {
+      return service;
+    }
+
+    // If not found in DB, check fallback services
+    const fallback = FALLBACK_SERVICES.find((s) => s.slug === slug);
+    if (fallback) {
+      return fallback;
+    }
+
+    return null;
   } catch (error) {
     console.error("Error fetching service:", error);
-    return null;
+    // Fallback on error
+    const fallback = FALLBACK_SERVICES.find((s) => s.slug === slug);
+    return fallback || null;
   }
 }
 
@@ -87,17 +100,22 @@ export default async function ServiceDetailPage({ params }: PageProps) {
     notFound();
   }
 
+  // Format the heading for the PageHero component which uses an '&' between lines
+  const words = serviceData.serviceName.replace(/&/g, "").split(" ").filter(Boolean);
+  const headingLine1 = words[0] || "INDUSTRIAL";
+  const headingLine2 = words.slice(1).join(" ") || "SERVICES";
+
   return (
     <main className="min-h-screen">
       <Header />
-      <DynamicPageBanner
-        pageKey="services"
-        title=""
-        breadcrumb={[
-          { label: "Home", href: "/" },
-          { label: "Services", href: "/services" },
-          { label: serviceData.serviceName, href: `/services/${resolvedParams.slug}` },
-        ]}
+      <PageHero
+        label={serviceData.category || "Service Details"}
+        headingLine1={headingLine1}
+        headingLine2={headingLine2}
+        description={serviceData.shortDescription || serviceData.description.replace(/<[^>]+>/g, '').substring(0, 150) + "..."}
+        image={serviceData.image || "/images/placeholder.svg"}
+        imageAlt={serviceData.serviceName}
+        theme="dark"
       />
       <ServiceDetailContent serviceData={serviceData} />
       <Footer />

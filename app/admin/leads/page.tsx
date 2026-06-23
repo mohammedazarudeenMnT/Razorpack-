@@ -112,7 +112,7 @@ export default function LeadManager() {
       case "new": return "bg-blue-100 text-blue-800"
       case "contacted": return "bg-orange-100 text-orange-800"
       case "consulting": return "bg-purple-100 text-purple-800"
-      case "confirmed": return "bg-[#014a74]/10 text-[#014a74]"
+      case "confirmed": return "bg-[#221E1F]/10 text-[#221E1F]"
       case "completed": return "bg-green-100 text-green-800"
       case "cancelled": return "bg-red-100 text-red-800"
       default: return "bg-gray-100 text-gray-800"
@@ -122,7 +122,7 @@ export default function LeadManager() {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "high": return "bg-red-100 text-red-800"
-      case "medium": return "bg-[#f58420]/10 text-[#f58420]"
+      case "medium": return "bg-[#26A8E0]/10 text-[#26A8E0]"
       case "low": return "bg-green-100 text-green-800"
       default: return "bg-gray-100 text-gray-800"
     }
@@ -156,7 +156,7 @@ export default function LeadManager() {
             <PaginationLink
               onClick={() => handlePageChange(i)}
               isActive={currentPage === i}
-              className={`cursor-pointer ${currentPage === i ? "bg-[#014a74] text-white hover:bg-[#012d47] hover:text-white border-0" : ""}`}
+              className={`cursor-pointer ${currentPage === i ? "bg-[#221E1F] text-white hover:bg-[#333] hover:text-white border-0" : ""}`}
             >
               {i}
             </PaginationLink>
@@ -318,10 +318,10 @@ export default function LeadManager() {
   }
 
   const stats = [
-    { title: "Total Enquiries", value: statsData?.total || 0, icon: Users, color: "text-[#014a74]" },
-    { title: "New Leads", value: statsData?.newLeads || 0, icon: AlertCircle, color: "text-[#f58420]" },
-    { title: "Active Consulting", value: statsData?.consulting || 0, icon: Activity, color: "text-[#014a74]" },
-    { title: "High Priority", value: statsData?.highPriority || 0, icon: Star, color: "text-[#f58420]" },
+    { title: "Total Enquiries", value: statsData?.total || 0, icon: Users, color: "text-[#221E1F]" },
+    { title: "New Leads", value: statsData?.newLeads || 0, icon: AlertCircle, color: "text-[#26A8E0]" },
+    { title: "Active Consulting", value: statsData?.consulting || 0, icon: Activity, color: "text-[#221E1F]" },
+    { title: "High Priority", value: statsData?.highPriority || 0, icon: Star, color: "text-[#26A8E0]" },
   ]
 
 
@@ -330,7 +330,7 @@ export default function LeadManager() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#014a74]">Lead Manager</h1>
+          <h1 className="text-3xl font-bold text-[#221E1F]">Lead Manager</h1>
           <p className="text-gray-600 mt-1">Manage enquiries and potential clients for Blufacade</p>
         </div>
         <div className="flex gap-3">
@@ -343,7 +343,7 @@ export default function LeadManager() {
               setFormData({ firstName: "", lastName: "", email: "", phone: "", subject: "", message: "", status: "new", priority: "medium", source: "website", estimatedCost: "", notes: "" })
               setIsAddModalOpen(true)
             }}
-            className="bg-[#f58420] hover:bg-[#e67a1c] text-white"
+            className="bg-[#26A8E0] hover:bg-[#e67a1c] text-white"
           >
             <UserPlus className="h-4 w-4 mr-2" />
             Add New Lead
@@ -442,7 +442,7 @@ export default function LeadManager() {
                 {isLoading ? (
                   <TableRow>
                     <TableCell colSpan={7} className="h-48 text-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-[#f58420] mx-auto mb-2" />
+                      <Loader2 className="h-8 w-8 animate-spin text-[#26A8E0] mx-auto mb-2" />
                       <p className="text-gray-500">Loading enquiries...</p>
                     </TableCell>
                   </TableRow>
@@ -662,7 +662,7 @@ export default function LeadManager() {
           </div>
           <div className="flex gap-3 justify-end pt-4 border-t">
             <Button variant="outline" onClick={() => { setIsAddModalOpen(false); setIsFormSubmitted(false) }}>Cancel</Button>
-            <Button onClick={handleAddLead} disabled={isSaving} className="bg-[#f58420] hover:bg-[#e67a1c] text-white min-w-[120px]">
+            <Button onClick={handleAddLead} disabled={isSaving} className="bg-[#26A8E0] hover:bg-[#e67a1c] text-white min-w-[120px]">
               {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Add Lead"}
             </Button>
           </div>

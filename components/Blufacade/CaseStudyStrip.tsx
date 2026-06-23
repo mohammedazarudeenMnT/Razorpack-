@@ -69,10 +69,10 @@ export function CaseStudyStrip() {
       {/* ─── HEADER ─── */}
       <div className="bento-header px-6 md:px-10 pb-10 md:pb-12 text-center relative z-10">
         <RevealOnScroll effect="fadeIn">
-          <span className="inline-block text-xs font-bold text-[#44B8E8] uppercase tracking-widest mb-4 border border-[#44B8E8]/30 px-3 py-1 rounded-md">
+          <span className="inline-block text-xs font-bold text-[var(--brand-blue)] uppercase tracking-widest mb-4 border border-[var(--brand-blue)]/30 px-3 py-1 rounded-md">
             About Us
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-extrabold tracking-tight max-w-4xl mx-auto text-[#2D2D2D]">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-extrabold tracking-tight max-w-4xl mx-auto text-[var(--brand-dark)]">
             Rayzor Industrial Packaging
           </h2>
           <p className="text-steel text-sm sm:text-base md:text-lg lg:text-xl mt-4 md:mt-6 max-w-2xl mx-auto leading-relaxed font-medium px-2 sm:px-0">
@@ -120,7 +120,7 @@ export function CaseStudyStrip() {
                 <Lucide.ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover/btn:translate-x-1.5 transition-transform" />
               </Link>
             </div>
-            <BorderBeam size={250} duration={8} colorFrom="#1689cf" colorTo="#feb234" />
+            <BorderBeam size={250} duration={8} colorFrom="var(--brand-blue)" colorTo="#feb234" />
           </div>
 
           {/* ── RIGHT COLUMN (spans 4 cols, 2 stacked cards) ── */}
@@ -157,7 +157,7 @@ export function CaseStudyStrip() {
                   In-house manufacturing & state-of-the-art laboratory testing
                 </p>
               </div>
-              <BorderBeam size={120} duration={8} colorFrom="#1689cf" colorTo="#feb234" />
+              <BorderBeam size={120} duration={8} colorFrom="var(--brand-blue)" colorTo="#feb234" />
             </div>
 
             {/* Stat: 16 Product Lines */}
@@ -191,7 +191,7 @@ export function CaseStudyStrip() {
                   VCI rust protection, heavy-duty LDPE & specialty polymers
                 </p>
               </div>
-              <BorderBeam size={120} duration={10} colorFrom="#feb234" colorTo="#1689cf" />
+              <BorderBeam size={120} duration={10} colorFrom="#feb234" colorTo="var(--brand-blue)" />
             </div>
           </div>
 

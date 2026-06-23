@@ -326,7 +326,7 @@ export default function TestimonialsPage() {
             <PaginationLink
               onClick={() => handlePageChange(i)}
               isActive={currentPage === i}
-              className={`cursor-pointer ${currentPage === i ? "bg-[#014a74] text-white hover:bg-[#012d47] hover:text-white border-0" : ""}`}
+              className={`cursor-pointer ${currentPage === i ? "bg-[#221E1F] text-white hover:bg-[#333] hover:text-white border-0" : ""}`}
             >
               {i}
             </PaginationLink>
@@ -355,9 +355,9 @@ export default function TestimonialsPage() {
   }
 
   const stats = [
-    { title: "Total Testimonials", value: statsData.total, icon: Quote, color: "text-[#014a74]" },
-    { title: "Published", value: statsData.published, icon: Star, color: "text-[#f58420]" },
-    { title: "Draft", value: statsData.draft, icon: Edit, color: "text-[#014a74]" },
+    { title: "Total Testimonials", value: statsData.total, icon: Quote, color: "text-[#221E1F]" },
+    { title: "Published", value: statsData.published, icon: Star, color: "text-[#26A8E0]" },
+    { title: "Draft", value: statsData.draft, icon: Edit, color: "text-[#221E1F]" },
   ]
 
   return (
@@ -365,12 +365,12 @@ export default function TestimonialsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#014a74]">Testimonials</h1>
+          <h1 className="text-3xl font-bold text-[#221E1F]">Testimonials</h1>
           <p className="text-gray-600 mt-1">Manage client feedback and success stories</p>
         </div>
         <Button
           onClick={() => setIsEditing(true)}
-          className="bg-[#f58420] hover:bg-[#e67a1c] text-white"
+          className="bg-[#26A8E0] hover:bg-[#e67a1c] text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Testimonial
@@ -426,9 +426,9 @@ export default function TestimonialsPage() {
 
       {/* Table */}
       <Card className="border-0 shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-[#014a74]/10 to-[#f58420]/10 p-4 border-b">
-          <CardTitle className="flex items-center gap-2 text-[#014a74]">
-            <Quote className="h-5 w-5 text-[#f58420]" />
+        <CardHeader className="bg-gradient-to-r from-[#221E1F]/10 to-[#26A8E0]/10 p-4 border-b">
+          <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+            <Quote className="h-5 w-5 text-[#26A8E0]" />
             Testimonials List
           </CardTitle>
         </CardHeader>
@@ -449,7 +449,7 @@ export default function TestimonialsPage() {
                 {loading ? (
                   <TableRow>
                     <TableCell colSpan={6} className="h-48 text-center">
-                      <Loader2 className="h-8 w-8 animate-spin text-[#f58420] mx-auto mb-2" />
+                      <Loader2 className="h-8 w-8 animate-spin text-[#26A8E0] mx-auto mb-2" />
                       <p className="text-gray-500">Loading testimonials...</p>
                     </TableCell>
                   </TableRow>
@@ -655,7 +655,7 @@ export default function TestimonialsPage() {
             <Button 
               onClick={handleSave} 
               disabled={isSaving}
-              className="bg-[#f58420] hover:bg-[#e67a1c] text-white min-w-[120px]"
+              className="bg-[#26A8E0] hover:bg-[#e67a1c] text-white min-w-[120px]"
             >
               {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Save className="h-4 w-4 mr-2" /> Save</>}
             </Button>

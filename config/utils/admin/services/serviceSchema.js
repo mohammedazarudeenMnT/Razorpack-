@@ -41,19 +41,6 @@ const serviceSchema = new mongoose.Schema(
         trim: true,
       },
     ],
-    // Service Coverage Areas
-    serviceLocations: [
-      {
-        region: {
-          type: String,
-          trim: true,
-        },
-        cities: {
-          type: String,
-          trim: true,
-        },
-      },
-    ],
     // Technical Specifications
     technicalSpecs: [
       {
@@ -74,21 +61,6 @@ const serviceSchema = new mongoose.Schema(
         trim: true,
       },
     ],
-    // Warranty Information
-    warranty: {
-      type: String,
-      trim: true,
-    },
-    // Estimated Duration
-    estimatedDuration: {
-      type: String,
-      trim: true,
-    },
-    // Price Range
-    priceRange: {
-      type: String,
-      trim: true,
-    },
     slug: {
       type: String,
       required: true,
@@ -123,7 +95,7 @@ const serviceSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    bookings: {
+    views: {
       type: Number,
       default: 0,
     },
@@ -144,12 +116,6 @@ serviceSchema.index({ serviceName: "text", description: "text" });
 // Instance method to increment views
 serviceSchema.methods.incrementViews = function () {
   this.views += 1;
-  return this.save();
-};
-
-// Instance method to increment bookings
-serviceSchema.methods.incrementBookings = function () {
-  this.bookings += 1;
   return this.save();
 };
 

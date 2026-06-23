@@ -69,6 +69,10 @@ export function Header() {
   // On mobile when menu is open, always show white bg
   const isTop = navState === "top" && !menuOpen
 
+  // Check if current page has a dark hero background spanning the full width
+  const hasDarkHero = pathname === "/" || pathname === "/about" || (pathname.startsWith("/services/") && pathname !== "/services") || (pathname.startsWith("/products/") && pathname !== "/products")
+  const useLightText = isTop && hasDarkHero
+
   return (
     <>
       <header
@@ -89,8 +93,8 @@ export function Header() {
               <div
                 className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded flex items-center justify-center shrink-0 transition-all duration-500"
                 style={{
-                  border: isTop ? "1.5px solid rgba(255,255,255,0.35)" : "1.5px solid #e0e0e0",
-                  backgroundColor: isTop ? "rgba(0,0,0,0.2)" : "transparent",
+                  border: useLightText ? "1.5px solid rgba(255,255,255,0.35)" : "1.5px solid #e0e0e0",
+                  backgroundColor: useLightText ? "rgba(0,0,0,0.2)" : "transparent",
                 }}
               >
                 <Image
@@ -105,8 +109,8 @@ export function Header() {
               <span
                 className="text-base sm:text-lg md:text-xl lg:text-xl xl:text-2xl font-heading font-extrabold tracking-tight leading-none transition-colors duration-500"
               >
-                <span style={{ color: isTop ? "#ffffff" : "#2D2D2D" }}>RAYZOR</span>
-                <span className="text-[#44B8E8]">PACK</span>
+                <span style={{ color: useLightText ? "var(--brand-white)" : "var(--brand-dark)" }}>RAYZOR</span>
+                <span className="text-[var(--brand-blue)]">PACK</span>
               </span>
             </Link>
           </div>
@@ -120,7 +124,7 @@ export function Header() {
                   return (
                     <span
                       key={item.label}
-                      className="flex items-center gap-0.5 text-[10px] lg:text-[11px] xl:text-[13px] font-semibold uppercase tracking-wider cursor-default text-[#2D2D2D] whitespace-nowrap hover:text-[#44B8E8] transition-colors"
+                      className="flex items-center gap-0.5 text-[10px] lg:text-[11px] xl:text-[13px] font-semibold uppercase tracking-wider cursor-default text-[var(--brand-dark)] whitespace-nowrap hover:text-[var(--brand-blue)] transition-colors"
                     >
                       {item.label}
                       <ChevronDown className="w-3 h-3" />
@@ -132,8 +136,8 @@ export function Header() {
                     key={item.label}
                     className={`text-[10px] lg:text-[11px] xl:text-[13px] font-semibold uppercase tracking-wider cursor-default whitespace-nowrap transition-colors ${
                       pathname === item.href
-                        ? "text-[#44B8E8]"
-                        : "text-[#2D2D2D] hover:text-[#44B8E8]"
+                        ? "text-[var(--brand-blue)]"
+                        : "text-[var(--brand-dark)] hover:text-[var(--brand-blue)]"
                     }`}
                   >
                     {item.label}
@@ -142,14 +146,14 @@ export function Header() {
               })}
 
               {/* Download Profile — bordered button */}
-              <span className="flex items-center gap-1 text-[9px] lg:text-[10px] xl:text-[12px] font-semibold uppercase tracking-wider text-[#2D2D2D] border border-[#2D2D2D] px-2.5 lg:px-3 xl:px-4 py-1.5 xl:py-2 cursor-default whitespace-nowrap hover:bg-gray-50 transition-colors">
+              <span className="flex items-center gap-1 text-[9px] lg:text-[10px] xl:text-[12px] font-semibold uppercase tracking-wider text-[var(--brand-dark)] border border-[var(--brand-dark)] px-2.5 lg:px-3 xl:px-4 py-1.5 xl:py-2 cursor-default whitespace-nowrap hover:bg-gray-50 transition-colors">
                 <svg className="w-3 h-3 xl:w-3.5 xl:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                 Download Profile
               </span>
             </nav>
 
             {/* Contact Us — blue filled button, flush right */}
-            <span className="flex items-center justify-center bg-[#44B8E8] text-white px-4 lg:px-5 xl:px-8 h-full font-bold text-[10px] lg:text-[11px] xl:text-[13px] uppercase tracking-wider cursor-default whitespace-nowrap hover:bg-[#3aa0cc] transition-colors">
+            <span className="flex items-center justify-center bg-[var(--brand-blue)] text-white px-4 lg:px-5 xl:px-8 h-full font-bold text-[10px] lg:text-[11px] xl:text-[13px] uppercase tracking-wider cursor-default whitespace-nowrap hover:bg-[#3aa0cc] transition-colors">
               Contact Us
             </span>
           </div>
@@ -162,7 +166,7 @@ export function Header() {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="p-1.5 sm:p-2 transition-colors duration-500"
-              style={{ color: isTop ? "#ffffff" : "#2D2D2D" }}
+              style={{ color: isTop ? "var(--brand-white)" : "var(--brand-dark)" }}
               aria-label="Menu"
             >
               {menuOpen ? <X className="w-6 h-6 sm:w-7 sm:h-7" /> : <Menu className="w-6 h-6 sm:w-7 sm:h-7" />}
@@ -200,7 +204,7 @@ export function Header() {
                 >
                   <Link
                     href={item.href}
-                    className="text-2xl font-bold text-[#2D2D2D] hover:text-[#44B8E8] transition-colors"
+                    className="text-2xl font-bold text-[var(--brand-dark)] hover:text-[var(--brand-blue)] transition-colors"
                     onClick={() => setMenuOpen(false)}
                   >
                     {item.label}
@@ -213,7 +217,7 @@ export function Header() {
               >
                 <Link
                   href="/contact"
-                  className="flex items-center justify-center w-full bg-[#44B8E8] text-white py-4 rounded-md font-bold text-lg hover:bg-[#3aa0cc] transition-colors"
+                  className="flex items-center justify-center w-full bg-[var(--brand-blue)] text-white py-4 rounded-md font-bold text-lg hover:bg-[#3aa0cc] transition-colors"
                   onClick={() => setMenuOpen(false)}
                 >
                   GET QUOTE
@@ -232,7 +236,7 @@ export function Header() {
                     aria-label={social.label}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="w-12 h-12 rounded-full bg-white border border-black/10 flex items-center justify-center text-[#2D2D2D] hover:text-white hover:bg-[#44B8E8] hover:border-[#44B8E8] transition-all"
+                    className="w-12 h-12 rounded-full bg-white border border-black/10 flex items-center justify-center text-[var(--brand-dark)] hover:text-white hover:bg-[var(--brand-blue)] hover:border-[var(--brand-blue)] transition-all"
                   >
                     {social.icon}
                   </motion.a>

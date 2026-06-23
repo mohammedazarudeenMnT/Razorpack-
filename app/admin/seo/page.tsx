@@ -155,7 +155,7 @@ export default function SEOManagerPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-[#014a74]">SEO Manager</h1>
+          <h1 className="text-3xl font-bold text-[#221E1F]">SEO Manager</h1>
           <p className="text-gray-600 mt-2">Optimize SEO for Blufacade website pages - manage meta titles, descriptions, and keywords</p>
         </div>
       </div>
@@ -164,7 +164,7 @@ export default function SEOManagerPage() {
       <Dialog open={isEditing} onOpenChange={setIsEditing}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl text-[#014a74]">
+            <DialogTitle className="text-2xl text-[#221E1F]">
               Edit Page SEO
             </DialogTitle>
           </DialogHeader>
@@ -231,7 +231,7 @@ export default function SEOManagerPage() {
             </div>
 
             <div className="flex gap-4 pt-4 border-t">
-              <Button onClick={handleSave} className="bg-[#014a74] hover:bg-[#012d47] text-white" disabled={saving}>
+              <Button onClick={handleSave} className="bg-[#221E1F] hover:bg-[#333] text-white" disabled={saving}>
                 {saving ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (
@@ -249,16 +249,16 @@ export default function SEOManagerPage() {
 
       {/* SEO Pages List */}
       <Card className="shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-[#014a74]/10 to-[#f58420]/10 p-4 border-b">
-          <CardTitle className="flex items-center gap-2 text-[#014a74]">
-            <Search className="h-5 w-5 text-[#f58420]" />
+        <CardHeader className="bg-gradient-to-r from-[#221E1F]/10 to-[#26A8E0]/10 p-4 border-b">
+          <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+            <Search className="h-5 w-5 text-[#26A8E0]" />
             Page SEO Settings
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-[#014a74]" />
+              <Loader2 className="h-8 w-8 animate-spin text-[#221E1F]" />
               <span className="ml-2 text-gray-600">Loading SEO data...</span>
             </div>
           ) : (
@@ -267,9 +267,9 @@ export default function SEOManagerPage() {
                 <div key={page.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <h3 className="font-semibold text-[#014a74]">{page.pageName}</h3>
+                      <h3 className="font-semibold text-[#221E1F]">{page.pageName}</h3>
                     </div>
-                    <Button size="sm" variant="outline" onClick={() => handleEdit(page)} className="border-[#f58420] text-[#f58420] hover:bg-[#fef5ed]">
+                    <Button size="sm" variant="outline" onClick={() => handleEdit(page)} className="border-[#26A8E0] text-[#26A8E0] hover:bg-[#EBF7FC]">
                       <Edit className="h-4 w-4 mr-1" />
                       Edit
                     </Button>

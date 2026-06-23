@@ -1,32 +1,25 @@
 import { Metadata } from "next"
 import { Header } from "@/components/Blufacade/Header"
 import { Footer } from "@/components/Blufacade/Footer"
-// import { FloatingContact } from "@/components/Blufacade/FloatingContact"
-import { DynamicPageBanner } from "@/components/DynamicPageBanner"
-import { AboutContent } from "@/components/Blufacade/pages/AboutContent"
-// import { CTASection } from "@/components/Blufacade/CTASection"
+import { AboutHero } from "@/components/Blufacade/pages/AboutHero"
+import { AboutBusinessAreas } from "@/components/Blufacade/pages/AboutBusinessAreas"
+import { AboutMissionVision } from "@/components/Blufacade/pages/AboutMissionVision"
+import { AboutProcess } from "@/components/Blufacade/pages/AboutProcess"
 
 export const metadata: Metadata = {
-  title: "About Us | Blufacade - Inspiring Skylines",
-  description: "Learn about Blufacade - your trusted partner for innovative facade solutions. With 15+ years of experience, we transform architectural visions into iconic realities.",
+  title: "About Us | Rayzorpack - Industrial Strength",
+  description: "Learn about Rayzorpack - your trusted partner for innovative industrial packaging solutions.",
 }
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-white">
       <Header />
-      <DynamicPageBanner
-        pageKey="about"
-        title="About Blufacade"
-        breadcrumb={[
-          { label: "Home", href: "/" },
-          { label: "About Us", href: "/about" },
-        ]}
-      />
-      <AboutContent />
-      {/* <CTASection /> */}
+      <AboutHero />
+      <AboutBusinessAreas />
+      <AboutMissionVision />
+      <AboutProcess />
       <Footer />
-      {/* <FloatingContact /> */}
     </main>
   )
 }

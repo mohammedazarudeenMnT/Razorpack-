@@ -14,7 +14,6 @@ interface Service {
   status: string;
   order: number;
   views?: number;
-  bookings?: number;
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;

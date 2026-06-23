@@ -118,12 +118,8 @@ export async function POST(request: NextRequest) {
     const status = formData.get("status") as string;
     const order = Number.parseInt(formData.get("order") as string) || 0;
     const features = JSON.parse(formData.get("features") as string || "[]");
-    const serviceLocations = JSON.parse(formData.get("serviceLocations") as string || "[]");
     const technicalSpecs = JSON.parse(formData.get("technicalSpecs") as string || "[]");
     const applications = JSON.parse(formData.get("applications") as string || "[]");
-    const warranty = formData.get("warranty") as string;
-    const estimatedDuration = formData.get("estimatedDuration") as string;
-    const priceRange = formData.get("priceRange") as string;
     const seoTitle = formData.get("seoTitle") as string;
     const seoDescription = formData.get("seoDescription") as string;
     const seoKeywords = formData.get("seoKeywords") as string;
@@ -200,12 +196,8 @@ export async function POST(request: NextRequest) {
       image: imageResult.secure_url,
       gallery: galleryUrls,
       features,
-      serviceLocations,
       technicalSpecs,
       applications,
-      warranty,
-      estimatedDuration,
-      priceRange,
       slug,
       status,
       order,

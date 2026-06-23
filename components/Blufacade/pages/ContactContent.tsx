@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Send, Loader2, Facebook, Instagram, Linkedin, Twitter, Youtube, MessageCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { useContact } from "@/hooks/use-contact"
 import { useServices } from "@/hooks/use-services"
 
@@ -14,11 +13,12 @@ export function ContactContent() {
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: "" })
   
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
+    companyName: "",
     email: "",
     phone: "",
-    subject: "",
+    division: "",
+    source: "",
     message: "",
   })
 
@@ -38,7 +38,7 @@ export function ContactContent() {
 
       if (data.success) {
         setSubmitStatus({ type: 'success', message: "Thank you! Your message has been sent successfully." })
-        setFormData({ firstName: "", lastName: "", email: "", phone: "", subject: "", message: "" })
+        setFormData({ fullName: "", companyName: "", email: "", phone: "", division: "", source: "", message: "" })
       } else {
         setSubmitStatus({ type: 'error', message: data.error || "Something went wrong. Please try again." })
       }
@@ -55,329 +55,241 @@ export function ContactContent() {
     : ["Chennai", "Madurai", "Dindigul", "Tamil Nadu", "South India"]
 
   return (
-    <section className="py-20 bg-[#fefaf6]">
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-3 gap-12 mb-20">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-1 space-y-8"
-          >
-            <div>
-              <h2 className="text-2xl font-bold text-[#014a74] mb-6">
-                Contact Information
-              </h2>
-              <p className="text-gray-600 mb-8">
-                Reach out to us for any inquiries about our facade solutions. We&apos;re here to help transform your vision into reality.
+    <>
+      {/* ─── NEW PREMIUM FORM SECTION ─── */}
+      <section 
+        className="relative py-24 md:py-32 bg-cover bg-center"
+        style={{ backgroundImage: "url('/images/rayzor/contact_bg.png')" }}
+      >
+        <div className="max-w-[92vw] mx-auto px-[2vw]">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            
+            {/* Left Side: Headings */}
+            <div className="lg:col-span-5 pt-4">
+              <h1 className="text-[clamp(4rem,7vw,7rem)] font-medium text-white leading-[0.9] tracking-tight mb-8">
+                Contact Us
+              </h1>
+              <p className="text-lg md:text-xl text-white/90 font-medium max-w-md leading-relaxed">
+                We're here to serve you, Please get in touch...
               </p>
             </div>
 
-            {/* Contact Details */}
-            <div className="space-y-6">
-              {contactInfo?.primaryPhone && (
-                <a
-                  href={`tel:${contactInfo.primaryPhone.replace(/\s+/g, '')}`}
-                  className="flex items-start gap-4 p-4 rounded-xl bg-white hover:shadow-md transition-shadow group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-[#014a74] flex items-center justify-center group-hover:bg-[#f58420] transition-colors">
-                    <Phone className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-[#014a74]">Phone</h3>
-                    <p className="text-gray-600">{contactInfo.primaryPhone}</p>
-                    {contactInfo.secondaryPhone && (
-                      <p className="text-gray-600 text-sm">{contactInfo.secondaryPhone}</p>
-                    )}
-                  </div>
-                </a>
-              )}
-
-              {contactInfo?.email && (
-                <a
-                  href={`mailto:${contactInfo.email}`}
-                  className="flex items-start gap-4 p-4 rounded-xl bg-white hover:shadow-md transition-shadow group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-[#014a74] flex items-center justify-center group-hover:bg-[#f58420] transition-colors">
-                    <Mail className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-[#014a74]">Email</h3>
-                    <p className="text-gray-600 break-all">{contactInfo.email}</p>
-                  </div>
-                </a>
-              )}
-
-              {contactInfo?.address && (
-                <div className="flex items-start gap-4 p-4 rounded-xl bg-white">
-                  <div className="w-12 h-12 rounded-xl bg-[#014a74] flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-[#014a74]">Office Address</h3>
-                    <p className="text-gray-600">
-                      {contactInfo.address}<br />
-                      {contactInfo.city}, {contactInfo.state} - {contactInfo.postcode}<br />
-                      {contactInfo.country}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {contactInfo?.businessHours && (
-                <div className="flex items-start gap-4 p-4 rounded-xl bg-white">
-                  <div className="w-12 h-12 rounded-xl bg-[#014a74] flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-[#014a74]">Business Hours</h3>
-                    <p className="text-gray-600">{contactInfo.businessHours}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Service Areas */}
-            <div className="p-6 rounded-xl bg-[#014a74] text-white">
-              <h3 className="font-semibold mb-3">Service Areas</h3>
-              <div className="flex flex-wrap gap-2">
-                {serviceAreas.map((area, index) => (
-                  <span
-                    key={index}
-                    className="px-3 py-1 rounded-full bg-white/10 text-sm"
-                  >
-                    {area}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h3 className="font-semibold text-[#014a74] mb-4">Follow Us</h3>
-              <div className="flex gap-3 flex-wrap">
-                {contactInfo?.facebook && (
-                  <a href={contactInfo.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#014a74] flex items-center justify-center text-white hover:bg-[#f58420] transition-colors">
-                    <Facebook className="w-5 h-5" />
-                  </a>
-                )}
-                {contactInfo?.instagram && (
-                  <a href={contactInfo.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#014a74] flex items-center justify-center text-white hover:bg-[#f58420] transition-colors">
-                    <Instagram className="w-5 h-5" />
-                  </a>
-                )}
-                {contactInfo?.linkedin && (
-                  <a href={contactInfo.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#014a74] flex items-center justify-center text-white hover:bg-[#f58420] transition-colors">
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                )}
-                 {contactInfo?.twitter && (
-                  <a href={contactInfo.twitter} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#014a74] flex items-center justify-center text-white hover:bg-[#f58420] transition-colors">
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                )}
-                 {contactInfo?.youtube && (
-                  <a href={contactInfo.youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#014a74] flex items-center justify-center text-white hover:bg-[#f58420] transition-colors">
-                    <Youtube className="w-5 h-5" />
-                  </a>
-                )}
-                 {contactInfo?.whatsapp && (
-                  <a href={contactInfo.whatsapp} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-[#014a74] flex items-center justify-center text-white hover:bg-[#f58420] transition-colors">
-                    <MessageCircle className="w-5 h-5" />
-                  </a>
-                )}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2"
-          >
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-[#014a74] mb-2">
-                {contactInfo?.pageTitle || "Send us a Message"}
-              </h2>
-              <p className="text-gray-600 mb-8">
-                {contactInfo?.pageDescription || "Fill out the form below and we'll get back to you as soon as possible."}
-              </p>
-
+            {/* Right Side: Form Grid */}
+            <div className="lg:col-span-7">
               {submitStatus.message && (
-                <div className={`p-4 mb-6 rounded-lg ${submitStatus.type === 'success' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
+                <div className={`p-4 mb-6 rounded-none ${submitStatus.type === 'success' ? 'bg-white text-green-700' : 'bg-white text-red-700'}`}>
                   {submitStatus.message}
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-[#014a74] mb-2">
-                      First Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      required
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58420] focus:border-transparent outline-none transition-all"
-                      placeholder="John"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-[#014a74] mb-2">
-                       Last Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      required
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58420] focus:border-transparent outline-none transition-all"
-                      placeholder="Doe"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-[#014a74] mb-2">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58420] focus:border-transparent outline-none transition-all"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-[#014a74] mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58420] focus:border-transparent outline-none transition-all"
-                      placeholder="+91 99941 62996"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                   <label htmlFor="subject" className="block text-sm font-medium text-[#014a74] mb-2">
-                      Subject *
-                    </label>
-                    <select
-                      id="subject"
-                      required
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58420] focus:border-transparent outline-none transition-all"
-                    >
-                      <option value="">Select a subject</option>
-                      {services.length > 0 && (
-                        <optgroup label="Our Services">
-                          {services.map((service) => (
-                            <option key={service._id} value={service.serviceName}>
-                              {service.serviceName}
-                            </option>
-                          ))}
-                        </optgroup>
-                      )}
-                      <optgroup label="General">
-                        <option value="Quote Request">Request a Quote</option>
-                        <option value="Consultation">Free Consultation</option>
-                        <option value="Project Inquiry">Project Inquiry</option>
-                        <option value="Partnership">Partnership</option>
-                        <option value="Other">Other</option>
-                      </optgroup>
-                    </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-[#014a74] mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
+              <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                {/* Full Name */}
+                <div className="sm:col-span-2">
+                  <input
+                    type="text"
                     required
-                    rows={5}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#f58420] focus:border-transparent outline-none transition-all resize-none"
-                    placeholder="Tell us about your project..."
+                    value={formData.fullName}
+                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    placeholder="Full Name"
+                    className="w-full bg-white border-0 p-5 text-[15px] outline-none focus:ring-2 focus:ring-[#1a1a1a] text-[#36312d]"
                   />
                 </div>
 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#014a74] hover:bg-[#012d47] text-white py-4 text-lg"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5 mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </Button>
+                {/* Company Name */}
+                <div className="sm:col-span-2">
+                  <input
+                    type="text"
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                    placeholder="Company Name"
+                    className="w-full bg-white border-0 p-5 text-[15px] outline-none focus:ring-2 focus:ring-[#1a1a1a] text-[#36312d]"
+                  />
+                </div>
+
+                {/* Email Address */}
+                <div className="sm:col-span-2">
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="Email Address"
+                    className="w-full bg-white border-0 p-5 text-[15px] outline-none focus:ring-2 focus:ring-[#1a1a1a] text-[#36312d]"
+                  />
+                </div>
+
+                {/* Contact Number */}
+                <div className="sm:col-span-1">
+                  <input
+                    type="tel"
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="Contact Number"
+                    className="w-full bg-white border-0 p-5 text-[15px] outline-none focus:ring-2 focus:ring-[#1a1a1a] text-[#36312d]"
+                  />
+                </div>
+
+                {/* Division Interested In */}
+                <div className="sm:col-span-1 relative">
+                  <select
+                    value={formData.division}
+                    onChange={(e) => setFormData({ ...formData, division: e.target.value })}
+                    className="w-full bg-white border-0 p-5 text-[15px] outline-none focus:ring-2 focus:ring-[#1a1a1a] appearance-none cursor-pointer"
+                    style={{ color: formData.division ? "#36312d" : "#9ca3af" }}
+                  >
+                    <option value="" disabled hidden>Division Interested In</option>
+                    <option value="VCI Protection" className="text-[#36312d]">VCI Protection</option>
+                    <option value="Export Palletization" className="text-[#36312d]">Export Palletization</option>
+                    <option value="Contract Packaging" className="text-[#36312d]">Contract Packaging</option>
+                    <option value="Specialty Films" className="text-[#36312d]">Specialty Films</option>
+                  </select>
+                  {/* Dropdown Arrow */}
+                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Radio Group */}
+                <div className="sm:col-span-2 mt-4 mb-3">
+                  <label className="block text-[15px] font-medium text-white mb-5">
+                    Where did you hear about Rayzorpack? *
+                  </label>
+                  <div className="flex flex-wrap gap-x-10 gap-y-4">
+                    {["LinkedIn", "Word of mouth", "Online search", "Other"].map((source) => (
+                      <label key={source} className="flex items-center gap-3 cursor-pointer group">
+                        <div className={`w-5 h-5 rounded-full border-2 border-white flex items-center justify-center transition-colors ${formData.source === source ? 'bg-white' : 'bg-transparent group-hover:bg-white/20'}`}>
+                          {formData.source === source && <div className="w-2 h-2 rounded-full bg-[var(--brand-blue)] ring-2 ring-white" />}
+                        </div>
+                        <input
+                          type="radio"
+                          name="source"
+                          value={source}
+                          checked={formData.source === source}
+                          onChange={(e) => setFormData({ ...formData, source: e.target.value })}
+                          className="sr-only"
+                          required
+                        />
+                        <span className="text-[15px] text-white/90">{source}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Message */}
+                <div className="sm:col-span-2">
+                  <textarea
+                    required
+                    rows={7}
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    placeholder="Message..."
+                    className="w-full bg-white border-0 p-5 text-[15px] outline-none focus:ring-2 focus:ring-[#1a1a1a] resize-none text-[#36312d]"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <div className="sm:col-span-2 mt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-[#1a1a1a] hover:bg-black text-white px-12 py-4 text-[15px] font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+                  >
+                    {isSubmitting ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</>
+                    ) : (
+                      "Submit"
+                    )}
+                  </button>
+                </div>
+
               </form>
             </div>
-          </motion.div>
-        </div>
 
-        {/* Google Map Section */}
-        {contactInfo?.mapEmbedCode && (
-          <div className="space-y-8">
-             {(contactInfo?.officeTitle || contactInfo?.officeDescription) && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="text-center max-w-3xl mx-auto"
-                >
-                   {contactInfo?.officeTitle && (
-                     <h2 className="text-3xl font-bold text-[#014a74] mb-4">{contactInfo.officeTitle}</h2>
-                   )}
-                   {contactInfo?.officeDescription && (
-                     <p className="text-gray-600">{contactInfo.officeDescription}</p>
-                   )}
-                </motion.div>
-             )}
-
-             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="rounded-2xl overflow-hidden shadow-lg border-4 border-white bg-gray-100"
-            >
-               <div 
-                 className="w-full h-[400px] lg:h-[500px] [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0"
-                 dangerouslySetInnerHTML={{ __html: contactInfo.mapEmbedCode }}
-               />
-            </motion.div>
           </div>
-        )}
-      </div>
-    </section>
+        </div>
+      </section>
+
+      {/* ─── EXISTING CONTACT INFO & MAP (MOVED BELOW FORM) ─── */}
+      <section className="py-24 bg-white">
+        <div className="max-w-[92vw] mx-auto px-[2vw]">
+          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
+            
+            {/* Contact Details Sidebar */}
+            <div className="lg:col-span-1 space-y-8">
+              <div>
+                <h2 className="text-[clamp(2rem,3vw,3rem)] font-medium text-[#1a1a1a] mb-6 leading-tight">
+                  Reach Out<br/>To Us
+                </h2>
+                <p className="text-[#8c827a] mb-8 text-[15px] leading-relaxed">
+                  Have questions about our packaging solutions? Our team is ready to provide expert guidance and custom quotes.
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <a href="tel:+919087787879" className="flex items-center gap-6 p-6 md:p-8 rounded-2xl bg-stone-50 border border-stone-200 hover:shadow-xl hover:bg-white transition-all duration-300 group">
+                  <div className="w-14 h-14 shrink-0 rounded-full bg-white shadow-sm flex items-center justify-center text-[var(--brand-blue)] group-hover:bg-[var(--brand-blue)] group-hover:text-white transition-colors duration-300">
+                    <Phone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#1a1a1a] text-lg mb-1">Phone</h3>
+                    <p className="text-[#8c827a] font-medium">+91 90877 87875<br/>+91 90877 87876<br/>+91 90877 87879</p>
+                  </div>
+                </a>
+
+                <a href="mailto:sales@rayzorpack.com" className="flex items-center gap-6 p-6 md:p-8 rounded-2xl bg-stone-50 border border-stone-200 hover:shadow-xl hover:bg-white transition-all duration-300 group">
+                  <div className="w-14 h-14 shrink-0 rounded-full bg-white shadow-sm flex items-center justify-center text-[var(--brand-blue)] group-hover:bg-[var(--brand-blue)] group-hover:text-white transition-colors duration-300">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#1a1a1a] text-lg mb-1">Email</h3>
+                    <p className="text-[#8c827a] font-medium break-all">sales@rayzorpack.com</p>
+                  </div>
+                </a>
+
+                <div className="flex items-start gap-6 p-6 md:p-8 rounded-2xl bg-stone-50 border border-stone-200 hover:shadow-xl hover:bg-white transition-all duration-300 group">
+                  <div className="w-14 h-14 shrink-0 rounded-full bg-white shadow-sm flex items-center justify-center text-[var(--brand-blue)] group-hover:bg-[var(--brand-blue)] group-hover:text-white transition-colors duration-300">
+                    <MapPin className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-[#1a1a1a] text-lg mb-2">Head Office</h3>
+                    <p className="text-[#8c827a] text-[15px] font-medium leading-relaxed">
+                      No: 298 A1, M.M Nagar,<br />
+                      Thiruppalai, Madurai - 625014<br />
+                      Tamil Nadu, India
+                    </p>
+                    
+                    <h3 className="font-semibold text-[#1a1a1a] text-lg mt-6 mb-2">Factory</h3>
+                    <p className="text-[#8c827a] text-[15px] font-medium leading-relaxed">
+                      Automobile Co Operative Industrial Estate,<br />
+                      No:A9, Kappalur, Madurai-625008<br />
+                      Tamil Nadu, India
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Map Area */}
+            <div className="lg:col-span-2">
+              {contactInfo?.mapEmbedCode ? (
+                <div 
+                  className="w-full h-full min-h-[400px] lg:min-h-[600px] bg-stone-100 rounded-3xl overflow-hidden shadow-xl border border-stone-200/60 [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:border-0"
+                  dangerouslySetInnerHTML={{ __html: contactInfo.mapEmbedCode }}
+                />
+              ) : (
+                <div className="w-full h-full min-h-[400px] bg-stone-100 rounded-3xl border border-stone-200/60 flex items-center justify-center">
+                  <p className="text-gray-400 font-medium">Map not available</p>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </>
   )
 }

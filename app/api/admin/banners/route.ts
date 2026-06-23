@@ -161,11 +161,18 @@ export async function POST(request: NextRequest) {
       finalImages = mergedImages.filter(img => img !== "");
     }
 
-    if (!finalImageUrl && finalImages.length === 0) {
+    if (!finalImageUrl && finalImages.length === 0 && slides.length === 0) {
       return NextResponse.json(
-        { success: false, message: "Banner image is required" },
+        { success: false, message: "Banner image or slides data is required" },
         { status: 400 }
       );
+    }
+
+    // Parse slides data if provided (for home hero carousel)
+    const slidesJson = formData.get("slides") as string;
+    let slides: any[] = [];
+    if (slidesJson) {
+      try { slides = JSON.parse(slidesJson); } catch { slides = []; }
     }
 
     const payload: any = {
@@ -174,11 +181,15 @@ export async function POST(request: NextRequest) {
       image: finalImageUrl || (finalImages.length > 0 ? finalImages[0] : ""),
       status,
     };
-    
+
     if (finalImages.length > 0) {
       payload.images = finalImages;
     }
-    
+
+    if (slides.length > 0) {
+      payload.slides = slides;
+    }
+
     if (finalMobileImageUrl) payload.mobileImage = finalMobileImageUrl;
 
     // Upsert by pageKey (one banner per page)

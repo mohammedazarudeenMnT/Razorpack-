@@ -106,7 +106,7 @@ function AccordionItem({
         <div className="flex items-baseline gap-4 md:gap-10 flex-1 pr-4">
           <span
             className="font-mono text-sm md:text-base w-6 md:w-8 tabular-nums transition-colors duration-300"
-            style={{ color: isActive ? "#1689cf" : "#3f485080" }}
+            style={{ color: isActive ? "var(--brand-blue)" : "#3f485080" }}
           >
             {item.num}
           </span>
@@ -168,7 +168,7 @@ function AccordionItem({
             <BorderBeam
               size={150}
               duration={6}
-              colorFrom="#1689cf"
+              colorFrom="var(--brand-blue)"
               colorTo="#feb234"
             />
           </div>
@@ -211,7 +211,7 @@ export function MissionSection() {
       // Heading text: dark → white
       tl.fromTo(
         section.querySelector(".mission-title"),
-        { color: "#2D2D2D" },
+        { color: "var(--brand-dark)" },
         { color: "#ffffff", ease: "none" },
         0,
       );
@@ -344,12 +344,12 @@ export function MissionSection() {
         {/* ─── SECTION HEADER with WordRotate ─── */}
         <RevealOnScroll effect="fadeIn">
           <div className="mb-16 text-center">
-            <span className="text-sm font-bold text-[#44B8E8] uppercase tracking-widest flex items-center justify-center gap-2 mb-4">
-              <span className="w-8 h-0.5 bg-[#44B8E8]" /> Why Choose Us{" "}
-              <span className="w-8 h-0.5 bg-[#44B8E8]" />
+            <span className="text-sm font-bold text-[var(--brand-blue)] uppercase tracking-widest flex items-center justify-center gap-2 mb-4">
+              <span className="w-8 h-0.5 bg-[var(--brand-blue)]" /> Why Choose Us{" "}
+              <span className="w-8 h-0.5 bg-[var(--brand-blue)]" />
             </span>
-            <h2 className="mission-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-extrabold text-[#2D2D2D] tracking-tight max-w-3xl mx-auto">
-              Engineering & <span className="text-[#44B8E8]">Quality</span> Standards
+            <h2 className="mission-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-extrabold text-[var(--brand-dark)] tracking-tight max-w-3xl mx-auto">
+              Engineering & <span className="text-[var(--brand-blue)]">Quality</span> Standards
             </h2>
             <div className="mission-subtitle mt-4 flex items-center justify-center gap-2 text-lg md:text-xl text-steel">
               Built on{" "}

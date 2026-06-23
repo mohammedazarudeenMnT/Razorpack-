@@ -66,17 +66,12 @@ interface Service {
   image: string;
   gallery?: string[];
   features: string[];
-  serviceLocations?: Array<{ region: string; cities: string }>;
   technicalSpecs?: Array<{ label: string; value: string }>;
   applications?: string[];
-  warranty?: string;
-  estimatedDuration?: string;
-  priceRange?: string;
   slug: string;
   status: string;
   order: number;
   views?: number;
-  bookings?: number;
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;
@@ -117,12 +112,7 @@ export default function ServicesPage() {
     shortDescription: "",
     description: "",
     features: "",
-    serviceLocations: [] as Array<{ region: string; cities: string }>,
-    technicalSpecs: [] as Array<{ label: string; value: string }>,
     applications: [] as string[],
-    warranty: "",
-    estimatedDuration: "",
-    priceRange: "",
     image: "",
     gallery: [] as string[],
     status: "active",
@@ -190,12 +180,7 @@ export default function ServicesPage() {
       shortDescription: service.shortDescription || "",
       description: service.description,
       features: service.features.join(", "),
-      serviceLocations: service.serviceLocations || [],
-      technicalSpecs: service.technicalSpecs || [],
       applications: service.applications || [],
-      warranty: service.warranty || "",
-      estimatedDuration: service.estimatedDuration || "",
-      priceRange: service.priceRange || "",
       image: service.image,
       gallery: service.gallery || [],
       status: service.status,
@@ -260,12 +245,8 @@ export default function ServicesPage() {
             .filter((f) => f)
         )
       );
-      submitFormData.append("serviceLocations", JSON.stringify(formData.serviceLocations));
       submitFormData.append("technicalSpecs", JSON.stringify(formData.technicalSpecs));
       submitFormData.append("applications", JSON.stringify(formData.applications));
-      submitFormData.append("warranty", formData.warranty.trim());
-      submitFormData.append("estimatedDuration", formData.estimatedDuration.trim());
-      submitFormData.append("priceRange", formData.priceRange.trim());
       submitFormData.append("seoTitle", formData.seoTitle.trim());
       submitFormData.append("seoDescription", formData.seoDescription.trim());
       submitFormData.append("seoKeywords", formData.seoKeywords.trim());
@@ -373,12 +354,7 @@ export default function ServicesPage() {
       shortDescription: "",
       description: "",
       features: "",
-      serviceLocations: [],
-      technicalSpecs: [],
       applications: [],
-      warranty: "",
-      estimatedDuration: "",
-      priceRange: "",
       image: "",
       gallery: [],
       status: "active",
@@ -515,7 +491,7 @@ export default function ServicesPage() {
             isActive={currentPage === 1}
             className={`cursor-pointer ${
               currentPage === 1
-                ? "bg-[#014a74] text-white border-0 hover:bg-[#012d47]"
+                ? "bg-[#221E1F] text-white border-0 hover:bg-[#333]"
                 : ""
             }`}
           >
@@ -568,7 +544,7 @@ export default function ServicesPage() {
             isActive={currentPage === totalPages}
             className={`cursor-pointer ${
               currentPage === totalPages
-                ? "bg-[#014a74] text-white border-0 hover:bg-[#012d47]"
+                ? "bg-[#221E1F] text-white border-0 hover:bg-[#333]"
                 : ""
             }`}
           >
@@ -599,7 +575,7 @@ export default function ServicesPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#014a74] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#221E1F] mx-auto mb-4"></div>
           <p className="text-gray-600">Loading services...</p>
         </div>
       </div>
@@ -611,11 +587,11 @@ export default function ServicesPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-[#014a74]">
+          <h1 className="text-4xl font-bold text-[#221E1F]">
             Services Manager
           </h1>
           <p className="text-gray-600 mt-2">
-            Manage your facade construction services
+            Manage your industrial packaging services
           </p>
         </div>
         <Button
@@ -627,12 +603,7 @@ export default function ServicesPage() {
               shortDescription: "",
               description: "",
               features: "",
-              serviceLocations: [],
-              technicalSpecs: [],
               applications: [],
-              warranty: "",
-              estimatedDuration: "",
-              priceRange: "",
               image: "",
               gallery: [],
               status: "active",
@@ -647,7 +618,7 @@ export default function ServicesPage() {
             });
             setIsAddModalOpen(true);
           }}
-          className="bg-[#014a74] hover:bg-[#012d47] text-white"
+          className="bg-[#221E1F] hover:bg-[#333] text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add New Service
@@ -675,12 +646,7 @@ export default function ServicesPage() {
                 shortDescription: "",
                 description: "",
                 features: "",
-                serviceLocations: [],
-                technicalSpecs: [],
                 applications: [],
-                warranty: "",
-                estimatedDuration: "",
-                priceRange: "",
                 image: "",
                 gallery: [],
                 status: "active",
@@ -695,7 +661,7 @@ export default function ServicesPage() {
               });
               setIsAddModalOpen(true);
             }}
-            className="bg-[#014a74] hover:bg-[#012d47] text-white"
+            className="bg-[#221E1F] hover:bg-[#333] text-white"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add New Service
@@ -747,7 +713,7 @@ export default function ServicesPage() {
                   <div className="flex-1 flex justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-2xl font-semibold text-[#014a74]">
+                        <h3 className="text-2xl font-semibold text-[#221E1F]">
                           {service.serviceName}
                         </h3>
                         <Badge
@@ -772,10 +738,6 @@ export default function ServicesPage() {
                           <Eye className="h-4 w-4" />
                           <span>{service.views || 0} views</span>
                         </div>
-                        {/* <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          <span>{service.bookings || 0} bookings</span>
-                        </div> */}
                       </div>
 
                       {service.features && service.features.length > 0 && (
@@ -856,7 +818,7 @@ export default function ServicesPage() {
       >
         <DialogContent className="!max-w-6xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl text-[#014a74]">
+            <DialogTitle className="text-2xl text-[#221E1F]">
               {editingId ? "Edit Service" : "Add New Service"}
             </DialogTitle>
           </DialogHeader>
@@ -864,7 +826,7 @@ export default function ServicesPage() {
           <div className="space-y-6">
             {/* Basic Information */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">
+              <h3 className="text-lg font-semibold text-[#221E1F]">
                 Basic Information
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
@@ -875,7 +837,7 @@ export default function ServicesPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, serviceName: e.target.value })
                     }
-                    placeholder="e.g., ACP Cladding, Structural Glazing"
+                    placeholder="e.g., VCI Film Rolls, Export Palletization"
                     className="mt-2"
                   />
                 </div>
@@ -886,7 +848,7 @@ export default function ServicesPage() {
                     onChange={(e) =>
                       setFormData({ ...formData, category: e.target.value })
                     }
-                    placeholder="e.g., Glass Works, Cladding Works"
+                    placeholder="e.g., Industrial Packaging, VCI Protection"
                     className="mt-2"
                   />
                 </div>
@@ -901,17 +863,6 @@ export default function ServicesPage() {
                         order: Number.parseInt(e.target.value) || 0,
                       })
                     }
-                    className="mt-2"
-                  />
-                </div>
-                <div>
-                  <Label>Price Range</Label>
-                  <Input
-                    value={formData.priceRange}
-                    onChange={(e) =>
-                      setFormData({ ...formData, priceRange: e.target.value })
-                    }
-                    placeholder="e.g., Starting from ₹500/sq.ft or Get Quote"
                     className="mt-2"
                   />
                 </div>
@@ -953,39 +904,14 @@ export default function ServicesPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, features: e.target.value })
                   }
-                  placeholder="e.g., Weather Resistant, Fire Rated, Durable Finish"
+                  placeholder="e.g., Rust Protection, Moisture Barrier, High Tensile Strength"
                   rows={3}
                   className="mt-2"
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <Label>Warranty</Label>
-                  <Input
-                    value={formData.warranty}
-                    onChange={(e) =>
-                      setFormData({ ...formData, warranty: e.target.value })
-                    }
-                    placeholder="e.g., 10 Years Manufacturer Warranty"
-                    className="mt-2"
-                  />
-                </div>
-                <div>
-                  <Label>Estimated Duration</Label>
-                  <Input
-                    value={formData.estimatedDuration}
-                    onChange={(e) =>
-                      setFormData({ ...formData, estimatedDuration: e.target.value })
-                    }
-                    placeholder="e.g., 2-4 weeks"
-                    className="mt-2"
-                  />
-                </div>
-              </div>
-
               <div>
-                <Label>Applications (comma-separated)</Label>
+                <Label>Applications & Sectors (comma-separated)</Label>
                 <Input
                   value={formData.applications?.join(", ") || ""}
                   onChange={(e) =>
@@ -994,100 +920,16 @@ export default function ServicesPage() {
                       applications: e.target.value.split(",").map((a) => a.trim()).filter((a) => a),
                     })
                   }
-                  placeholder="e.g., Commercial Buildings, Residential, Industrial, Offices"
+                  placeholder="e.g., Automotive, Electronics, Heavy Machinery, Aerospace"
                   className="mt-2"
                 />
               </div>
             </div>
 
-            {/* Service Coverage Areas */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-[#014a74]">
-                  Service Coverage Areas
-                </h3>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    setFormData({
-                      ...formData,
-                      serviceLocations: [
-                        ...(formData.serviceLocations || []),
-                        { region: "", cities: "" },
-                      ],
-                    });
-                  }}
-                  variant="outline"
-                  size="sm"
-                >
-                  <Plus className="h-4 w-4 mr-1" />
-                  Add Region
-                </Button>
-              </div>
-              {(formData.serviceLocations?.length || 0) === 0 ? (
-                <p className="text-sm text-gray-500">
-                  No coverage areas added. Click "Add Region" to add service locations.
-                </p>
-              ) : (
-                <div className="space-y-3">
-                  {formData.serviceLocations?.map((location, index) => (
-                    <div key={index} className="border rounded-lg p-4 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Label className="text-sm font-semibold">Region {index + 1}</Label>
-                        <Button
-                          type="button"
-                          onClick={() => {
-                            setFormData({
-                              ...formData,
-                              serviceLocations: (formData.serviceLocations || []).filter(
-                                (_, i) => i !== index
-                              ),
-                            });
-                          }}
-                          variant="ghost"
-                          size="sm"
-                          className="text-red-600 hover:text-red-700"
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </div>
-                      <div>
-                        <Label className="text-sm">Region Name</Label>
-                        <Input
-                          value={location.region || ""}
-                          onChange={(e) => {
-                            const newLocations = [...(formData.serviceLocations || [])];
-                            newLocations[index].region = e.target.value;
-                            setFormData({ ...formData, serviceLocations: newLocations });
-                          }}
-                          placeholder="e.g., Chennai and Nearby Areas"
-                          className="mt-1"
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-sm">Cities (comma-separated)</Label>
-                        <Textarea
-                          value={location.cities || ""}
-                          onChange={(e) => {
-                            const newLocations = [...(formData.serviceLocations || [])];
-                            newLocations[index].cities = e.target.value;
-                            setFormData({ ...formData, serviceLocations: newLocations });
-                          }}
-                          placeholder="e.g., Chennai, Tambaram, Madurai, Dindigul, Coimbatore..."
-                          rows={2}
-                          className="mt-1"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
             {/* Technical Specifications */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-[#014a74]">
+                <h3 className="text-lg font-semibold text-[#221E1F]">
                   Technical Specifications
                 </h3>
                 <Button
@@ -1123,7 +965,7 @@ export default function ServicesPage() {
                           newSpecs[index].label = e.target.value;
                           setFormData({ ...formData, technicalSpecs: newSpecs });
                         }}
-                        placeholder="Label (e.g., Material)"
+                        placeholder="Label (e.g., Thickness)"
                         className="flex-1"
                       />
                       <Input
@@ -1133,7 +975,7 @@ export default function ServicesPage() {
                           newSpecs[index].value = e.target.value;
                           setFormData({ ...formData, technicalSpecs: newSpecs });
                         }}
-                        placeholder="Value (e.g., Aluminium Composite)"
+                        placeholder="Value (e.g., 50 - 200 µ)"
                         className="flex-1"
                       />
                       <Button
@@ -1160,7 +1002,7 @@ export default function ServicesPage() {
 
             {/* Image */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">Image</h3>
+              <h3 className="text-lg font-semibold text-[#221E1F]">Image</h3>
               <div>
                 <Label>Service Image *</Label>
                 <div className="mt-2 border-2 border-dashed rounded-lg p-4">
@@ -1193,7 +1035,7 @@ export default function ServicesPage() {
 
             {/* Gallery Images */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">
+              <h3 className="text-lg font-semibold text-[#221E1F]">
                 Gallery Images (Optional)
               </h3>
               <div>
@@ -1243,7 +1085,7 @@ export default function ServicesPage() {
 
             {/* Settings */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">Settings</h3>
+              <h3 className="text-lg font-semibold text-[#221E1F]">Settings</h3>
               <div>
                 <Label>Status</Label>
                 <Select
@@ -1265,7 +1107,7 @@ export default function ServicesPage() {
 
             {/* SEO */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">
+              <h3 className="text-lg font-semibold text-[#221E1F]">
                 SEO (Optional)
               </h3>
               <div>
@@ -1275,7 +1117,7 @@ export default function ServicesPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, seoTitle: e.target.value })
                   }
-                  placeholder="e.g., ACP Cladding Services | Blufacade"
+                  placeholder="e.g., VCI Film Rolls | Rayzorpack"
                   maxLength={200}
                   className="mt-2"
                 />
@@ -1303,7 +1145,7 @@ export default function ServicesPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, seoKeywords: e.target.value })
                   }
-                  placeholder="e.g., ACP cladding, facade construction, aluminium panels"
+                  placeholder="e.g., VCI films, industrial packaging, rust prevention"
                   className="mt-2"
                 />
               </div>
@@ -1318,7 +1160,7 @@ export default function ServicesPage() {
               <Button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="bg-[#014a74] hover:bg-[#012d47] text-white"
+                className="bg-[#221E1F] hover:bg-[#333] text-white"
               >
                 {isSaving ? (
                   <>

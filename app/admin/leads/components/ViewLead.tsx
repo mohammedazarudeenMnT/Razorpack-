@@ -55,7 +55,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
       case "new": return "bg-blue-100 text-blue-700"
       case "contacted": return "bg-orange-100 text-orange-700"
       case "consulting": return "bg-purple-100 text-purple-700"
-      case "confirmed": return "bg-[#014a74]/10 text-[#014a74]"
+      case "confirmed": return "bg-[#221E1F]/10 text-[#221E1F]"
       case "completed": return "bg-green-100 text-green-700"
       case "cancelled": return "bg-red-100 text-red-700"
       default: return "bg-gray-100 text-gray-700"
@@ -65,7 +65,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "high": return "bg-red-100 text-red-700"
-      case "medium": return "bg-[#f58420]/10 text-[#f58420]"
+      case "medium": return "bg-[#26A8E0]/10 text-[#26A8E0]"
       case "low": return "bg-green-100 text-green-700"
       default: return "bg-gray-100 text-gray-700"
     }
@@ -104,7 +104,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
         </DialogHeader>
         
         {/* Header */}
-        <div className="bg-[#014a74] p-6 text-white">
+        <div className="bg-[#221E1F] p-6 text-white">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center">
@@ -152,14 +152,14 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
             {/* Contact Details */}
             <div className="space-y-4">
               <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                <User className="h-4 w-4 text-[#f58420]" />
+                <User className="h-4 w-4 text-[#26A8E0]" />
                 Contact Information
               </h3>
               <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs text-gray-500">Full Name</p>
-                    <p className="font-semibold text-[#014a74]">{lead.firstName} {lead.lastName}</p>
+                    <p className="font-semibold text-[#221E1F]">{lead.firstName} {lead.lastName}</p>
                   </div>
                   <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => copyToClipboard(`${lead.firstName} ${lead.lastName}`)}>
                     <Copy className="h-4 w-4 text-gray-400" />
@@ -169,7 +169,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-xs text-gray-500">Email Address</p>
-                    <p className="font-medium text-[#014a74]">{lead.email}</p>
+                    <p className="font-medium text-[#221E1F]">{lead.email}</p>
                   </div>
                   <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => copyToClipboard(lead.email)}>
                     <Copy className="h-4 w-4 text-gray-400" />
@@ -181,7 +181,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-xs text-gray-500">Phone Number</p>
-                        <p className="font-medium text-[#014a74]">{lead.phone}</p>
+                        <p className="font-medium text-[#221E1F]">{lead.phone}</p>
                       </div>
                       <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => copyToClipboard(lead.phone)}>
                         <Copy className="h-4 w-4 text-gray-400" />
@@ -195,13 +195,13 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
             {/* Service & Pricing */}
             <div className="space-y-4">
               <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                <Briefcase className="h-4 w-4 text-[#f58420]" />
+                <Briefcase className="h-4 w-4 text-[#26A8E0]" />
                 Service Details
               </h3>
               <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                 <div>
                   <p className="text-xs text-gray-500">Service Requested</p>
-                  <p className="font-semibold text-[#014a74]">{lead.subject}</p>
+                  <p className="font-semibold text-[#221E1F]">{lead.subject}</p>
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
@@ -210,7 +210,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
                       <DollarSign className="h-3 w-3" />
                       Estimated Cost
                     </p>
-                    <p className="font-bold text-lg text-[#f58420]">
+                    <p className="font-bold text-lg text-[#26A8E0]">
                       {lead.estimatedCost || "To be determined"}
                     </p>
                   </div>
@@ -222,7 +222,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
           {/* Customer Message */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 text-[#f58420]" />
+              <MessageSquare className="h-4 w-4 text-[#26A8E0]" />
               Customer Message
             </h3>
             <div className="bg-gray-50 rounded-lg p-4">
@@ -236,7 +236,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
           {lead.notes && (
             <div className="space-y-4">
               <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                <FileText className="h-4 w-4 text-[#f58420]" />
+                <FileText className="h-4 w-4 text-[#26A8E0]" />
                 Internal Notes
               </h3>
               <div className="bg-amber-50 border border-amber-100 rounded-lg p-4">
@@ -251,7 +251,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
           {lead.status === "completed" && lead.reviewLink && (
             <div className="space-y-4">
               <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-                <Star className="h-4 w-4 text-[#f58420]" />
+                <Star className="h-4 w-4 text-[#26A8E0]" />
                 Review Link
               </h3>
               <div className="bg-green-50 border border-green-100 rounded-lg p-4 flex items-center justify-between">
@@ -270,21 +270,21 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
                 <Calendar className="h-3.5 w-3.5" />
                 Submitted On
               </div>
-              <p className="font-medium text-[#014a74]">{formatDate(lead.submittedAt)}</p>
+              <p className="font-medium text-[#221E1F]">{formatDate(lead.submittedAt)}</p>
             </div>
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex items-center gap-2 text-gray-500 text-xs mb-1">
                 <Clock className="h-3.5 w-3.5" />
                 Last Updated
               </div>
-              <p className="font-medium text-[#014a74]">{formatDate(lead.lastUpdated)}</p>
+              <p className="font-medium text-[#221E1F]">{formatDate(lead.lastUpdated)}</p>
             </div>
           </div>
 
           {/* Quick Actions */}
           <div className="space-y-4">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-              <Activity className="h-4 w-4 text-[#f58420]" />
+              <Activity className="h-4 w-4 text-[#26A8E0]" />
               Quick Actions
             </h3>
             <div className="flex flex-wrap gap-3">
@@ -300,7 +300,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
                   <Button
                     onClick={() => window.open(`tel:${lead.phone}`)}
                     variant="outline"
-                    className="border-[#014a74] text-[#014a74] hover:bg-[#014a74] hover:text-white"
+                    className="border-[#221E1F] text-[#221E1F] hover:bg-[#221E1F] hover:text-white"
                   >
                     <Phone className="h-4 w-4 mr-2" />
                     Call
@@ -320,7 +320,7 @@ export default function ViewLead({ lead, isOpen, onClose }: ViewLeadProps) {
                     const reviewMessage = `Hi ${lead.firstName}, thank you for choosing Blufacade! We hope you had a great experience with our ${lead.subject} service.\n\nPlease take a moment to share your feedback: ${lead.reviewLink}\n\nYour feedback helps us serve you better! 🙏`;
                     window.open(`https://wa.me/${lead.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(reviewMessage)}`);
                   }}
-                  className="bg-[#f58420] hover:bg-[#e67a1c] text-white"
+                  className="bg-[#26A8E0] hover:bg-[#e67a1c] text-white"
                 >
                   <Star className="h-4 w-4 mr-2" />
                   Share Review Link

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <DemoWrapper>
-      <Preloader />
+      {/* <Preloader /> */}
       <main className="relative w-full overflow-x-hidden">
         <Header />
         {/* No top padding — hero goes under the navbar so transparent logo area shows hero behind it */}

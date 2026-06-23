@@ -13,23 +13,31 @@ export function Footer() {
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
-    // True Stationary Parallax Reveal Effect
-    // By starting at yPercent: -100 and ending at 0, the content moves DOWN 
-    // exactly as fast as the container scrolls UP. This creates the illusion 
-    // that the black footer is permanently fixed to the viewport behind the white footer!
-    gsap.fromTo(".parallax-content",
-      { yPercent: -100 }, 
-      {
-        yPercent: 0, 
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".parallax-container",
-          start: "top bottom", 
-          end: "bottom bottom", 
-          scrub: true,
+    const section = containerRef.current;
+    if (!section) return;
+
+    const pContainer = section.querySelector(".parallax-container");
+    const pContent = section.querySelector(".parallax-content");
+    if (!pContainer || !pContent) return;
+
+    // Delay to let sticky sections calculate first
+    setTimeout(() => {
+      gsap.fromTo(pContent,
+        { yPercent: -100 },
+        {
+          yPercent: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: pContainer,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: true,
+            invalidateOnRefresh: true,
+          }
         }
-      }
-    );
+      );
+      ScrollTrigger.refresh();
+    }, 300);
   }, { scope: containerRef });
 
   const scrollToTop = () => {
@@ -53,7 +61,7 @@ export function Footer() {
               </h3>
               <Link 
                 href="/contact" 
-                className="inline-block text-[#1b1c19] text-5xl md:text-6xl lg:text-[5rem] font-bold tracking-tighter underline decoration-[3px] md:decoration-[5px] underline-offset-[8px] md:underline-offset-[16px] hover:text-[#1689cf] transition-colors"
+                className="inline-block text-[#1b1c19] text-5xl md:text-6xl lg:text-[5rem] font-bold tracking-tighter underline decoration-[3px] md:decoration-[5px] underline-offset-[8px] md:underline-offset-[16px] hover:text-[var(--brand-blue)] transition-colors"
               >
                 Contact us
               </Link>
@@ -61,36 +69,36 @@ export function Footer() {
 
             {/* Middle Column: Links */}
             <div className="md:col-span-3 lg:col-span-3 flex flex-col gap-3 lg:gap-4 md:pl-10">
-              <Link href="/" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[#1689cf] transition-colors">Home</Link>
-              <Link href="/about" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[#1689cf] transition-colors">About Us</Link>
-              <Link href="/products" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[#1689cf] transition-colors">Products</Link>
-              <Link href="/services" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[#1689cf] transition-colors">Services</Link>
-              <Link href="/gallery" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[#1689cf] transition-colors">Gallery</Link>
+              <Link href="/" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[var(--brand-blue)] transition-colors">Home</Link>
+              <Link href="/about" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[var(--brand-blue)] transition-colors">About Us</Link>
+              <Link href="/products" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[var(--brand-blue)] transition-colors">Products</Link>
+              <Link href="/services" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[var(--brand-blue)] transition-colors">Services</Link>
+              <Link href="/gallery" className="text-[#1b1c19] text-base md:text-lg font-medium hover:text-[var(--brand-blue)] transition-colors">Gallery</Link>
             </div>
 
             {/* Right Column: Contact Info */}
             <div className="md:col-span-3 lg:col-span-4 flex flex-col gap-5 lg:gap-6">
               
               <div className="flex gap-4">
-                <span className="font-bold text-[#1b1c19] w-4">L</span>
+                <span className="font-bold text-[#1b1c19] w-4 mt-0.5">L</span>
                 <p className="text-[#1b1c19] font-medium text-sm md:text-base leading-snug">
-                  59 Garden Street<br/>
-                  Madurai, Tamil Nadu<br/>
-                  India 625001
+                  No: 298 A1, M.M Nagar,<br/>
+                  Thiruppalai, Madurai - 625014<br/>
+                  Tamil Nadu, India
                 </p>
               </div>
 
               <div className="flex gap-4 items-center">
                 <span className="font-bold text-[#1b1c19] w-4">P</span>
-                <a href="tel:+919876543210" className="text-[#1b1c19] font-medium text-sm md:text-base hover:text-[#1689cf] transition-colors">
-                  +91 98765 43210
+                <a href="tel:+919087787879" className="text-[#1b1c19] font-medium text-sm md:text-base hover:text-[var(--brand-blue)] transition-colors">
+                  +91 90877 87879
                 </a>
               </div>
 
               <div className="flex gap-4 items-center">
                 <span className="font-bold text-[#1b1c19] w-4">E</span>
-                <a href="mailto:info@rayzorpack.com" className="text-[#1b1c19] font-medium text-sm md:text-base hover:text-[#1689cf] transition-colors">
-                  info@rayzorpack.com
+                <a href="mailto:sales@rayzorpack.com" className="text-[#1b1c19] font-medium text-sm md:text-base hover:text-[var(--brand-blue)] transition-colors">
+                  sales@rayzorpack.com
                 </a>
               </div>
 
@@ -149,7 +157,7 @@ export function Footer() {
              {/* Massive Typography matching Logo Colors */}
              <h1 className="text-[15vw] lg:text-[16vw] font-black tracking-tighter leading-none w-full text-center opacity-95 mb-1" style={{ transform: "scaleY(1.2)" }}>
                <span className="text-white">RAYZOR</span>
-               <span className="text-[#1689cf]">PACK</span>
+               <span className="text-[var(--brand-blue)]">PACK</span>
              </h1>
 
           {/* Very Bottom Copyright Links */}

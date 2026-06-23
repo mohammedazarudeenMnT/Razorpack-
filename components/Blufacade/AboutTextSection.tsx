@@ -11,7 +11,7 @@ export function AboutTextSection() {
         className="absolute inset-0 opacity-5 pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(to right, #1689cf 1px, transparent 1px), linear-gradient(to bottom, #1689cf 1px, transparent 1px)",
+            "linear-gradient(to right, var(--brand-blue) 1px, transparent 1px), linear-gradient(to bottom, var(--brand-blue) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       />

@@ -19,7 +19,6 @@ interface ServiceData {
   slug: string;
   status?: string;
   views?: number;
-  bookings?: number;
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;

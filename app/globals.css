@@ -9,16 +9,16 @@
   --font-mono: var(--font-ibm-plex-mono), "IBM Plex Mono", monospace;
 
   /* DESIGN.md brand utilities (bg-brand, text-ink, border-line, ...) */
-  --color-brand: #1689cf;
-  --color-brand-deep: #006196;
-  --color-brand-mid: #007abc;
+  --color-brand: var(--brand-blue);
+  --color-brand-deep: #1a8abf;
+  --color-brand-mid: #20a0d5;
   --color-amber: #feb234;
   --color-amber-ink: #6d4700;
   --color-amber-deep: #815500;
-  --color-surface: #fbf9f4;
+  --color-surface: #fff;
   --color-surface-dim: #eae8e3;
   --color-surface-container: #efede8;
-  --color-ink: #1b1c19;
+  --color-ink: var(--brand-dark);
   --color-steel: #3f4850;
   --color-line: #bfc7d2;
   --color-inverse: #30312e;
@@ -101,6 +101,11 @@
 }
 
 :root {
+  /* ─── Rayzorpack Brand Colors ─── */
+  --brand-blue: #26A8E0;
+  --brand-dark: #221E1F;
+  --brand-white: #FFFFFF;
+
   /* ─── transitions.dev tokens ─── */
   --stagger-dur: 500ms;
   --stagger-distance: 12px;
@@ -135,13 +140,13 @@
   --text-swap-ease: ease-in-out;
 
   /* Rayzorpack Palette from DESIGN.md */
-  --background: #fbf9f4;
+  --background: #fff;
   --foreground: #1b1c19;
 
-  --card: #f5f3ee;
+  --card: #ffffff;
   --card-foreground: #1b1c19;
 
-  --popover: #f5f3ee;
+  --popover: #ffffff;
   --popover-foreground: #1b1c19;
 
   /* Primary */
@@ -157,8 +162,8 @@
   --muted-foreground: #3f4850;
 
   /* Accent */
-  --accent: #feb234;
-  --accent-foreground: #6d4700;
+  --accent: #EBF7FC;
+  --accent-foreground: #221E1F;
 
   /* Destructive */
   --destructive: #BA1A1A;
@@ -173,7 +178,7 @@
   /* Custom brand colors - Rayzorpack */
   --rp-primary: #006196;
   --rp-secondary: #feb234;
-  --rp-light: #fbf9f4;
+  --rp-light: #fff;
   --rp-dark: #1b1c19;
   --rp-text: #1b1c19;
   --rp-muted: #3f4850;
@@ -323,7 +328,7 @@ html {
 }
 
 .bg-light-blueprint {
-  background-color: #fbf9f4;
+  background-color: #fff;
   background-image: url('/images/rayzor/backgrounds/light_blueprint.png');
   background-size: cover;
   background-position: center;
@@ -334,7 +339,7 @@ html {
 
 
 .bg-mesh-light {
-  background-color: #fbf9f4;
+  background-color: #fff;
   background-image:
     radial-gradient(at 0% 0%, hsla(202,100%,70%,0.15) 0px, transparent 50%),
     radial-gradient(at 100% 0%, hsla(38,99%,60%,0.1) 0px, transparent 50%),

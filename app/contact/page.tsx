@@ -1,30 +1,21 @@
 import { Metadata } from "next"
 import { Header } from "@/components/Blufacade/Header"
 import { Footer } from "@/components/Blufacade/Footer"
-// import { FloatingContact } from "@/components/Blufacade/FloatingContact"
-import { DynamicPageBanner } from "@/components/DynamicPageBanner"
+import { ContactHero } from "@/components/Blufacade/pages/ContactHero"
 import { ContactContent } from "@/components/Blufacade/pages/ContactContent"
 
 export const metadata: Metadata = {
-  title: "Contact Us | Blufacade - Get in Touch",
-  description: "Contact Blufacade for your facade project inquiries. Visit our office in Chennai or reach out to our branches in Madurai and Dindigul.",
+  title: "Contact Us | Rayzorpack - Get In Touch",
+  description: "Contact Rayzorpack for packaging consultations, bulk enquiries, or custom solutions. Visit our facility in Madurai, Tamil Nadu.",
 }
 
 export default function ContactPage() {
   return (
     <main className="min-h-screen">
       <Header />
-      <DynamicPageBanner
-        pageKey="contact"
-        title="Contact Us"
-        breadcrumb={[
-          { label: "Home", href: "/" },
-          { label: "Contact Us", href: "/contact" },
-        ]}
-      />
+      <ContactHero />
       <ContactContent />
       <Footer />
-      {/* <FloatingContact /> */}
     </main>
   )
 }

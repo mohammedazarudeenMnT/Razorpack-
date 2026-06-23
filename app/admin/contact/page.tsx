@@ -145,7 +145,7 @@ export default function ContactPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#014a74] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#221E1F] mx-auto mb-4"></div>
           <p className="text-gray-600">Loading contact information...</p>
         </div>
       </div>
@@ -157,7 +157,7 @@ export default function ContactPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-[#014a74]">Contact Manager</h1>
+          <h1 className="text-4xl font-bold text-[#221E1F]">Contact Manager</h1>
           <p className="text-gray-600 mt-2">
             Manage contact details, phone numbers, WhatsApp, emails, address,
             social media links, and Google Map location
@@ -166,7 +166,7 @@ export default function ContactPage() {
         <Button
           onClick={handleSave}
           disabled={isSaving}
-          className="bg-[#014a74] hover:bg-[#012d47] text-white"
+          className="bg-[#221E1F] hover:bg-[#333] text-white"
         >
           {isSaving ? (
             <>
@@ -184,9 +184,9 @@ export default function ContactPage() {
 
       {/* Basic Contact Information */}
       <Card className="shadow-lg border-0">
-        <CardHeader className="bg-gradient-to-r from-[#014a74]/10 to-[#f58420]/10 p-6">
-          <CardTitle className="flex items-center text-[#014a74] gap-2">
-            <Phone className="h-5 w-5 text-[#f58420]" />
+        <CardHeader className="bg-gradient-to-r from-[#221E1F]/10 to-[#26A8E0]/10 p-6">
+          <CardTitle className="flex items-center text-[#221E1F] gap-2">
+            <Phone className="h-5 w-5 text-[#26A8E0]" />
             Basic Contact Information
           </CardTitle>
         </CardHeader>
@@ -260,7 +260,7 @@ export default function ContactPage() {
 
           {/* Business Information */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-[#014a74]">
+            <h3 className="text-lg font-semibold text-[#221E1F]">
               Business Information
             </h3>
             <div>
@@ -284,7 +284,7 @@ export default function ContactPage() {
 
           {/* Address Information */}
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-[#014a74]">
+            <h3 className="text-lg font-semibold text-[#221E1F]">
               Address Information
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
@@ -356,9 +356,9 @@ export default function ContactPage() {
 
         {/* Social Media Links */}
         <Card className="shadow-lg border-0 rounded-none">
-          <CardHeader className="bg-gradient-to-r from-[#f58420]/10 to-[#014a74]/10 p-6">
-            <CardTitle className="flex items-center gap-2 text-[#014a74]">
-              <Globe className="h-5 w-5 text-[#f58420]" />
+          <CardHeader className="bg-gradient-to-r from-[#26A8E0]/10 to-[#221E1F]/10 p-6">
+            <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+              <Globe className="h-5 w-5 text-[#26A8E0]" />
               Social Media Links
             </CardTitle>
           </CardHeader>
@@ -492,9 +492,9 @@ export default function ContactPage() {
 
         {/* Google Maps Integration */}
         <Card className="shadow-lg border-0 rounded-none">
-          <CardHeader className="bg-gradient-to-r from-[#014a74]/10 to-[#f58420]/10 p-6">
-            <CardTitle className="flex items-center gap-2 text-[#014a74]">
-              <MapPin className="h-5 w-5 text-[#f58420]" />
+          <CardHeader className="bg-gradient-to-r from-[#221E1F]/10 to-[#26A8E0]/10 p-6">
+            <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+              <MapPin className="h-5 w-5 text-[#26A8E0]" />
               Google Maps Integration
             </CardTitle>
           </CardHeader>
@@ -555,9 +555,9 @@ export default function ContactPage() {
 
         {/* Contact Page Content */}
         <Card className="shadow-lg border-0 rounded-none">
-          <CardHeader className="bg-gradient-to-r from-[#f58420]/10 to-[#014a74]/10 p-6">
-            <CardTitle className="flex items-center gap-2 text-[#014a74]">
-              <Mail className="h-5 w-5 text-[#f58420]" />
+          <CardHeader className="bg-gradient-to-r from-[#26A8E0]/10 to-[#221E1F]/10 p-6">
+            <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+              <Mail className="h-5 w-5 text-[#26A8E0]" />
               Contact Page Content
             </CardTitle>
           </CardHeader>

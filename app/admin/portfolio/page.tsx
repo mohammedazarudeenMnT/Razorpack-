@@ -499,7 +499,7 @@ export default function PortfolioPage() {
               isActive={currentPage === i}
               className={`cursor-pointer ${
                 currentPage === i
-                  ? "bg-[#014a74] text-white border-0 hover:bg-[#012d47]"
+                  ? "bg-[#221E1F] text-white border-0 hover:bg-[#333]"
                   : ""
               }`}
             >
@@ -517,7 +517,7 @@ export default function PortfolioPage() {
             isActive={currentPage === 1}
             className={`cursor-pointer ${
               currentPage === 1
-                ? "bg-[#014a74] text-white border-0 hover:bg-[#012d47]"
+                ? "bg-[#221E1F] text-white border-0 hover:bg-[#333]"
                 : ""
             }`}
           >
@@ -545,7 +545,7 @@ export default function PortfolioPage() {
               isActive={currentPage === i}
               className={`cursor-pointer ${
                 currentPage === i
-                  ? "bg-[#014a74] text-white border-0 hover:bg-[#012d47]"
+                  ? "bg-[#221E1F] text-white border-0 hover:bg-[#333]"
                   : ""
               }`}
             >
@@ -570,7 +570,7 @@ export default function PortfolioPage() {
             isActive={currentPage === totalPages}
             className={`cursor-pointer ${
               currentPage === totalPages
-                ? "bg-[#014a74] text-white border-0 hover:bg-[#012d47]"
+                ? "bg-[#221E1F] text-white border-0 hover:bg-[#333]"
                 : ""
             }`}
           >
@@ -601,7 +601,7 @@ export default function PortfolioPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#014a74] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#221E1F] mx-auto mb-4"></div>
           <p className="text-gray-600">Loading portfolio projects...</p>
         </div>
       </div>
@@ -613,7 +613,7 @@ export default function PortfolioPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-[#014a74]">
+          <h1 className="text-4xl font-bold text-[#221E1F]">
             Portfolio Manager
           </h1>
           <p className="text-gray-600 mt-2">
@@ -650,7 +650,7 @@ export default function PortfolioPage() {
             });
             setIsAddModalOpen(true);
           }}
-          className="bg-[#014a74] hover:bg-[#012d47] text-white"
+          className="bg-[#221E1F] hover:bg-[#333] text-white"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add New Project
@@ -699,7 +699,7 @@ export default function PortfolioPage() {
               });
               setIsAddModalOpen(true);
             }}
-            className="bg-[#014a74] hover:bg-[#012d47] text-white"
+            className="bg-[#221E1F] hover:bg-[#333] text-white"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add New Project
@@ -751,7 +751,7 @@ export default function PortfolioPage() {
                   <div className="flex-1 flex justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-2xl font-semibold text-[#014a74]">
+                        <h3 className="text-2xl font-semibold text-[#221E1F]">
                           {portfolio.projectName}
                         </h3>
                         <Badge
@@ -764,7 +764,7 @@ export default function PortfolioPage() {
                           {portfolio.status}
                         </Badge>
                         {portfolio.category && (
-                          <Badge variant="outline" className="text-[#f58420] border-[#f58420]">
+                          <Badge variant="outline" className="text-[#26A8E0] border-[#26A8E0]">
                             {portfolio.category}
                           </Badge>
                         )}
@@ -884,7 +884,7 @@ export default function PortfolioPage() {
       >
         <DialogContent className="!max-w-6xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl text-[#014a74]">
+            <DialogTitle className="text-2xl text-[#221E1F]">
               {editingId ? "Edit Portfolio Project" : "Add New Portfolio Project"}
             </DialogTitle>
           </DialogHeader>
@@ -892,7 +892,7 @@ export default function PortfolioPage() {
           <div className="space-y-6">
             {/* Basic Information */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">
+              <h3 className="text-lg font-semibold text-[#221E1F]">
                 Basic Information
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
@@ -1035,7 +1035,7 @@ export default function PortfolioPage() {
 
             {/* Project Details */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">
+              <h3 className="text-lg font-semibold text-[#221E1F]">
                 Project Details
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
@@ -1088,7 +1088,7 @@ export default function PortfolioPage() {
 
             {/* Image */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">Image</h3>
+              <h3 className="text-lg font-semibold text-[#221E1F]">Image</h3>
               <div>
                 <Label>Project Image *</Label>
                 <div className="mt-2 border-2 border-dashed rounded-lg p-4">
@@ -1121,7 +1121,7 @@ export default function PortfolioPage() {
 
             {/* Gallery Images */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">
+              <h3 className="text-lg font-semibold text-[#221E1F]">
                 Gallery Images (Optional)
               </h3>
               <div>
@@ -1171,7 +1171,7 @@ export default function PortfolioPage() {
 
             {/* Settings */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">Settings</h3>
+              <h3 className="text-lg font-semibold text-[#221E1F]">Settings</h3>
               <div>
                 <Label>Status</Label>
                 <Select
@@ -1193,7 +1193,7 @@ export default function PortfolioPage() {
 
             {/* SEO */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">
+              <h3 className="text-lg font-semibold text-[#221E1F]">
                 SEO (Optional)
               </h3>
               <div>
@@ -1246,7 +1246,7 @@ export default function PortfolioPage() {
               <Button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="bg-[#014a74] hover:bg-[#012d47] text-white"
+                className="bg-[#221E1F] hover:bg-[#333] text-white"
               >
                 {isSaving ? (
                   <>

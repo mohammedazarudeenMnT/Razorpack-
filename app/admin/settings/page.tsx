@@ -155,7 +155,7 @@ export default function SettingsPage() {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#014a74] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#221E1F] mx-auto mb-4"></div>
           <p className="text-gray-600">Loading settings...</p>
         </div>
       </div>
@@ -167,8 +167,8 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-[#014a74] flex items-center gap-3">
-            <SettingsIcon className="h-8 w-8 text-[#f58420]" />
+          <h1 className="text-4xl font-bold text-[#221E1F] flex items-center gap-3">
+            <SettingsIcon className="h-8 w-8 text-[#26A8E0]" />
             Site Settings
           </h1>
           <p className="text-gray-600 mt-2">
@@ -187,7 +187,7 @@ export default function SettingsPage() {
           </Button>
           <Button
             onClick={saveSettings}
-            className="flex items-center bg-[#014a74] hover:bg-[#012d47] text-white"
+            className="flex items-center bg-[#221E1F] hover:bg-[#333] text-white"
             disabled={loading}
           >
             <Save className="h-4 w-4 mr-2" />
@@ -199,9 +199,9 @@ export default function SettingsPage() {
       <div className="grid lg:grid-cols-2 gap-8">
         {/* Site Information */}
         <Card className="shadow-lg border-0">
-          <CardHeader className="bg-gradient-to-r from-[#014a74]/10 to-[#f58420]/10 p-6">
-            <CardTitle className="flex items-center gap-2 text-[#014a74]">
-              <Building2 className="h-5 w-5 text-[#f58420]" />
+          <CardHeader className="bg-gradient-to-r from-[#221E1F]/10 to-[#26A8E0]/10 p-6">
+            <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+              <Building2 className="h-5 w-5 text-[#26A8E0]" />
               Site Information
             </CardTitle>
           </CardHeader>
@@ -242,9 +242,9 @@ export default function SettingsPage() {
 
         {/* Brand Assets */}
         <Card className="shadow-lg border-0">
-          <CardHeader className="bg-gradient-to-r from-[#f58420]/10 to-[#014a74]/10 p-6">
-            <CardTitle className="flex items-center gap-2 text-[#014a74]">
-              <ImageIcon className="h-5 w-5 text-[#f58420]" />
+          <CardHeader className="bg-gradient-to-r from-[#26A8E0]/10 to-[#221E1F]/10 p-6">
+            <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+              <ImageIcon className="h-5 w-5 text-[#26A8E0]" />
               Brand Assets
             </CardTitle>
           </CardHeader>
@@ -332,9 +332,9 @@ export default function SettingsPage() {
 
       {/* Preview Card */}
       <Card className="shadow-lg border-0">
-        <CardHeader className="bg-gradient-to-r from-[#014a74]/10 to-[#f58420]/10 p-6">
-          <CardTitle className="flex items-center gap-2 text-[#014a74]">
-            <ImageIcon className="h-5 w-5 text-[#f58420]" />
+        <CardHeader className="bg-gradient-to-r from-[#221E1F]/10 to-[#26A8E0]/10 p-6">
+          <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+            <ImageIcon className="h-5 w-5 text-[#26A8E0]" />
             Preview
           </CardTitle>
         </CardHeader>
@@ -349,12 +349,12 @@ export default function SettingsPage() {
                     className="w-12 h-12 object-contain"
                   />
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-[#014a74] flex items-center justify-center text-white text-xl font-bold">
+                  <div className="w-12 h-12 rounded-full bg-[#221E1F] flex items-center justify-center text-white text-xl font-bold">
                     {siteName.charAt(0)}
                   </div>
                 )}
                 <div>
-                  <div className="font-bold text-[#014a74] text-lg">
+                  <div className="font-bold text-[#221E1F] text-lg">
                     {siteName}
                   </div>
                   {siteTagline && (

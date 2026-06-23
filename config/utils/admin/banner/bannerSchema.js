@@ -22,6 +22,23 @@ const bannerSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    // Hero carousel slide data
+    slides: {
+      type: [
+        {
+          imageUrl: { type: String, trim: true },
+          title: { type: String, trim: true },
+          highlight: { type: String, trim: true },
+          tagline: { type: String, trim: true },
+          description: { type: String, trim: true },
+          primaryCtaLabel: { type: String, trim: true },
+          primaryCtaHref: { type: String, trim: true },
+          secondaryCtaLabel: { type: String, trim: true },
+          secondaryCtaHref: { type: String, trim: true },
+        },
+      ],
+      default: [],
+    },
     mobileImage: {
       type: String,
       trim: true,

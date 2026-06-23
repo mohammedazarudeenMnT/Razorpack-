@@ -244,7 +244,7 @@ export default function BlogManagement() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-[#014a74]">Blog Management</h1>
+          <h1 className="text-3xl font-bold text-[#221E1F]">Blog Management</h1>
           <p className="text-gray-600 mt-1">Manage your blog posts</p>
         </div>
         <Button
@@ -252,7 +252,7 @@ export default function BlogManagement() {
             resetForm();
             setDialogOpen(true);
           }}
-          className="bg-[#014a74] hover:bg-[#014a74]/90"
+          className="bg-[#221E1F] hover:bg-[#221E1F]/90"
         >
           <Plus className="w-4 h-4 mr-2" />
           Add Blog Post
@@ -261,7 +261,7 @@ export default function BlogManagement() {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <Loader2 className="w-8 h-8 animate-spin text-[#f58420]" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#26A8E0]" />
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -283,7 +283,7 @@ export default function BlogManagement() {
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
                       {blog.featured && (
-                        <Badge variant="secondary" className="bg-[#f58420] text-white">
+                        <Badge variant="secondary" className="bg-[#26A8E0] text-white">
                           Featured
                         </Badge>
                       )}
@@ -515,7 +515,7 @@ export default function BlogManagement() {
 
             {/* SEO Section */}
             <div className="pt-6 border-t border-gray-200 space-y-4">
-              <h3 className="text-lg font-semibold text-[#014a74]">SEO Settings</h3>
+              <h3 className="text-lg font-semibold text-[#221E1F]">SEO Settings</h3>
               
               <div className="space-y-2">
                 <Label htmlFor="seoTitle">SEO Title</Label>
@@ -574,7 +574,7 @@ export default function BlogManagement() {
               >
                 Cancel
               </Button>
-              <Button type="submit" className="bg-[#014a74] hover:bg-[#014a74]/90">
+              <Button type="submit" className="bg-[#221E1F] hover:bg-[#221E1F]/90">
                 {editingBlog ? "Update" : "Create"} Blog Post
               </Button>
             </div>

@@ -276,7 +276,7 @@ export default function EmailSMTP() {
       {/* SMTP Configuration */}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h4 className="text-lg font-semibold text-[#014a74]">
+          <h4 className="text-lg font-semibold text-[#221E1F]">
             SMTP Email Configuration
           </h4>
           {connectionStatus.status !== "never" && (
@@ -422,7 +422,7 @@ export default function EmailSMTP() {
               onClick={testEmailConnection}
               disabled={isTestingConnection || loading}
               variant="outline"
-              className="border-[#014a74] text-[#014a74] hover:bg-[#014a74] hover:text-white"
+              className="border-[#221E1F] text-[#221E1F] hover:bg-[#221E1F] hover:text-white"
             >
               {isTestingConnection ? (
                 <>
@@ -448,7 +448,7 @@ export default function EmailSMTP() {
           <Button
             onClick={handleEmailSave}
             disabled={loading}
-            className="bg-[#014a74] hover:bg-[#012d47] text-white"
+            className="bg-[#221E1F] hover:bg-[#333] text-white"
           >
             {loading ? (
               <>
@@ -467,7 +467,7 @@ export default function EmailSMTP() {
 
       {/* Test Email Section */}
       <div className="space-y-6">
-        <h4 className="text-lg font-semibold text-[#014a74]">
+        <h4 className="text-lg font-semibold text-[#221E1F]">
           Send Test Email
         </h4>
 
@@ -513,7 +513,7 @@ export default function EmailSMTP() {
             <Button
               onClick={sendTestEmail}
               disabled={isSendingTestEmail || !testEmailData.email}
-              className="bg-[#f58420] hover:bg-[#d97419] text-white w-full"
+              className="bg-[#26A8E0] hover:bg-[#1a8abf] text-white w-full"
             >
               <Send className="h-4 w-4 mr-2" />
               {isSendingTestEmail ? "Sending..." : "Send Test Email"}

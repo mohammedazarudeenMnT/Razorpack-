@@ -144,10 +144,10 @@ export function UniqueSection() {
       {/* ══════════ MOBILE / TABLET (< 1024px) ══════════ */}
       <div className="lg:hidden py-10 sm:py-14 md:py-20 px-4 sm:px-6 md:px-8">
         <div className="mob-heading mb-5 sm:mb-8">
-          <span className="text-[10px] sm:text-xs font-bold text-[#44B8E8] uppercase tracking-[0.2em] mb-2 block">About Us</span>
+          <span className="text-[10px] sm:text-xs font-bold text-[var(--brand-blue)] uppercase tracking-[0.2em] mb-2 block">About Us</span>
           <h2 className="font-heading font-extrabold tracking-tight leading-[1.05]" style={{ fontSize: "clamp(1.6rem, 5.5vw, 2.8rem)" }}>
-            <span className="text-[#2D2D2D]">What Makes Us </span>
-            <span className="text-[#44B8E8]">Unique</span>
+            <span className="text-[var(--brand-dark)]">What Makes Us </span>
+            <span className="text-[var(--brand-blue)]">Unique</span>
           </h2>
         </div>
 
@@ -160,7 +160,7 @@ export function UniqueSection() {
             <div className="absolute inset-0 bg-[#0a1118]"><Image src="/images/rayzor/vci_anti_corrosion.png" alt="VCI Anti-Corrosion" fill className="object-cover opacity-60" sizes="(max-width:640px) 100vw, 50vw" /></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
             <div className="relative z-10 h-full flex flex-col justify-end p-4 sm:p-5">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 mb-2"><Lucide.ShieldCheck className="w-4 h-4 text-[#1689cf]" /></div>
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 mb-2"><Lucide.ShieldCheck className="w-4 h-4 text-[var(--brand-blue)]" /></div>
               <h4 className="font-heading font-bold text-white text-base sm:text-lg tracking-tight mb-0.5">VCI Anti-Corrosion</h4>
               <p className="text-white/60 text-[11px] sm:text-xs leading-relaxed">Protecting automotive & metal components from rust during transit.</p>
             </div>
@@ -198,7 +198,7 @@ export function UniqueSection() {
                 <div className="absolute inset-0 bg-[#0a1118]"><Image src="/images/rayzor/vci_anti_corrosion.png" alt="VCI" fill className="object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-700" sizes="30vw" /></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="relative z-10 h-full flex flex-col justify-end p-6 xl:p-8">
-                  <div className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 mb-4 xl:mb-5 group-hover:scale-110 transition-transform duration-300"><Lucide.ShieldCheck className="w-5 h-5 xl:w-6 xl:h-6 text-[#1689cf]" /></div>
+                  <div className="w-11 h-11 xl:w-12 xl:h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 mb-4 xl:mb-5 group-hover:scale-110 transition-transform duration-300"><Lucide.ShieldCheck className="w-5 h-5 xl:w-6 xl:h-6 text-[var(--brand-blue)]" /></div>
                   <h4 className="font-heading font-extrabold text-white text-xl xl:text-2xl 2xl:text-3xl mb-1.5 xl:mb-2 tracking-tight">VCI Anti-Corrosion</h4>
                   <p className="text-white/70 text-sm xl:text-base leading-relaxed max-w-[90%] font-medium">Specialized VCI poly bags and emitters protecting critical automotive & metal components from rust during global transit.</p>
                 </div>
@@ -208,7 +208,7 @@ export function UniqueSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10" />
                 <div className="relative z-20 h-full flex flex-col justify-between p-5 xl:p-7">
                   <div className="flex items-center justify-between">
-                    <div className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20 group-hover:bg-[#1689cf] group-hover:border-[#1689cf] transition-all duration-300 shadow-lg"><Lucide.Handshake className="w-4 h-4 xl:w-5 xl:h-5" /></div>
+                    <div className="w-9 h-9 xl:w-10 xl:h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20 group-hover:bg-[var(--brand-blue)] group-hover:border-[var(--brand-blue)] transition-all duration-300 shadow-lg"><Lucide.Handshake className="w-4 h-4 xl:w-5 xl:h-5" /></div>
                     <span className="text-white/90 text-[9px] xl:text-xs font-bold uppercase tracking-widest border border-white/30 bg-black/20 backdrop-blur-sm px-2 xl:px-3 py-1 xl:py-1.5 rounded-full">Since 2004</span>
                   </div>
                   <div>
@@ -237,10 +237,10 @@ export function UniqueSection() {
           <div ref={textRef} className="relative flex items-center">
             <h2 className="t-stagger-line t-stagger-line--1 font-heading font-black uppercase whitespace-nowrap tracking-tighter mix-blend-multiply drop-shadow-[0_4px_10px_rgba(255,255,255,0.3)] flex" style={{ fontSize: "clamp(3rem, 8vw, 10rem)", lineHeight: "0.85" }}>
               {"WHAT MAKES US ".split("").map((char, i) => (
-                <span key={i} className="about-char inline-block text-[#2D2D2D]" style={{ display: char === " " ? "inline" : "inline-block" }}>{char === " " ? "\u00A0" : char}</span>
+                <span key={i} className="about-char inline-block text-[var(--brand-dark)]" style={{ display: char === " " ? "inline" : "inline-block" }}>{char === " " ? "\u00A0" : char}</span>
               ))}
               {"UNIQUE".split("").map((char, i) => (
-                <span key={`u-${i}`} className="about-char inline-block text-[#44B8E8]">{char}</span>
+                <span key={`u-${i}`} className="about-char inline-block text-[var(--brand-blue)]">{char}</span>
               ))}
             </h2>
           </div>

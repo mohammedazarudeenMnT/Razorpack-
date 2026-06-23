@@ -19,7 +19,6 @@ interface ServiceData {
   slug: string;
   status?: string;
   views?: number;
-  bookings?: number;
   seoTitle?: string;
   seoDescription?: string;
   seoKeywords?: string;
@@ -27,10 +26,6 @@ interface ServiceData {
   category?: string;
   applications?: string[];
   technicalSpecs?: { label: string; value: string }[];
-  serviceLocations?: { region: string; cities: string }[];
-  warranty?: string;
-  estimatedDuration?: string;
-  priceRange?: string;
 }
 
 interface ServiceDetailContentProps {
@@ -75,100 +70,14 @@ export function ServiceDetailContent({
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Left - Images */}
+        <div className="max-w-4xl mx-auto">
+          {/* Content */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="order-1 lg:sticky lg:top-28 lg:self-start"
-          >
-            {/* Main Image Container */}
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg mb-4 bg-gray-100 border border-gray-100">
-              {imageLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 z-10">
-                  <div className="w-8 h-8 border-2 border-[#014a74] border-t-transparent rounded-full animate-spin" />
-                </div>
-              )}
-              {imageError ? (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-                  <span className="text-gray-400 text-sm">Image not available</span>
-                </div>
-              ) : (
-                <Image
-                  src={selectedImage}
-                  alt={serviceData.serviceName}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className={`object-cover transition-all duration-500 ${imageLoading ? "opacity-0 scale-105" : "opacity-100 scale-100"}`}
-                  onLoad={() => setImageLoading(false)}
-                  onError={() => {
-                    setImageLoading(false);
-                    setImageError(true);
-                  }}
-                />
-              )}
-
-              {/* Navigation Arrows */}
-              {allImages.length > 1 && (
-                <>
-                  <button
-                    onClick={handlePrevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-all z-20 hover:scale-110 text-[#014a74]"
-                    aria-label="Previous image"
-                  >
-                    <ChevronLeft className="h-6 w-6" />
-                  </button>
-                  <button
-                    onClick={handleNextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-all z-20 hover:scale-110 text-[#014a74]"
-                    aria-label="Next image"
-                  >
-                    <ChevronRight className="h-6 w-6" />
-                  </button>
-                  {/* Image Counter */}
-                  <div className="absolute bottom-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-sm rounded-full text-white text-xs font-medium z-20">
-                    {currentIndex + 1} / {allImages.length}
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Gallery Thumbnails */}
-            {allImages.length > 1 && (
-              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                {allImages.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleThumbnailClick(image)}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${
-                      selectedImage === image
-                        ? "border-[#f58420] ring-2 ring-[#f58420]/30"
-                        : "border-transparent hover:border-gray-300"
-                    }`}
-                  >
-                    <Image
-                      src={image}
-                      alt={`${serviceData.serviceName} - Image ${index + 1}`}
-                      fill
-                      sizes="80px"
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
-          </motion.div>
-
-          {/* Right - Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="order-2 space-y-8"
+            className="space-y-12"
           >
             <div>
               <h1 className="text-3xl lg:text-4xl font-bold text-[#014a74] mb-4">
@@ -193,24 +102,6 @@ export function ServiceDetailContent({
 
              {/* Service Details Grid */}
              <div className="grid sm:grid-cols-2 gap-6">
-                {serviceData.warranty && (
-                   <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                      <span className="block text-sm text-gray-400 font-semibold mb-1 uppercase tracking-wider">Warranty</span>
-                      <span className="text-[#014a74] font-medium">{serviceData.warranty}</span>
-                   </div>
-                )}
-                {serviceData.estimatedDuration && (
-                   <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                      <span className="block text-sm text-gray-400 font-semibold mb-1 uppercase tracking-wider">Estimated Duration</span>
-                      <span className="text-[#014a74] font-medium">{serviceData.estimatedDuration}</span>
-                   </div>
-                )}
-                {serviceData.priceRange && (
-                   <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                      <span className="block text-sm text-gray-400 font-semibold mb-1 uppercase tracking-wider">Price Range</span>
-                      <span className="text-[#014a74] font-medium">{serviceData.priceRange}</span>
-                   </div>
-                )}
                  {serviceData.category && (
                    <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
                       <span className="block text-sm text-gray-400 font-semibold mb-1 uppercase tracking-wider">Category</span>

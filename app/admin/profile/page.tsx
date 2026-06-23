@@ -26,7 +26,7 @@ export default function ProfilePage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-[#014a74]">
+          <h1 className="text-4xl font-bold text-[#221E1F]">
             Profile Settings
           </h1>
           <p className="text-gray-600 mt-2">
@@ -46,7 +46,7 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 transition-all duration-200 ${
                   activeTab === tab.id
-                    ? "border-[#014a74] text-[#014a74]"
+                    ? "border-[#221E1F] text-[#221E1F]"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                 }`}
               >

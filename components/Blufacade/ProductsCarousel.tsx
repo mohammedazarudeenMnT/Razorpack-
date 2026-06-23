@@ -10,21 +10,81 @@ import { ArrowUpRight } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const PRODUCTS = [
-  { name: "VCI Film Rolls", num: "01", image: "/images/rayzor/products/vci-film-roll.png" },
-  { name: "VCI Pouch", num: "02", image: "/images/rayzor/products/vci-pouch.png" },
-  { name: "VCI Bags", num: "03", image: "/images/rayzor/products/vci-bags.png" },
-  { name: "VCI Sheet", num: "04", image: "/images/rayzor/products/vci-sheet.png" },
-  { name: "LDPE Film Rolls", num: "05", image: "/images/rayzor/products/ldpe-film-roll.png" },
-  { name: "LDPE Pouch", num: "06", image: "/images/rayzor/products/ldpe-pouch.png" },
-  { name: "LDPE Bags", num: "07", image: "/images/rayzor/products/ldpe-bags.png" },
-  { name: "LDPE Sheet", num: "08", image: "/images/rayzor/products/ldpe-sheet.png" },
-  { name: "Pallet Covers", num: "09", image: "/images/rayzor/products/pallet-covers.png" },
-  { name: "Container Liner", num: "10", image: "/images/rayzor/products/container-liner.png" },
-  { name: "Shrink Film", num: "11", image: "/images/rayzor/products/shrink-film.png" },
-  { name: "Antistatic Films", num: "12", image: "/images/rayzor/products/antistatic-films.png" },
-  { name: "VCI Shrink Films", num: "13", image: "/images/rayzor/products/vci-shrink-films.png" },
-  { name: "HM Pouches", num: "14", image: "/images/rayzor/products/hm-pouches.png" },
-  { name: "PP Pouch", num: "15", image: "/images/rayzor/products/pp-pouch.png" },
+  {
+    name: "VCI Film Rolls",
+    num: "01",
+    image: "/images/rayzor/products/vci-film-roll.png",
+  },
+  {
+    name: "VCI Pouch",
+    num: "02",
+    image: "/images/rayzor/products/vci-pouch.png",
+  },
+  {
+    name: "VCI Bags",
+    num: "03",
+    image: "/images/rayzor/products/vci-bags.png",
+  },
+  {
+    name: "VCI Sheet",
+    num: "04",
+    image: "/images/rayzor/products/vci-sheet.png",
+  },
+  {
+    name: "LDPE Film Rolls",
+    num: "05",
+    image: "/images/rayzor/products/ldpe-film-roll.png",
+  },
+  {
+    name: "LDPE Pouch",
+    num: "06",
+    image: "/images/rayzor/products/ldpe-pouch.png",
+  },
+  {
+    name: "LDPE Bags",
+    num: "07",
+    image: "/images/rayzor/products/ldpe-bags.png",
+  },
+  {
+    name: "LDPE Sheet",
+    num: "08",
+    image: "/images/rayzor/products/ldpe-sheet.png",
+  },
+  {
+    name: "Pallet Covers",
+    num: "09",
+    image: "/images/rayzor/products/pallet-covers.png",
+  },
+  {
+    name: "Container Liner",
+    num: "10",
+    image: "/images/rayzor/products/container-liner.png",
+  },
+  {
+    name: "Shrink Film",
+    num: "11",
+    image: "/images/rayzor/products/shrink-film.png",
+  },
+  {
+    name: "Antistatic Films",
+    num: "12",
+    image: "/images/rayzor/products/antistatic-films.png",
+  },
+  {
+    name: "VCI Shrink Films",
+    num: "13",
+    image: "/images/rayzor/products/vci-shrink-films.png",
+  },
+  {
+    name: "HM Pouches",
+    num: "14",
+    image: "/images/rayzor/products/hm-pouches.png",
+  },
+  {
+    name: "PP Pouch",
+    num: "15",
+    image: "/images/rayzor/products/pp-pouch.png",
+  },
   { name: "PP Film", num: "16", image: "/images/rayzor/products/pp-film.png" },
 ];
 
@@ -40,7 +100,7 @@ export function ProductsCarousel() {
       if (!container || !slider) return;
 
       // The total distance the slider needs to move to completely exit the left side.
-      // By scrolling by -scrollWidth, the right padding (100vw) will ensure the last 
+      // By scrolling by -scrollWidth, the right padding (100vw) will ensure the last
       // card goes completely off-screen before the animation ends.
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -53,7 +113,7 @@ export function ProductsCarousel() {
       });
 
       tl.to(slider, {
-        x: () => -(slider.scrollWidth),
+        x: () => -slider.scrollWidth,
         ease: "none", // Linear movement tied exactly to scroll
       });
     },
@@ -83,9 +143,19 @@ export function ProductsCarousel() {
       >
         {PRODUCTS.map((product, i) => {
           // Alternating slight rotations for that messy, thrown-card physical look
-          const rotateClass = ["-rotate-2", "rotate-2", "-rotate-1", "rotate-1"][i % 4];
+          const rotateClass = [
+            "-rotate-2",
+            "rotate-2",
+            "-rotate-1",
+            "rotate-1",
+          ][i % 4];
           // Alternating Brand Primary Colors
-          const bgColors = ["bg-[#1689cf]", "bg-[#004e7a]", "bg-[#0a1118]", "bg-[#002f4a]"];
+          const bgColors = [
+            "bg-[var(--brand-blue)]",
+            "bg-[#004e7a]",
+            "bg-[#0a1118]",
+            "bg-[#002f4a]",
+          ];
           const bgColor = bgColors[i % 4];
 
           return (
@@ -94,7 +164,7 @@ export function ProductsCarousel() {
               className={`shrink-0 w-[80vw] md:w-[450px] aspect-[3/4] rounded-[1.5rem] md:rounded-[2rem] border-[3px] md:border-4 border-[#1b1c19] ${bgColor} shadow-[8px_8px_0px_0px_#1b1c19] md:shadow-[12px_12px_0px_0px_#1b1c19] overflow-hidden flex flex-col relative transition-transform hover:scale-[1.02] duration-300 ${rotateClass}`}
             >
               {/* TOP: Image Area */}
-              <div className="h-[55%] relative border-b-[3px] md:border-b-4 border-[#1b1c19] bg-[#fbf9f4]">
+              <div className="h-[55%] relative border-b-[3px] md:border-b-4 border-[#1b1c19] bg-[#fff]">
                 <Image
                   src={product.image}
                   fill
@@ -118,7 +188,8 @@ export function ProductsCarousel() {
 
                 <div className="flex items-end justify-between mt-4">
                   <p className="text-white/90 text-sm md:text-base font-medium max-w-[220px] leading-tight">
-                    Premium industrial packaging engineered for ultimate protection.
+                    Premium industrial packaging engineered for ultimate
+                    protection.
                   </p>
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1b1c19] flex items-center justify-center text-white shrink-0 shadow-inner group-hover:scale-110 transition-transform">
                     <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6" />

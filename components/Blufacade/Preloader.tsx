@@ -90,13 +90,13 @@ export function Preloader() {
            style={{ transform: "scaleY(1.2)" }}
          >
            <span className="text-white">RAYZOR</span>
-           <span className="text-[#1689cf]">PACK</span>
+           <span className="text-[var(--brand-blue)]">PACK</span>
          </h1>
       </div>
 
       {/* Bottom Progress Line */}
       <div className="absolute bottom-0 left-0 w-full h-1 bg-[#1b1c19]">
-        <div ref={barRef} className="h-full bg-[#1689cf] w-0" />
+        <div ref={barRef} className="h-full bg-[var(--brand-blue)] w-0" />
       </div>
     </div>
   );
