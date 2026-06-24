@@ -86,7 +86,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
       tl.fromTo(section.querySelectorAll(".pdt-border"), { borderColor: "#e8e8e8" }, { borderColor: "rgba(255,255,255,0.1)", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".pdt-accordion-title"), { color: "var(--brand-dark)" }, { color: "#ffffff", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".pdt-text"), { color: "#555555" }, { color: "rgba(255,255,255,0.6)", ease: "none" }, 0);
-      tl.fromTo(section.querySelectorAll(".pdt-img-bg"), { backgroundColor: "#ffffff", borderColor: "#f0f0f0" }, { backgroundColor: "#1a1a2e", borderColor: "rgba(255,255,255,0.08)", ease: "none" }, 0);
+      tl.fromTo(section.querySelectorAll(".pdt-img-bg"), { backgroundColor: "#ffffff", borderColor: "#f0f0f0" }, { backgroundColor: "#0f1117", borderColor: "rgba(255,255,255,0.08)", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".pdt-chevron"), { color: "#999999" }, { color: "rgba(255,255,255,0.4)", ease: "none" }, 0);
     },
     { scope: sectionRef }
@@ -113,7 +113,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
         "Moisture & corrosion resistant",
       ];
 
-  const applications = product.applications?.length > 0
+  const applications = (product.applications && product.applications.length > 0)
     ? product.applications
     : [
         "Automotive Industry",
@@ -135,12 +135,12 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
           ═══════════════════════════════ */}
           <div className="space-y-3 lg:sticky lg:top-24">
             {/* Main Image */}
-            <div className="pdt-img-bg relative w-full aspect-[4/3.5] bg-white rounded-lg overflow-hidden border border-[#f0f0f0]">
+            <div className="pdt-img-bg relative w-full aspect-[4/3] bg-white rounded-lg overflow-hidden border border-[#f0f0f0]">
               <Image
                 src={allImages[selectedImage]}
                 alt={product.productName}
                 fill
-                className="object-contain p-6 md:p-10"
+                className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 priority
               />
@@ -153,10 +153,10 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`relative aspect-square bg-white rounded-md overflow-hidden transition-all duration-200 ${
+                    className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-200 ${
                       selectedImage === idx
-                        ? "ring-2 ring-[var(--brand-blue)] ring-offset-2"
-                        : "hover:opacity-80"
+                        ? "ring-2 ring-[var(--brand-blue)] ring-offset-2 border-transparent"
+                        : "border-[#f0f0f0] hover:opacity-80"
                     }`}
                   >
                     <Image
@@ -178,10 +178,10 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                   <button
                     key={idx + 4}
                     onClick={() => setSelectedImage(idx + 4)}
-                    className={`relative aspect-square bg-white rounded-md overflow-hidden transition-all duration-200 ${
+                    className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-200 ${
                       selectedImage === idx + 4
-                        ? "ring-2 ring-[var(--brand-blue)] ring-offset-2"
-                        : "hover:opacity-80"
+                        ? "ring-2 ring-[var(--brand-blue)] ring-offset-2 border-transparent"
+                        : "border-[#f0f0f0] hover:opacity-80"
                     }`}
                   >
                     <Image

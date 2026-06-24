@@ -115,7 +115,7 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
         "Pan-India & international service coverage",
       ];
 
-  const applications = serviceData.applications?.length > 0
+  const applications = (serviceData.applications && serviceData.applications.length > 0)
     ? serviceData.applications
     : [
         "Automotive Industry",
