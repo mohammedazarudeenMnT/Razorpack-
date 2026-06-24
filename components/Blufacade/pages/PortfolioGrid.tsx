@@ -92,7 +92,7 @@ export function PortfolioGrid() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="group h-full"
               >
-                <Link href={`/portfolio/${item.slug}`} className="block h-full">
+                <Link href={`/gallery/${item.slug}`} className="block h-full">
                   <div className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-white border border-gray-100 h-full flex flex-col hover:-translate-y-1">
                     {/* Image */}
                     <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">

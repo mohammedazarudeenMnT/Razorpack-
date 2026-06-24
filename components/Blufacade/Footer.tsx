@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useSettings } from "@/hooks/use-settings";
 import { useContact } from "@/hooks/use-contact";
+import { siteConfig } from "@/config/site";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -136,8 +137,16 @@ export function Footer() {
               </button>
             </div>
 
-            <div className="md:col-span-3 lg:col-span-2 text-center md:text-right">
-              <span className="text-[#1b1c19] font-medium text-sm md:text-base">Instagram, Linkedin</span>
+            <div className="md:col-span-3 lg:col-span-2 text-center md:text-right flex items-center justify-center md:justify-end gap-4">
+              {(contactInfo?.instagram || siteConfig.social.instagram) && (
+                <a href={contactInfo?.instagram || siteConfig.social.instagram} target="_blank" rel="noopener noreferrer" className="text-[#1b1c19] hover:text-[var(--brand-blue)] transition-colors font-medium text-sm md:text-base">Instagram</a>
+              )}
+              {(contactInfo?.linkedin || siteConfig.social.linkedin) && (
+                <a href={contactInfo?.linkedin || siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-[#1b1c19] hover:text-[var(--brand-blue)] transition-colors font-medium text-sm md:text-base">LinkedIn</a>
+              )}
+              {(contactInfo?.facebook || siteConfig.social.facebook) && (
+                <a href={contactInfo?.facebook || siteConfig.social.facebook} target="_blank" rel="noopener noreferrer" className="text-[#1b1c19] hover:text-[var(--brand-blue)] transition-colors font-medium text-sm md:text-base">Facebook</a>
+              )}
             </div>
 
           </div>

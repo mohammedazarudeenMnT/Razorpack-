@@ -114,37 +114,39 @@ export function PageHero({
         1.2,
       );
 
-      // --- SCROLL ANIMATION ---
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=150%",
-          pin: true,
-          scrub: 0.8,
-          invalidateOnRefresh: true,
-        },
-      });
+      // --- SCROLL ANIMATION (desktop only) ---
+      if (window.innerWidth >= 768) {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=150%",
+            pin: true,
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+          },
+        });
 
-      tl.to(
-        imageWrapper,
-        {
-          width: "94vw",
-          height: "96vh",
-          bottom: "2vh",
-          right: "auto",
-          left: "50%",
-          xPercent: -50,
-          borderRadius: "12px",
-          ease: "power2.inOut",
-          duration: 1,
-        },
-        0,
-      );
+        tl.to(
+          imageWrapper,
+          {
+            width: "94vw",
+            height: "96vh",
+            bottom: "2vh",
+            right: "auto",
+            left: "50%",
+            xPercent: -50,
+            borderRadius: "12px",
+            ease: "power2.inOut",
+            duration: 1,
+          },
+          0,
+        );
 
-      tl.to(text, { y: "-120vh", ease: "none", duration: 1 }, 0);
-      tl.to(scrollLabel, { y: "-50vh", ease: "none", duration: 0.8 }, 0);
-      tl.to(".hero-bg-graphic", { opacity: 0, ease: "none", duration: 0.4 }, 0);
+        tl.to(text, { y: "-120vh", ease: "none", duration: 1 }, 0);
+        tl.to(scrollLabel, { y: "-50vh", ease: "none", duration: 0.8 }, 0);
+        tl.to(".hero-bg-graphic", { opacity: 0, ease: "none", duration: 0.4 }, 0);
+      }
     },
     { scope: sectionRef },
   );
@@ -184,12 +186,12 @@ export function PageHero({
       {/* ─── TEXT ─── */}
       <div
         ref={textRef}
-        className="absolute top-[12vh] left-[4vw] z-10 max-w-[65vw]"
+        className="absolute top-[10vh] md:top-[12vh] left-[5vw] md:left-[4vw] z-10 max-w-[90vw] md:max-w-[65vw]"
       >
-        <div className="flex items-center gap-3 mb-6">
-          <div className="hero-label-line w-8 h-[2px] bg-[var(--brand-blue)]" />
+        <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+          <div className="hero-label-line w-6 md:w-8 h-[2px] bg-[var(--brand-blue)]" />
           <span
-            className="hero-label-text text-[11px] md:text-xs uppercase tracking-[0.3em] font-medium"
+            className="hero-label-text text-[10px] md:text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] font-medium"
             style={{ color: "var(--brand-blue)" }}
           >
             {label}
@@ -199,22 +201,22 @@ export function PageHero({
         <h1 className="font-heading leading-[0.92] tracking-[-0.03em]">
           <div className="overflow-hidden pb-1">
             <span
-              className="hero-title-line block text-[clamp(3rem,7vw,7.5rem)] font-extrabold uppercase whitespace-nowrap"
+              className="hero-title-line block text-[clamp(2rem,8vw,7.5rem)] font-extrabold uppercase"
               style={{ color: isDark ? "#ffffff" : "#1a1a1a" }}
             >
               {headingLine1}
             </span>
           </div>
-          <div className="overflow-hidden pb-4">
-            <span className="hero-title-line block whitespace-nowrap">
+          <div className="overflow-hidden pb-2 md:pb-4">
+            <span className="hero-title-line block">
               <span
-                className="text-[clamp(3rem,7vw,7.5rem)] font-extralight uppercase"
+                className="text-[clamp(2rem,8vw,7.5rem)] font-extralight uppercase"
                 style={{ color: isDark ? "rgba(255,255,255,0.6)" : "#999" }}
               >
                 &amp;{" "}
               </span>
               <span
-                className="text-[clamp(3rem,7vw,7.5rem)] font-extrabold uppercase"
+                className="text-[clamp(2rem,8vw,7.5rem)] font-extrabold uppercase"
                 style={{ color: isDark ? "#ffffff" : "#1a1a1a" }}
               >
                 {headingLine2}
@@ -224,7 +226,7 @@ export function PageHero({
         </h1>
 
         <p
-          className={`hero-desc mt-8 border-l-2 border-[var(--brand-blue)]/40 pl-5 text-sm md:text-[15px] leading-relaxed max-w-[450px] font-light ${isDark ? "text-gray-300" : "text-gray-600"}`}
+          className={`hero-desc mt-4 md:mt-8 border-l-2 border-[var(--brand-blue)]/40 pl-4 md:pl-5 text-xs md:text-[15px] leading-relaxed max-w-[55vw] md:max-w-[450px] font-light ${isDark ? "text-gray-300" : "text-gray-600"}`}
         >
           {description}
         </p>
@@ -233,7 +235,7 @@ export function PageHero({
       {/* ─── SCROLL INDICATOR ─── */}
       <div
         ref={scrollLabelRef}
-        className="absolute bottom-[6vh] left-[5vw] z-10 flex items-center gap-2"
+        className="absolute bottom-[6vh] left-[5vw] z-10 hidden md:flex items-center gap-2"
       >
         <span
           className="text-[11px] uppercase tracking-[0.2em] font-semibold"
@@ -259,14 +261,7 @@ export function PageHero({
       {/* ─── IMAGE ─── */}
       <div
         ref={imageWrapperRef}
-        className="absolute overflow-hidden"
-        style={{
-          width: "48vw",
-          height: "60vh",
-          bottom: "-5vh",
-          right: "0vw",
-          borderRadius: "6px 0 0 0",
-        }}
+        className="absolute overflow-hidden w-[92vw] md:w-[48vw] h-[40vh] md:h-[60vh] bottom-0 md:bottom-[-5vh] right-0 rounded-tl-md md:rounded-none"
       >
         <Image
           src={image}
