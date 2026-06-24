@@ -87,11 +87,16 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
       tl.fromTo(section.querySelectorAll(".sdt-border"), { borderColor: "#e8e8e8" }, { borderColor: "rgba(255,255,255,0.1)", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".sdt-accordion-title"), { color: "var(--brand-dark)" }, { color: "#ffffff", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".sdt-text"), { color: "#555555" }, { color: "rgba(255,255,255,0.6)", ease: "none" }, 0);
-      tl.fromTo(section.querySelectorAll(".sdt-img-bg"), { borderColor: "#f0f0f0" }, { borderColor: "rgba(255,255,255,0.08)", ease: "none" }, 0);
+      tl.fromTo(section.querySelectorAll(".sdt-img-bg"), { backgroundColor: "#ffffff", borderColor: "#f0f0f0", boxShadow: "0 4px 20px -2px rgba(0, 0, 0, 0.05)" }, { backgroundColor: "#0f1117", borderColor: "rgba(255,255,255,0.08)", boxShadow: "0 20px 40px -15px rgba(38, 168, 224, 0.12)", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".sdt-chevron"), { color: "#999999" }, { color: "rgba(255,255,255,0.4)", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".sdt-step-num"), { color: "var(--brand-blue)" }, { color: "var(--brand-blue)", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".sdt-step-title"), { color: "var(--brand-dark)" }, { color: "#ffffff", ease: "none" }, 0);
       tl.fromTo(section.querySelectorAll(".sdt-step-desc"), { color: "#888888" }, { color: "rgba(255,255,255,0.4)", ease: "none" }, 0);
+      tl.fromTo(section.querySelectorAll(".sdt-btn-primary"), { backgroundColor: "#1b1c19", color: "#ffffff" }, { backgroundColor: "#26A8E0", color: "#ffffff", ease: "none" }, 0);
+      tl.fromTo(section.querySelectorAll(".sdt-btn-secondary"), { backgroundColor: "#ffffff", color: "#1b1c19", borderColor: "#e0e0e0" }, { backgroundColor: "rgba(255, 255, 255, 0.05)", color: "#ffffff", borderColor: "rgba(255,255,255,0.15)", ease: "none" }, 0);
+      tl.fromTo(section.querySelectorAll(".sdt-check-bg"), { backgroundColor: "rgba(38, 168, 224, 0.1)" }, { backgroundColor: "rgba(38, 168, 224, 0.2)", ease: "none" }, 0);
+      tl.fromTo(section.querySelectorAll(".sdt-check-green-bg"), { backgroundColor: "#dcfce7" }, { backgroundColor: "rgba(34, 197, 94, 0.15)", ease: "none" }, 0);
+      tl.fromTo(section.querySelectorAll(".sdt-check-green-icon"), { color: "#16a34a" }, { color: "#4ade80", ease: "none" }, 0);
     },
     { scope: sectionRef }
   );
@@ -157,10 +162,10 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-200 ${
+                    className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-300 ${
                       selectedImage === idx
-                        ? "ring-2 ring-[var(--brand-blue)] ring-offset-2 border-transparent"
-                        : "border-[#f0f0f0] hover:opacity-80"
+                        ? "ring-2 ring-[var(--brand-blue)] border-transparent scale-[0.98]"
+                        : "border-[#f0f0f0] hover:scale-102 hover:opacity-90"
                     }`}
                   >
                     <Image
@@ -181,10 +186,10 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
                   <button
                     key={idx + 4}
                     onClick={() => setSelectedImage(idx + 4)}
-                    className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-200 ${
+                    className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-300 ${
                       selectedImage === idx + 4
-                        ? "ring-2 ring-[var(--brand-blue)] ring-offset-2 border-transparent"
-                        : "border-[#f0f0f0] hover:opacity-80"
+                        ? "ring-2 ring-[var(--brand-blue)] border-transparent scale-[0.98]"
+                        : "border-[#f0f0f0] hover:scale-102 hover:opacity-90"
                     }`}
                   >
                     <Image
@@ -205,7 +210,8 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
           ═══════════════════════════════ */}
           <div className="flex flex-col">
             {/* Category badge */}
-            <span className="sdt-label text-[var(--brand-blue)] text-[11px] font-bold uppercase tracking-[0.2em] mb-3">
+            <span className="sdt-label text-[var(--brand-blue)] text-[11px] font-bold uppercase tracking-[0.2em] mb-3 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-blue)] animate-pulse" />
               {serviceData.category || "Packaging Service"}
             </span>
 
@@ -231,13 +237,13 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
             <div className="space-y-3 mb-8">
               <Link
                 href="/contact"
-                className="flex items-center justify-center gap-2 w-full bg-[var(--brand-dark)] text-white py-4 rounded-lg font-bold text-sm uppercase tracking-wider hover:bg-[#333] transition-colors"
+                className="sdt-btn-primary flex items-center justify-center gap-2 w-full bg-[#1b1c19] text-white py-4 rounded-lg font-bold text-sm uppercase tracking-wider transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-sm hover:shadow-md"
               >
                 Get a Free Consultation
               </Link>
               <a
                 href="tel:+919087787879"
-                className="flex items-center justify-center gap-2 w-full bg-white text-[var(--brand-dark)] py-4 rounded-lg font-bold text-sm uppercase tracking-wider border border-[#e0e0e0] hover:border-[var(--brand-blue)] hover:text-[var(--brand-blue)] transition-colors"
+                className="sdt-btn-secondary flex items-center justify-center gap-2 w-full bg-white text-[#1b1c19] py-4 rounded-lg font-bold text-sm uppercase tracking-wider border border-[#e0e0e0] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Phone className="w-4 h-4" />
                 Call: +91 90877 87879
@@ -256,7 +262,7 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
               <div className="space-y-3">
                 {features.map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-[var(--brand-blue)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="sdt-check-bg w-5 h-5 rounded-full bg-[var(--brand-blue)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <Check className="w-3 h-3 text-[var(--brand-blue)]" />
                     </div>
                     <span className="sdt-text text-[#555] text-sm leading-relaxed">{feature}</span>
@@ -334,8 +340,8 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
                   "Dedicated project coordination team",
                 ].map((point, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-green-600" />
+                    <div className="sdt-check-green-bg w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="sdt-check-green-icon w-3 h-3 text-green-600" />
                     </div>
                     <span className="sdt-text text-[#555] text-sm leading-relaxed">{point}</span>
                   </div>

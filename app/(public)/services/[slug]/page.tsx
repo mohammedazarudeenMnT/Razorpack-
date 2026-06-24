@@ -153,11 +153,11 @@ export default async function ServiceDetailPage({ params }: PageProps) {
       />
       <ServiceDetailContent serviceData={serviceData} />
 
-      {/* OTHER SERVICES PIXEL-PERFECT ANIMATION */}
+      {/* OTHER SERVICES PIXEL-PERFECT ANIMATION
       <OtherServicesAnimation
         services={allServices}
         currentSlug={resolvedParams.slug}
-      />
+      /> */}
     </main>
   );
 }
