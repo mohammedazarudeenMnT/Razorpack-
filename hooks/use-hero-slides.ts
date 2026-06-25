@@ -32,8 +32,19 @@ export function useHeroSlides() {
     }
   );
 
+  const raw = data?.data?.slides || [];
+  const images = data?.data?.images || [];
+
+  // Fix slides: fill empty imageUrl from images array, normalize escaped newlines
+  const slides: HeroSlide[] = raw.map((s, i) => ({
+    ...s,
+    imageUrl: s.imageUrl || images[i] || "",
+    highlight: s.highlight?.replace(/\\n/g, "\n") || "",
+    tagline: s.tagline?.replace(/\\n/g, "\n") || "",
+  }));
+
   return {
-    slides: data?.data?.slides || [],
+    slides,
     isLoading,
     isError: error,
   };

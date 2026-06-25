@@ -36,14 +36,13 @@ interface Slide {
   highlight: string;
   description: string;
   primaryCta: { label: string; href: string };
-  secondaryCta: { label: string; href: string };
   tagline: string;
 }
 
 const staticSlides: Slide[] = [
   {
     id: "slide-1",
-    imageUrl: "/images/rayzor/hero-carousel/banner-6.png",
+    imageUrl: "/images/rayzor/hero-carousel/banner-6.jpg",
     title: "We're India's —",
     highlight: "Packaging\nEngineers.",
     tagline:
@@ -51,11 +50,10 @@ const staticSlides: Slide[] = [
     description:
       "Engineering your entire packaging supply chain — from concept to container.",
     primaryCta: { label: "Explore Our Products", href: "/services" },
-    secondaryCta: { label: "Get Enquiry", href: "/contact" },
   },
   {
     id: "slide-2",
-    imageUrl: "/images/rayzor/hero-carousel/banner-7.png",
+    imageUrl: "/images/rayzor/hero-carousel/banner-7.jpg",
     title: "Performance,",
     highlight: "Protected.",
     tagline:
@@ -63,11 +61,10 @@ const staticSlides: Slide[] = [
     description:
       "Durable, moisture-resistant LDPE films — manufactured in-house at our Madurai facility.",
     primaryCta: { label: "View LDPE Range", href: "/services" },
-    secondaryCta: { label: "Get Enquiry", href: "/contact" },
   },
   {
     id: "slide-3",
-    imageUrl: "/images/rayzor/hero-carousel/banner-8.png",
+    imageUrl: "/images/rayzor/hero-carousel/banner-8.jpg",
     title: "Engineered",
     highlight: "For Export.",
     tagline:
@@ -75,7 +72,6 @@ const staticSlides: Slide[] = [
     description:
       "Container liners, pallet covers, and export-grade palletization with precision.",
     primaryCta: { label: "Our Solutions", href: "/services" },
-    secondaryCta: { label: "Contact Us", href: "/contact" },
   },
 ];
 
@@ -87,18 +83,21 @@ export function HeroSection() {
   //   : FALLBACK_LOGOS;
 
   // Map dynamic slides to Slide format, fallback to static
-  const slides: Slide[] = dynamicSlides.length > 0
-    ? dynamicSlides.map((s: HeroSlide, i: number) => ({
-        id: `slide-${i}`,
-        imageUrl: s.imageUrl,
-        title: s.title,
-        highlight: s.highlight,
-        tagline: s.tagline,
-        description: s.description,
-        primaryCta: { label: s.primaryCtaLabel || "Explore Products", href: s.primaryCtaHref || "/products" },
-        secondaryCta: { label: s.secondaryCtaLabel || "Contact Us", href: s.secondaryCtaHref || "/contact" },
-      }))
-    : staticSlides;
+  const slides: Slide[] =
+    dynamicSlides.length > 0
+      ? dynamicSlides.map((s: HeroSlide, i: number) => ({
+          id: `slide-${i}`,
+          imageUrl: s.imageUrl,
+          title: s.title,
+          highlight: s.highlight,
+          tagline: s.tagline,
+          description: s.description,
+          primaryCta: {
+            label: s.primaryCtaLabel || "Explore Products",
+            href: s.primaryCtaHref || "/products",
+          },
+        }))
+      : staticSlides;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -203,7 +202,7 @@ export function HeroSection() {
         }, dur);
       }
     },
-    { dependencies: [current], scope: containerRef },
+    { dependencies: [current, dynamicSlides], scope: containerRef },
   );
 
   return (
