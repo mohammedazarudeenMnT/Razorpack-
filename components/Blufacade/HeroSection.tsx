@@ -16,18 +16,6 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Link from "next/link";
-// import { Marquee } from "@/components/ui/marquee";
-// import { useClientLogos } from "@/hooks/use-client-logos";
-
-// const FALLBACK_LOGOS = [
-//   { name: "Foxconn", logo: "/images/logos/foxconn.svg" },
-//   { name: "Royal Enfield", logo: "/images/logos/royal-enfield.svg" },
-//   { name: "Asian Paints", logo: "/images/logos/asian-paints.svg" },
-//   { name: "Hyundai Mobis", logo: "/images/logos/hyundai-mobis.svg" },
-//   { name: "Samsung", logo: "/images/logos/samsung.svg" },
-//   { name: "Tata Motors", logo: "/images/logos/tata-motors.svg" },
-//   { name: "Bosch", logo: "/images/logos/bosch.svg" },
-// ];
 
 interface Slide {
   id: string;
@@ -39,65 +27,23 @@ interface Slide {
   tagline: string;
 }
 
-const staticSlides: Slide[] = [
-  {
-    id: "slide-1",
-    imageUrl: "/images/rayzor/hero-carousel/banner-6.jpg",
-    title: "We're India's —",
-    highlight: "Packaging\nEngineers.",
-    tagline:
-      "Top performance requires\nmore than protection —\nespecially precision",
-    description:
-      "Engineering your entire packaging supply chain — from concept to container.",
-    primaryCta: { label: "Explore Our Products", href: "/services" },
-  },
-  {
-    id: "slide-2",
-    imageUrl: "/images/rayzor/hero-carousel/banner-7.jpg",
-    title: "Performance,",
-    highlight: "Protected.",
-    tagline:
-      "Industrial strength meets\nengineering precision —\nbuilt to endure",
-    description:
-      "Durable, moisture-resistant LDPE films — manufactured in-house at our Madurai facility.",
-    primaryCta: { label: "View LDPE Range", href: "/services" },
-  },
-  {
-    id: "slide-3",
-    imageUrl: "/images/rayzor/hero-carousel/banner-8.jpg",
-    title: "Engineered",
-    highlight: "For Export.",
-    tagline:
-      "From concept to container,\nprecision packaging\nacross the world",
-    description:
-      "Container liners, pallet covers, and export-grade palletization with precision.",
-    primaryCta: { label: "Our Solutions", href: "/services" },
-  },
-];
-
 export function HeroSection() {
-  const { slides: dynamicSlides } = useHeroSlides();
-  // const { clientLogos: dynamicLogos } = useClientLogos();
-  // const clientLogos = dynamicLogos.length > 0
-  //   ? dynamicLogos.map((l: any) => ({ name: l.name, logo: l.logo }))
-  //   : FALLBACK_LOGOS;
+  const { slides: dynamicSlides, isLoading } = useHeroSlides();
 
-  // Map dynamic slides to Slide format, fallback to static
-  const slides: Slide[] =
-    dynamicSlides.length > 0
-      ? dynamicSlides.map((s: HeroSlide, i: number) => ({
-          id: `slide-${i}`,
-          imageUrl: s.imageUrl,
-          title: s.title,
-          highlight: s.highlight,
-          tagline: s.tagline,
-          description: s.description,
-          primaryCta: {
-            label: s.primaryCtaLabel || "Explore Products",
-            href: s.primaryCtaHref || "/products",
-          },
-        }))
-      : staticSlides;
+  // Map dynamic slides to Slide format
+  const slides: Slide[] = dynamicSlides.map((s: HeroSlide, i: number) => ({
+    id: `slide-${i}`,
+    imageUrl: s.imageUrl,
+    title: s.title,
+    highlight: s.highlight,
+    tagline: s.tagline,
+    description: s.description,
+    primaryCta: {
+      label: s.primaryCtaLabel || "Explore Products",
+      href: s.primaryCtaHref || "/products",
+    },
+  }));
+
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -176,7 +122,7 @@ export function HeroSection() {
 
       // transitions.dev: text-swap on description
       const el = swapDescRef.current;
-      if (el) {
+      if (el && slides.length > 0) {
         const dur =
           parseFloat(
             getComputedStyle(document.documentElement).getPropertyValue(
@@ -195,6 +141,62 @@ export function HeroSection() {
     },
     { dependencies: [current, dynamicSlides], scope: containerRef },
   );
+
+  if (slides.length === 0) {
+    return (
+      <section className="relative w-full bg-[#fcfbf9] overflow-hidden">
+        <div className="relative w-full h-[calc(100svh-120px)] sm:h-[calc(100svh-110px)] lg:h-[calc(100svh-100px)] min-h-[350px] bg-[#221E1F]">
+          {/* Shimmer overlay */}
+          <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.8s_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+
+          {/* Skeleton content mirroring actual layout */}
+          <div className="absolute inset-0 flex flex-col px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 2xl:px-28">
+            <div className="flex-1 flex items-center pt-16 lg:pt-20">
+              <div className="w-full flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 lg:gap-16">
+                {/* Left: Title skeleton */}
+                <div className="max-w-full sm:max-w-[85%] md:max-w-[65%] lg:max-w-[55%]">
+                  {/* Subtitle */}
+                  <div className="h-5 sm:h-7 w-40 sm:w-52 bg-white/[0.07] rounded-md" />
+                  {/* Headline line 1 */}
+                  <div className="mt-3 sm:mt-4 h-10 sm:h-14 md:h-16 w-64 sm:w-80 md:w-96 bg-white/[0.1] rounded-lg" />
+                  {/* Headline line 2 */}
+                  <div className="mt-2 sm:mt-3 h-10 sm:h-14 md:h-16 w-48 sm:w-64 md:w-72 bg-white/[0.1] rounded-lg" />
+                  {/* Description */}
+                  <div className="mt-5 sm:mt-7 space-y-2">
+                    <div className="h-3 sm:h-4 w-72 sm:w-96 bg-white/[0.05] rounded" />
+                    <div className="h-3 sm:h-4 w-56 sm:w-72 bg-white/[0.05] rounded" />
+                  </div>
+                  {/* CTA button */}
+                  <div className="mt-8 sm:mt-12 flex items-center gap-3">
+                    <div className="h-4 sm:h-5 w-32 sm:w-40 bg-white/[0.07] rounded" />
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/[0.07]" />
+                  </div>
+                </div>
+
+                {/* Right: Tagline skeleton */}
+                <div className="hidden lg:block max-w-[30%] pb-8 lg:pb-12">
+                  <div className="border-l-[2.5px] border-white/[0.06] pl-6">
+                    <div className="space-y-2.5">
+                      <div className="h-4 w-44 bg-white/[0.05] rounded" />
+                      <div className="h-4 w-36 bg-white/[0.05] rounded" />
+                      <div className="h-4 w-40 bg-white/[0.05] rounded" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Slide indicators skeleton */}
+          <div className="absolute right-4 md:right-7 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2.5">
+            <div className="w-2.5 h-9 bg-white/[0.1] rounded-full" />
+            <div className="w-2.5 h-2.5 bg-white/[0.05] rounded-full" />
+            <div className="w-2.5 h-2.5 bg-white/[0.05] rounded-full" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
