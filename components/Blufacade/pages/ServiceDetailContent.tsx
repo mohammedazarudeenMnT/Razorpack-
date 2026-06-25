@@ -162,7 +162,7 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
               <div className="grid grid-cols-4 gap-2.5">
                 {allImages.slice(0, 4).map((img, idx) => (
                   <button
-                    key={img}
+                    key={`${img}-${idx}`}
                     onClick={() => setSelectedImage(idx)}
                     className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-300 ${
                       selectedImage === idx
@@ -186,7 +186,7 @@ export function ServiceDetailContent({ serviceData }: { serviceData: ServiceData
               <div className="grid grid-cols-4 gap-2.5">
                 {allImages.slice(4, 8).map((img, idx) => (
                   <button
-                    key={img}
+                    key={`${img}-${idx}`}
                     onClick={() => setSelectedImage(idx + 4)}
                     className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-300 ${
                       selectedImage === idx + 4

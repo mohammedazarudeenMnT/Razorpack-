@@ -154,6 +154,10 @@ export function AboutProcess() {
           }
         }
       );
+
+      // Refresh ScrollTrigger to handle any layout shifts from the sections loading above
+      const timer = setTimeout(() => ScrollTrigger.refresh(), 500);
+      return () => clearTimeout(timer);
     },
     { scope: sectionRef }
   );

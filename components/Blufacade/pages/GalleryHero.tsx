@@ -4,9 +4,13 @@ import React, { useRef, useMemo } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useBanner } from "@/hooks/use-banner";
-
 gsap.registerPlugin(useGSAP);
+
+interface BannerData {
+  images?: string[];
+  heroSource?: string;
+  [key: string]: any;
+}
 
 /* ───────── Image data ───────── */
 const column1Images = [
@@ -108,9 +112,9 @@ function SlidingColumn({
 }
 
 /* ───────── Main Component ───────── */
-export function GalleryHero() {
+export function GalleryHero({ initialBanner }: { initialBanner: BannerData | null }) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { banner } = useBanner("gallery");
+  const banner = initialBanner;
 
   // Combine uploaded hero images + selected work images (from heroSource JSON)
   const { col1, col2, col3 } = useMemo(() => {

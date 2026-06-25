@@ -4,19 +4,25 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
-import { useServices } from "@/hooks/use-services";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { FALLBACK_SERVICES } from "@/lib/fallback-services";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export function ServicesGrid() {
+interface ServiceData {
+  _id: string;
+  serviceName: string;
+  shortDescription?: string;
+  description: string;
+  image: string;
+  features: string[];
+  slug: string;
+}
+
+export function ServicesGrid({ initialServices }: { initialServices: ServiceData[] }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const { services, isLoading } = useServices(1, 100);
-  const displayServices =
-    services && services.length > 0 ? services : FALLBACK_SERVICES;
+  const displayServices = initialServices || [];
 
   useGSAP(
     () => {
@@ -124,22 +130,11 @@ export function ServicesGrid() {
         ScrollTrigger.refresh();
       }, 500);
     },
-    { scope: sectionRef, dependencies: [isLoading] },
+    { scope: sectionRef, dependencies: [displayServices.length] },
   );
 
-  if (isLoading) {
-    return (
-      <section className="py-20 bg-white min-h-screen flex items-center justify-center">
-        <div className="space-y-8 w-full max-w-[92vw] mx-auto px-4">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="h-[400px] w-full bg-stone-100 rounded-2xl animate-pulse"
-            />
-          ))}
-        </div>
-      </section>
-    );
+  if (displayServices.length === 0) {
+    return null;
   }
 
   return (

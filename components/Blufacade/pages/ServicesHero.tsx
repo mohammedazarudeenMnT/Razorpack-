@@ -17,13 +17,15 @@ export function ServicesHero() {
     );
   }
 
+  if (!banner) return null;
+
   return (
     <PageHero
-      label={banner?.label || "Our Services"}
-      headingLine1={banner?.headingLine1 || "SOLUTIONS"}
-      headingLine2={banner?.headingLine2 || "SECTORS"}
-      description={banner?.description || ""}
-      image={banner?.image || "/images/rayzor/services/services_hero_premium.png"}
+      label={banner.label}
+      headingLine1={banner.headingLine1}
+      headingLine2={banner.headingLine2}
+      description={banner.description}
+      image={banner.image}
       imageAlt="Rayzor Industrial Packaging Pvt Ltd Services"
       bgGraphicTopRight="/images/rayzor/hero/hero_services_bg_tr.png"
       bgGraphicBottomLeft="/images/rayzor/hero/hero_services_bg_bl.png"

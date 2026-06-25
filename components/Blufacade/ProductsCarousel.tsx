@@ -7,48 +7,32 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { useProducts } from "@/hooks/use-products";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const FALLBACK_PRODUCTS = [
-  { name: "VCI Film Rolls", num: "01", image: "/images/rayzor/products/vci-film-roll.png" },
-  { name: "VCI Pouch", num: "02", image: "/images/rayzor/products/vci-pouch.png" },
-  { name: "VCI Bags", num: "03", image: "/images/rayzor/products/vci-bags.png" },
-  { name: "VCI Sheet", num: "04", image: "/images/rayzor/products/vci-sheet.png" },
-  { name: "LDPE Film Rolls", num: "05", image: "/images/rayzor/products/ldpe-film-roll.png" },
-  { name: "LDPE Pouch", num: "06", image: "/images/rayzor/products/ldpe-pouch.png" },
-  { name: "LDPE Bags", num: "07", image: "/images/rayzor/products/ldpe-bags.png" },
-  { name: "LDPE Sheet", num: "08", image: "/images/rayzor/products/ldpe-sheet.png" },
-  { name: "Pallet Covers", num: "09", image: "/images/rayzor/products/pallet-covers.png" },
-  { name: "Container Liner", num: "10", image: "/images/rayzor/products/container-liner.png" },
-  { name: "Shrink Film", num: "11", image: "/images/rayzor/products/shrink-film.png" },
-  { name: "Antistatic Films", num: "12", image: "/images/rayzor/products/antistatic-films.png" },
-  { name: "VCI Shrink Films", num: "13", image: "/images/rayzor/products/vci-shrink-films.png" },
-  { name: "HM Pouches", num: "14", image: "/images/rayzor/products/hm-pouches.png" },
-  { name: "PP Pouch", num: "15", image: "/images/rayzor/products/pp-pouch.png" },
-  { name: "PP Film", num: "16", image: "/images/rayzor/products/pp-film.png" },
-];
+export interface ProductData {
+  productName: string;
+  image: string;
+  slug: string;
+  shortDescription: string;
+}
 
-export function ProductsCarousel() {
+interface ProductsCarouselProps {
+  initialProducts: ProductData[];
+}
+
+export function ProductsCarousel({ initialProducts }: ProductsCarouselProps) {
   const containerRef = useRef<HTMLElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
-  const { products: dynamicProducts } = useProducts(1, 20);
 
-  // Map dynamic products to card format, fallback to static
-  const PRODUCTS = dynamicProducts.length > 0
-    ? dynamicProducts.map((p, i) => ({
-        name: p.productName,
-        num: String(i + 1).padStart(2, "0"),
-        image: p.image,
-        slug: p.slug,
-        shortDescription: p.shortDescription || "",
-      }))
-    : FALLBACK_PRODUCTS.map((p) => ({
-        ...p,
-        slug: "",
-        shortDescription: "",
-      }));
+  // Map server-provided products to card format
+  const PRODUCTS = initialProducts.map((p, i) => ({
+    name: p.productName,
+    num: String(i + 1).padStart(2, "0"),
+    image: p.image,
+    slug: p.slug,
+    shortDescription: p.shortDescription || "",
+  }));
 
   // Horizontal Parallax Scroll Animation
   useGSAP(
@@ -75,8 +59,12 @@ export function ProductsCarousel() {
         ease: "none", // Linear movement tied exactly to scroll
       });
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [PRODUCTS.length] },
   );
+
+  if (PRODUCTS.length === 0) {
+    return null;
+  }
 
   return (
     <section

@@ -5,9 +5,15 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { useGalleryWorks } from "@/hooks/use-gallery-works";
-
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+interface WorkData {
+  _id?: string;
+  title: string;
+  description: string;
+  image: string;
+  order?: number;
+}
 
 /* ───────── Fallback Works Data ───────── */
 const FALLBACK_WORKS = [
@@ -105,12 +111,9 @@ function WorkCard({
 }
 
 /* ───────── Main Section ───────── */
-export function OurWorksSection() {
+export function OurWorksSection({ initialWorks }: { initialWorks: WorkData[] }) {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const { works: dynamicWorks } = useGalleryWorks();
-
-
-  const worksData = dynamicWorks.length > 0 ? dynamicWorks : FALLBACK_WORKS;
+  const worksData = initialWorks.length > 0 ? initialWorks : FALLBACK_WORKS;
 
   useGSAP(
     () => {

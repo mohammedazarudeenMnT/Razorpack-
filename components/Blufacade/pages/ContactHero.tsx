@@ -17,13 +17,15 @@ export function ContactHero() {
     );
   }
 
+  if (!banner) return null;
+
   return (
     <PageHero
-      label={banner?.label || "Get In Touch"}
-      headingLine1={banner?.headingLine1 || "CONTACT"}
-      headingLine2={banner?.headingLine2 || "US"}
-      description={banner?.description || ""}
-      image={banner?.image || "/images/rayzor/contact-hero.png"}
+      label={banner.label}
+      headingLine1={banner.headingLine1}
+      headingLine2={banner.headingLine2}
+      description={banner.description}
+      image={banner.image}
       imageAlt="Rayzor Industrial Packaging Pvt Ltd Contact — Madurai Facility"
     />
   );

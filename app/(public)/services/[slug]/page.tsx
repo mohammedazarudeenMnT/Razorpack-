@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/Blufacade/pages/PageHero";
 import { ServiceDetailContent } from "@/components/Blufacade/pages/ServiceDetailContent";
 import { OtherServicesAnimation } from "@/components/Blufacade/pages/OtherServicesAnimation";
-import { FALLBACK_SERVICES } from "@/lib/fallback-services";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -49,22 +48,10 @@ async function getServiceBySlug(slug: string, increment = false) {
       });
     }
 
-    if (service) {
-      return service;
-    }
-
-    // If not found in DB, check fallback services
-    const fallback = FALLBACK_SERVICES.find((s) => s.slug === slug);
-    if (fallback) {
-      return fallback;
-    }
-
-    return null;
+    return service || null;
   } catch (error) {
     console.error("Error fetching service:", error);
-    // Fallback on error
-    const fallback = FALLBACK_SERVICES.find((s) => s.slug === slug);
-    return fallback || null;
+    return null;
   }
 }
 
@@ -88,10 +75,10 @@ async function getAllServices() {
     if (services && services.length > 0) {
       return JSON.parse(JSON.stringify(services));
     }
-    return FALLBACK_SERVICES;
+    return [];
   } catch (error) {
     console.error("Error fetching all services:", error);
-    return FALLBACK_SERVICES;
+    return [];
   }
 }
 

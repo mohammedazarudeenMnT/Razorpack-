@@ -5,12 +5,10 @@ import { PageHero } from "@/components/Blufacade/pages/PageHero";
 import { ProductDetailClient } from "@/components/Blufacade/pages/ProductDetailClient";
 import connectDB from "@/config/models/connectDB";
 import Product from "@/config/utils/admin/products/productSchema";
-import { FALLBACK_PRODUCTS } from "@/lib/fallback-products";
-
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// Fetch single product by slug — DB first, then fallback
+// Fetch single product by slug from DB
 async function getProductBySlug(slug: string) {
   try {
     await connectDB();
@@ -18,25 +16,6 @@ async function getProductBySlug(slug: string) {
     if (product) return JSON.parse(JSON.stringify(product));
   } catch (error) {
     console.error("Failed to fetch product from DB:", error);
-  }
-
-  const fallback = FALLBACK_PRODUCTS.find((p) => p.slug === slug);
-  if (fallback) {
-    const fb = fallback as any;
-    return {
-      productName: fallback.name,
-      category: fallback.category,
-      description: fallback.description,
-      shortDescription: fb.shortDescription || fallback.description,
-      image: fallback.image,
-      slug: fallback.slug,
-      features: fb.features || [],
-      technicalSpecs: fb.technicalSpecs || [],
-      applications: fb.applications || [],
-      tags: fb.tags || [],
-      deliveryInfo: fb.deliveryInfo || [],
-      gallery: fb.gallery || [],
-    };
   }
 
   return null;

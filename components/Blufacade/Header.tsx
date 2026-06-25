@@ -21,8 +21,6 @@ import { useProducts } from "@/hooks/use-products";
 import { useServices } from "@/hooks/use-services";
 import { useSettings } from "@/hooks/use-settings";
 import { useContact } from "@/hooks/use-contact";
-import { FALLBACK_PRODUCTS } from "@/lib/fallback-products";
-import { FALLBACK_SERVICES } from "@/lib/fallback-services";
 
 const navItems = [
   { label: "HOME", href: "/" },
@@ -166,7 +164,7 @@ export function Header() {
   const { contactInfo } = useContact();
 
   // Fetch data for mega menus
-  const { products } = useProducts(1, 20);
+  const { products } = useProducts(1, 10);
   const { services } = useServices(1, 20);
 
   // Normalize products data (API uses productName, fallback uses name)
@@ -178,15 +176,7 @@ export function Header() {
       category: p.category,
     }),
   );
-  const displayProducts =
-    megaProducts.length > 0
-      ? megaProducts
-      : FALLBACK_PRODUCTS.map((p) => ({
-          name: p.name,
-          image: p.image,
-          slug: p.slug,
-          category: p.category,
-        }));
+  const displayProducts = megaProducts;
 
   const megaServices = (services && services.length > 0 ? services : []).map(
     (s: any) => ({
@@ -195,14 +185,7 @@ export function Header() {
       slug: s.slug,
     }),
   );
-  const displayServices =
-    megaServices.length > 0
-      ? megaServices
-      : FALLBACK_SERVICES.map((s) => ({
-          name: s.serviceName,
-          image: s.image,
-          slug: s.slug,
-        }));
+  const displayServices = megaServices;
 
   // Get unique categories for products
   const productCategories = [

@@ -5,66 +5,36 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { useServices } from "@/hooks/use-services";
-
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-const FALLBACK_SERVICES = [
-  {
-    id: "01",
-    cardTitle: "Core Solutions",
-    cardHeading: "Packaging Solutions",
-    cardText:
-      "We specialize in packaging for various industries, such as axles for trains, car parts, chip cards, revolving door elements, printers, EC cards, spices, hops, coffee, grand pianos, kitchen appliances, printed circuit boards, and more.",
-    bgImage: "/images/rayzor/services/industrial_vci_rolls.png",
-  },
-  {
-    id: "02",
-    cardTitle: "Outsourced Efficiency",
-    cardHeading: "Contract Packaging",
-    cardText:
-      "Streamline your operations with our dedicated contract packaging services. We handle the entire packaging process at our specialized facilities, allowing you to focus on your core manufacturing while we ensure international standards.",
-    bgImage: "/images/rayzor/services/engineering.png",
-  },
-  {
-    id: "03",
-    cardTitle: "Global Transit",
-    cardHeading: "Export Palletization",
-    cardText:
-      "Secure your cargo for international shipping. Our export palletization services utilize heavy-duty wrapping, strapping, and custom pallets to ensure maximum stability and protection against harsh transit conditions across the globe.",
-    bgImage: "/images/rayzor/services/heavy_machinery_logistics.png",
-  },
-  {
-    id: "04",
-    cardTitle: "Moisture Protection",
-    cardHeading: "Vacuum Packaging",
-    cardText:
-      "Advanced protection for highly sensitive equipment. By utilizing specialized barrier foils and extracting all air, we create a completely moisture-free environment that prevents corrosion during long-term storage or overseas transport.",
-    bgImage: "/images/rayzor/services/vci-poly-bags.jpg",
-  },
-];
+export interface ServiceData {
+  serviceName: string;
+  category: string;
+  description: string;
+  image: string;
+}
 
-export function ServicesSection() {
+interface ServicesSectionProps {
+  initialServices: ServiceData[];
+}
+
+export function ServicesSection({ initialServices }: ServicesSectionProps) {
   const containerRef = useRef<HTMLElement>(null);
-  const { services: dynamicServices, isLoading } = useServices(1, 4);
 
-  // Map dynamic services to the card format, fallback to static
-  const SERVICES =
-    dynamicServices.length > 0
-      ? dynamicServices.map((s, i) => ({
-          id: String(i + 1).padStart(2, "0"),
-          cardTitle: s.category || "Core Solutions",
-          cardHeading: s.serviceName,
-          cardText: s.description?.replace(/<[^>]+>/g, "").slice(0, 200) || "",
-          bgImage: s.image,
-        }))
-      : FALLBACK_SERVICES;
+  // Map server-provided services to the card format
+  const SERVICES = initialServices.map((s, i) => ({
+    id: String(i + 1).padStart(2, "0"),
+    cardTitle: s.category || "Core Solutions",
+    cardHeading: s.serviceName,
+    cardText: s.description?.replace(/<[^>]+>/g, "").slice(0, 200) || "",
+    bgImage: s.image,
+  }));
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       const count = SERVICES.length;
-      if (count === 0 || isLoading) return;
+      if (count === 0) return;
 
       mm.add("(min-width: 0px)", () => {
         const section = containerRef.current;
@@ -122,25 +92,16 @@ export function ServicesSection() {
 
       return () => mm.revert();
     },
-    { scope: containerRef, dependencies: [SERVICES.length, isLoading] },
+    { scope: containerRef, dependencies: [SERVICES.length] },
   );
 
-  if (SERVICES.length === 0 && !isLoading) return null;
+  if (SERVICES.length === 0) return null;
 
   return (
     <section
       ref={containerRef}
       className="relative w-full h-[100svh] bg-[#1b1c19] overflow-hidden"
     >
-      {/* Loading State */}
-      {isLoading && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#1b1c19]">
-          <div className="text-center">
-            <div className="w-10 h-10 border-2 border-white/20 border-t-[var(--brand-blue)] rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-white/40 text-sm font-medium tracking-wide">Loading services...</p>
-          </div>
-        </div>
-      )}
       {/* ══════════ UNIVERSAL PINNED LAYOUT ══════════ */}
 
       {/* Background Layers */}

@@ -17,13 +17,15 @@ export function ProductsHero() {
     );
   }
 
+  if (!banner) return null;
+
   return (
     <PageHero
-      label={banner?.label || "Our Products"}
-      headingLine1={banner?.headingLine1 || "PACKAGING"}
-      headingLine2={banner?.headingLine2 || "PROTECTION"}
-      description={banner?.description || ""}
-      image={banner?.image || "/images/products_hero_packaging_v2.png"}
+      label={banner.label}
+      headingLine1={banner.headingLine1}
+      headingLine2={banner.headingLine2}
+      description={banner.description}
+      image={banner.image}
       imageAlt="Rayzor Industrial Packaging Pvt Ltd VCI & LDPE Packaging Products"
       showPlayButton={false}
       bgGraphicTopRight="/images/rayzor/hero/hero_products_bg_tr.png"
