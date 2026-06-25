@@ -214,8 +214,8 @@ export function ServicesGrid() {
                     {/* Features List */}
                     {service.features && service.features.length > 0 && (
                       <div className="grid grid-cols-1 gap-3 mb-8 max-w-[400px]">
-                        {service.features.slice(0, 4).map((feature, idx) => (
-                          <div key={idx} className="flex items-start gap-3">
+                        {service.features.slice(0, 4).map((feature) => (
+                          <div key={`feature-${feature}`} className="flex items-start gap-3">
                             <CheckCircle2 className="w-4 h-4 text-[#8c827a] shrink-0 mt-0.5" />
                             <span className="svc-feature text-sm text-[#8c827a] font-normal">
                               {feature}

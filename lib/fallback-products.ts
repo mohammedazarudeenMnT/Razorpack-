@@ -28,6 +28,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Protection Period", value: "Up to 24 months" },
       { label: "Compliance", value: "MIL-PRF-22019 / MIL-I-22110C" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Corrosion Resistant"],
     applications: ["Automotive", "Aerospace & Defense", "Heavy Machinery", "Steel & Metal Processing", "Electronics", "Export Packaging"],
   },
   {
@@ -58,6 +59,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Seal Type", value: "Heat seal / Zip lock" },
       { label: "Protection Period", value: "Up to 24 months" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Corrosion Resistant"],
     applications: ["Spare Parts", "Bearings & Fasteners", "Precision Instruments", "Electronics", "Automotive Components"],
   },
   {
@@ -88,6 +90,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Style", value: "Flat / Gusseted / Tubular" },
       { label: "Protection Period", value: "Up to 36 months" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Corrosion Resistant"],
     applications: ["Heavy Machinery", "Engine Components", "Steel Coils", "Defense Equipment", "Export Crating"],
   },
   {
@@ -118,6 +121,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Protection", value: "Ferrous & Non-ferrous metals" },
       { label: "Protection Period", value: "Up to 24 months" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Corrosion Resistant"],
     applications: ["Metal Stamping", "CNC Machined Parts", "Sheet Metal", "Automotive Parts", "Warehousing"],
   },
   {
@@ -148,6 +152,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Clarity", value: "High transparency" },
       { label: "Tensile Strength", value: "15 – 30 MPa" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Moisture Resistant"],
     applications: ["General Packaging", "Food Industry", "Pharmaceutical", "Textile", "Agriculture", "Construction"],
   },
   {
@@ -176,6 +181,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Sizes", value: "Custom (50mm × 75mm to 500mm × 700mm)" },
       { label: "Seal Type", value: "Heat seal / Adhesive" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Moisture Resistant"],
     applications: ["Hardware Parts", "Textile", "Consumer Goods", "Electronics Accessories", "Stationery"],
   },
   {
@@ -205,6 +211,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Max Size", value: "Up to 2000mm × 2500mm" },
       { label: "Style", value: "Flat / Gusseted / Side seal" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Moisture Resistant"],
     applications: ["Industrial Components", "Bulk Packaging", "Warehousing", "Export", "Retail"],
   },
   {
@@ -234,6 +241,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Width", value: "Up to 6000mm (folded)" },
       { label: "Length", value: "Custom cut or roll" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Moisture Resistant"],
     applications: ["Pallet Wrapping", "Surface Protection", "Construction", "Agriculture", "Export Packaging"],
   },
   {
@@ -262,6 +270,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Standard Sizes", value: "1220 × 1220 × 1500mm" },
       { label: "Style", value: "Gusseted top cover" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Industrial Grade"],
     applications: ["Warehouse Storage", "Export Pallets", "Cold Storage", "Logistics", "Distribution Centers"],
   },
   {
@@ -291,6 +300,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Sizes", value: "20ft & 40ft container standard" },
       { label: "Features", value: "Zipper door, desiccant pockets" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Industrial Grade"],
     applications: ["Sea Freight", "Bulk Commodities", "Metal Coils", "Machinery Export", "Chemical Products"],
   },
   {
@@ -319,6 +329,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Shrink Ratio", value: "Up to 70%" },
       { label: "Width", value: "150mm – 3000mm" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Industrial Grade"],
     applications: ["Load Unitization", "Product Bundling", "Retail Display", "Beverage Industry", "Building Materials"],
   },
   {
@@ -348,6 +359,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Color", value: "Pink (standard) / Custom" },
       { label: "Compliance", value: "EIA-541, MIL-B-81705C" },
     ],
+    tags: ["Made in India", "ESD Safe", "Industrial Grade"],
     applications: ["Electronics", "Semiconductors", "PCB Assembly", "Medical Devices", "Telecommunications"],
   },
   {
@@ -378,6 +390,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Protection Period", value: "Up to 36 months" },
       { label: "Max Width", value: "Up to 6000mm" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Corrosion Resistant"],
     applications: ["Heavy Machinery", "Military Equipment", "Offshore Equipment", "Mining Equipment", "Long-term Storage"],
   },
   {
@@ -406,6 +419,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Tensile Strength", value: "30 – 45 MPa" },
       { label: "Sizes", value: "Custom" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Industrial Grade"],
     applications: ["Heavy Components", "Sharp Metal Parts", "Industrial Hardware", "Bulk Packaging", "Retail"],
   },
   {
@@ -434,6 +448,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Clarity", value: "Crystal clear" },
       { label: "Seal Temperature", value: "120 – 160°C" },
     ],
+    tags: ["Made in India", "Custom Sizes", "Crystal Clear"],
     applications: ["Garments", "Stationery", "Food Packaging", "Gift Items", "Pharmaceutical"],
   },
   {
@@ -462,6 +477,7 @@ export const FALLBACK_PRODUCTS = [
       { label: "Width", value: "Up to 1500mm" },
       { label: "Finish", value: "Glossy / Matte / Metallized" },
     ],
+    tags: ["Made in India", "Custom Sizes", "High Clarity"],
     applications: ["Overwrapping", "Lamination", "Labels & Tapes", "Food Industry", "Tobacco Packaging"],
   },
 ];

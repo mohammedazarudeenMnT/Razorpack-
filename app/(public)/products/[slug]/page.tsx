@@ -33,6 +33,8 @@ async function getProductBySlug(slug: string) {
       features: fb.features || [],
       technicalSpecs: fb.technicalSpecs || [],
       applications: fb.applications || [],
+      tags: fb.tags || [],
+      deliveryInfo: fb.deliveryInfo || [],
       gallery: fb.gallery || [],
     };
   }

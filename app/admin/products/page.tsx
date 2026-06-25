@@ -114,6 +114,8 @@ export default function ProductsPage() {
     features: "",
     technicalSpecs: [] as Array<{ label: string; value: string }>,
     applications: [] as string[],
+    tags: [] as string[],
+    deliveryInfo: [] as string[],
     image: "",
     gallery: [] as string[],
     status: "active",
@@ -183,6 +185,8 @@ export default function ProductsPage() {
       features: product.features.join(", "),
       technicalSpecs: product.technicalSpecs || [],
       applications: product.applications || [],
+      tags: product.tags || [],
+      deliveryInfo: product.deliveryInfo || [],
       image: product.image,
       gallery: product.gallery || [],
       status: product.status,
@@ -249,6 +253,8 @@ export default function ProductsPage() {
       );
       submitFormData.append("technicalSpecs", JSON.stringify(formData.technicalSpecs));
       submitFormData.append("applications", JSON.stringify(formData.applications));
+      submitFormData.append("tags", JSON.stringify(formData.tags));
+      submitFormData.append("deliveryInfo", JSON.stringify(formData.deliveryInfo));
       submitFormData.append("seoTitle", formData.seoTitle.trim());
       submitFormData.append("seoDescription", formData.seoDescription.trim());
       submitFormData.append("seoKeywords", formData.seoKeywords.trim());
@@ -358,6 +364,7 @@ export default function ProductsPage() {
       features: "",
       technicalSpecs: [],
       applications: [],
+      tags: [],
       image: "",
       gallery: [],
       status: "active",
@@ -692,7 +699,7 @@ export default function ProductsPage() {
                       <div className="mt-3">
                         <div className="flex gap-2 overflow-x-auto">
                           {product.gallery.slice(0, 4).map((image, index) => (
-                            <div key={index} className="flex-shrink-0">
+                            <div key={image} className="flex-shrink-0">
                               <Image
                                 src={image}
                                 alt={`Gallery ${index + 1}`}
@@ -751,7 +758,7 @@ export default function ProductsPage() {
                           <div className="flex flex-wrap gap-2">
                             {product.features.slice(0, 3).map((feature, index) => (
                               <Badge
-                                key={index}
+                                key={`feature-${feature}-${index}`}
                                 variant="outline"
                                 className="text-xs"
                               >
@@ -927,6 +934,42 @@ export default function ProductsPage() {
                   className="mt-2"
                 />
               </div>
+
+              <div>
+                <Label>Quick Tags / Badges (comma-separated)</Label>
+                <Input
+                  value={formData.tags?.join(", ") || ""}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      tags: e.target.value.split(",").map((t) => t.trim()).filter((t) => t),
+                    })
+                  }
+                  placeholder="e.g., Made in India, Custom Sizes, ISO Certified"
+                  className="mt-2"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  These appear as badge pills on the product detail page
+                </p>
+              </div>
+
+              <div>
+                <Label>Delivery & Packaging Info (comma-separated)</Label>
+                <Input
+                  value={formData.deliveryInfo?.join(", ") || ""}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      deliveryInfo: e.target.value.split(",").map((d) => d.trim()).filter((d) => d),
+                    })
+                  }
+                  placeholder="e.g., Pan-India delivery with 99% on-schedule rate, International export packaging available"
+                  className="mt-2"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Delivery info points shown in the product detail accordion
+                </p>
+              </div>
             </div>
 
             {/* Technical Specifications */}
@@ -960,7 +1003,7 @@ export default function ProductsPage() {
               ) : (
                 <div className="space-y-2">
                   {formData.technicalSpecs?.map((spec, index) => (
-                    <div key={index} className="flex gap-2 items-start">
+                    <div key={`spec-${spec.label}-${index}`} className="flex gap-2 items-start">
                       <Input
                         value={spec.label || ""}
                         onChange={(e) => {
@@ -1059,7 +1102,7 @@ export default function ProductsPage() {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {formData.gallery.map((url, index) => (
                         <div
-                          key={index}
+                          key={url}
                           className="relative group border-2 border-gray-200 rounded-lg overflow-hidden"
                         >
                           <div className="relative h-32">

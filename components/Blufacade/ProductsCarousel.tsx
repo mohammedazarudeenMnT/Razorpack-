@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import { useProducts } from "@/hooks/use-products";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -40,8 +41,14 @@ export function ProductsCarousel() {
         name: p.productName,
         num: String(i + 1).padStart(2, "0"),
         image: p.image,
+        slug: p.slug,
+        shortDescription: p.shortDescription || "",
       }))
-    : FALLBACK_PRODUCTS;
+    : FALLBACK_PRODUCTS.map((p) => ({
+        ...p,
+        slug: "",
+        shortDescription: "",
+      }));
 
   // Horizontal Parallax Scroll Animation
   useGSAP(
@@ -110,7 +117,8 @@ export function ProductsCarousel() {
           const bgColor = bgColors[i % 4];
 
           return (
-            <div
+            <Link
+              href={product.slug ? `/products/${product.slug}` : "/products"}
               key={product.num}
               className={`shrink-0 w-[80vw] md:w-[450px] aspect-[3/4] rounded-[1.5rem] md:rounded-[2rem] border-[3px] md:border-4 border-[#1b1c19] ${bgColor} shadow-[8px_8px_0px_0px_#1b1c19] md:shadow-[12px_12px_0px_0px_#1b1c19] overflow-hidden flex flex-col relative transition-transform hover:scale-[1.02] duration-300 ${rotateClass}`}
             >
@@ -139,15 +147,16 @@ export function ProductsCarousel() {
 
                 <div className="flex items-end justify-between mt-4">
                   <p className="text-white/90 text-sm md:text-base font-medium max-w-[220px] leading-tight">
-                    Premium industrial packaging engineered for ultimate
-                    protection.
+                    {product.shortDescription
+                      ? product.shortDescription.slice(0, 80) + (product.shortDescription.length > 80 ? "..." : "")
+                      : "Premium industrial packaging engineered for ultimate protection."}
                   </p>
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1b1c19] flex items-center justify-center text-white shrink-0 shadow-inner group-hover:scale-110 transition-transform">
                     <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

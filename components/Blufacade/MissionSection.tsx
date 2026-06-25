@@ -364,7 +364,7 @@ export function MissionSection() {
         {/* ─── GSAP ACCORDION LIST ─── */}
         <div ref={listRef} className="accordion-list flex flex-col mb-16">
           {whyChooseUsData.map((item, index) => (
-            <div key={index} className="accordion-row">
+            <div key={item.num} className="accordion-row">
               <AccordionItem
                 item={item}
                 index={index}

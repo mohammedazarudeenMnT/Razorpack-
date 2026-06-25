@@ -123,7 +123,7 @@ export function AboutContent() {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-gray-200 mb-20"
         >
           {stats.map((stat, index) => (
-            <div key={index} className="text-center">
+            <div key={stat.label} className="text-center">
               <div className="text-4xl md:text-5xl font-bold text-[#014a74] mb-2">{stat.value}</div>
               <div className="text-gray-600">{stat.label}</div>
             </div>
@@ -149,7 +149,7 @@ export function AboutContent() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {values.map((value, index) => (
             <motion.div
-              key={index}
+              key={value.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

@@ -130,7 +130,7 @@ export function OtherServicesAnimation({
       >
         {otherServices.map((service, index) => (
           <Link
-            key={index}
+            key={service.slug}
             href={`/services/${service.slug}`}
             className="service-link-item opacity-0 font-heading font-black text-[clamp(1.5rem,4.5vw,4rem)] text-[#1a1a1a] uppercase hover:text-[var(--brand-blue)] transition-colors duration-300 leading-[0.9] tracking-[-0.03em] text-center"
           >

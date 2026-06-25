@@ -21,6 +21,8 @@ interface ProductData {
   features: string[];
   technicalSpecs?: Array<{ label: string; value: string }>;
   applications?: string[];
+  tags?: string[];
+  deliveryInfo?: string[];
   slug: string;
 }
 
@@ -158,7 +160,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
               <div className="grid grid-cols-4 gap-2.5">
                 {allImages.slice(0, 4).map((img, idx) => (
                   <button
-                    key={idx}
+                    key={`${img}-${idx}`}
                     onClick={() => setSelectedImage(idx)}
                     className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-300 ${
                       selectedImage === idx
@@ -183,7 +185,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
               <div className="grid grid-cols-4 gap-2.5">
                 {allImages.slice(4, 8).map((img, idx) => (
                   <button
-                    key={idx + 4}
+                    key={`${img}-${idx}`}
                     onClick={() => setSelectedImage(idx + 4)}
                     className={`relative aspect-square bg-white rounded-md overflow-hidden border transition-all duration-300 ${
                       selectedImage === idx + 4
@@ -222,12 +224,14 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
 
             {/* Quick specs pills */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <span className="pdt-pill px-3 py-1.5 bg-[#f5f5f5] text-[var(--brand-dark)] text-[11px] font-semibold rounded-full uppercase tracking-wider">
-                Made in India
-              </span>
-              <span className="pdt-pill px-3 py-1.5 bg-[#f5f5f5] text-[var(--brand-dark)] text-[11px] font-semibold rounded-full uppercase tracking-wider">
-                Custom Sizes
-              </span>
+              {(product.tags && product.tags.length > 0
+                ? product.tags
+                : ["Made in India", "Custom Sizes"]
+              ).map((tag) => (
+                <span key={`tag-${tag}`} className="pdt-pill px-3 py-1.5 bg-[#f5f5f5] text-[var(--brand-dark)] text-[11px] font-semibold rounded-full uppercase tracking-wider">
+                  {tag}
+                </span>
+              ))}
               <span className="pdt-pill-accent px-3 py-1.5 bg-[var(--brand-blue)]/10 text-[var(--brand-blue)] text-[11px] font-semibold rounded-full uppercase tracking-wider">
                 {product.category || "Premium Quality"}
               </span>
@@ -262,7 +266,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
             <AccordionItem title="Key Features" defaultOpen>
               <div className="space-y-3">
                 {features.map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
+                  <div key={`feature-${feature}`} className="flex items-start gap-3">
                     <div className="pdt-check-bg w-5 h-5 rounded-full bg-[var(--brand-blue)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <Check className="w-3 h-3 text-[var(--brand-blue)]" />
                     </div>
@@ -278,7 +282,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                 <div className="space-y-0">
                   {product.technicalSpecs.map((spec, idx) => (
                     <div
-                      key={idx}
+                      key={`spec-${spec.label}`}
                       className={`flex justify-between items-center py-3 ${
                         idx !== product.technicalSpecs!.length - 1
                           ? "border-b border-[#f0f0f0]"
@@ -298,7 +302,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
               <div className="flex flex-wrap gap-2">
                 {applications.map((app, idx) => (
                   <span
-                    key={idx}
+                    key={`app-${app}`}
                     className="pdt-pill px-4 py-2 bg-[#f5f5f5] text-[#555] text-xs font-medium rounded-full"
                   >
                     {app}
@@ -310,30 +314,23 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
             {/* Delivery & Packaging */}
             <AccordionItem title="Delivery & Packaging">
               <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <div className="pdt-check-green-bg w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="pdt-check-green-icon w-3 h-3 text-green-600" />
+                {(product.deliveryInfo && product.deliveryInfo.length > 0
+                  ? product.deliveryInfo
+                  : [
+                      "Pan-India delivery with 99% on-schedule rate",
+                      "International export packaging available",
+                      "Bulk order discounts for recurring clients",
+                    ]
+                ).map((info) => (
+                  <div key={`delivery-${info}`} className="flex items-start gap-3">
+                    <div className="pdt-check-green-bg w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="pdt-check-green-icon w-3 h-3 text-green-600" />
+                    </div>
+                    <span className="pdt-text text-[#555] text-sm leading-relaxed">
+                      {info}
+                    </span>
                   </div>
-                  <span className="text-[#555] text-sm leading-relaxed">
-                    Pan-India delivery with 99% on-schedule rate
-                  </span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="pdt-check-green-bg w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="pdt-check-green-icon w-3 h-3 text-green-600" />
-                  </div>
-                  <span className="text-[#555] text-sm leading-relaxed">
-                    International export packaging available
-                  </span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="pdt-check-green-bg w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Check className="pdt-check-green-icon w-3 h-3 text-green-600" />
-                  </div>
-                  <span className="text-[#555] text-sm leading-relaxed">
-                    Bulk order discounts for recurring clients
-                  </span>
-                </div>
+                ))}
               </div>
             </AccordionItem>
 

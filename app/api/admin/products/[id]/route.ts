@@ -84,6 +84,8 @@ export async function PUT(
     const features = JSON.parse(formData.get("features") as string || "[]");
     const technicalSpecs = JSON.parse(formData.get("technicalSpecs") as string || "[]");
     const applications = JSON.parse(formData.get("applications") as string || "[]");
+    const tags = JSON.parse(formData.get("tags") as string || "[]");
+    const deliveryInfo = JSON.parse(formData.get("deliveryInfo") as string || "[]");
     const seoTitle = formData.get("seoTitle") as string;
     const seoDescription = formData.get("seoDescription") as string;
     const seoKeywords = formData.get("seoKeywords") as string;
@@ -190,6 +192,8 @@ export async function PUT(
     product.features = features;
     product.technicalSpecs = technicalSpecs;
     product.applications = applications;
+    product.tags = tags;
+    product.deliveryInfo = deliveryInfo;
     product.slug = newSlug;
     product.status = status;
     product.order = order;

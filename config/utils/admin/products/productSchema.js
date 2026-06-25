@@ -61,6 +61,20 @@ const productSchema = new mongoose.Schema(
         trim: true,
       },
     ],
+    // Quick tags/badges (e.g., Made in India, Custom Sizes)
+    tags: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+    // Delivery & Packaging info points
+    deliveryInfo: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
     slug: {
       type: String,
       required: true,

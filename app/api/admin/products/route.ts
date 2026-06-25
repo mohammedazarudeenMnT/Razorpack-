@@ -120,6 +120,8 @@ export async function POST(request: NextRequest) {
     const features = JSON.parse(formData.get("features") as string || "[]");
     const technicalSpecs = JSON.parse(formData.get("technicalSpecs") as string || "[]");
     const applications = JSON.parse(formData.get("applications") as string || "[]");
+    const tags = JSON.parse(formData.get("tags") as string || "[]");
+    const deliveryInfo = JSON.parse(formData.get("deliveryInfo") as string || "[]");
     const seoTitle = formData.get("seoTitle") as string;
     const seoDescription = formData.get("seoDescription") as string;
     const seoKeywords = formData.get("seoKeywords") as string;
@@ -198,6 +200,8 @@ export async function POST(request: NextRequest) {
       features,
       technicalSpecs,
       applications,
+      tags,
+      deliveryInfo,
       slug,
       status,
       order,

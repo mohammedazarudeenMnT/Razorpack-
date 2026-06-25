@@ -115,6 +115,7 @@ export default function ServicesPage() {
     shortDescription: "",
     description: "",
     features: "",
+    technicalSpecs: [] as Array<{ label: string; value: string }>,
     applications: [] as string[],
     processSteps: [] as Array<{ title: string; description: string }>,
     whyChooseUs: "",
@@ -186,6 +187,7 @@ export default function ServicesPage() {
       shortDescription: service.shortDescription || "",
       description: service.description,
       features: service.features.join(", "),
+      technicalSpecs: service.technicalSpecs || [],
       applications: service.applications || [],
       processSteps: service.processSteps || [],
       whyChooseUs: (service.whyChooseUs || []).join("\n"),
@@ -382,7 +384,11 @@ export default function ServicesPage() {
       shortDescription: "",
       description: "",
       features: "",
+      technicalSpecs: [],
       applications: [],
+      processSteps: [],
+      whyChooseUs: "",
+      highlights: "",
       image: "",
       gallery: [],
       status: "active",
@@ -717,7 +723,7 @@ export default function ServicesPage() {
                       <div className="mt-3">
                         <div className="flex gap-2 overflow-x-auto">
                           {service.gallery.slice(0, 4).map((image, index) => (
-                            <div key={index} className="flex-shrink-0">
+                            <div key={image} className="flex-shrink-0">
                               <Image
                                 src={image}
                                 alt={`Gallery ${index + 1}`}
@@ -776,7 +782,7 @@ export default function ServicesPage() {
                           <div className="flex flex-wrap gap-2">
                             {service.features.slice(0, 3).map((feature, index) => (
                               <Badge
-                                key={index}
+                                key={`feature-${feature}-${index}`}
                                 variant="outline"
                                 className="text-xs"
                               >
@@ -987,7 +993,7 @@ export default function ServicesPage() {
                 <div className="space-y-3">
                   {formData.processSteps?.map((step, index) => (
                     <div
-                      key={index}
+                      key={`step-${step.title}-${index}`}
                       className="flex items-start gap-3 p-4 border rounded-md bg-white relative group"
                     >
                       <div className="flex-1 space-y-3">
@@ -1089,7 +1095,7 @@ export default function ServicesPage() {
               ) : (
                 <div className="space-y-2">
                   {formData.technicalSpecs?.map((spec, index) => (
-                    <div key={index} className="flex gap-2 items-start">
+                    <div key={`spec-${spec.label}-${index}`} className="flex gap-2 items-start">
                       <Input
                         value={spec.label || ""}
                         onChange={(e) => {
@@ -1188,7 +1194,7 @@ export default function ServicesPage() {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {formData.gallery.map((url, index) => (
                         <div
-                          key={index}
+                          key={url}
                           className="relative group border-2 border-gray-200 rounded-lg overflow-hidden"
                         >
                           <div className="relative h-32">
