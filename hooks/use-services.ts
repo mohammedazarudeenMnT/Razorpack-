@@ -5,6 +5,7 @@ import useSWR from "swr";
 interface Service {
   _id: string;
   serviceName: string;
+  category?: string;
   shortDescription?: string;
   description: string;
   image: string;

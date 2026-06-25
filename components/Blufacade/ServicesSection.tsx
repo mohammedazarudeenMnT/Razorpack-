@@ -46,125 +46,66 @@ const FALLBACK_SERVICES = [
 
 export function ServicesSection() {
   const containerRef = useRef<HTMLElement>(null);
-  const { services: dynamicServices } = useServices(1, 4);
+  const { services: dynamicServices, isLoading } = useServices(1, 4);
 
   // Map dynamic services to the card format, fallback to static
-  const SERVICES = dynamicServices.length > 0
-    ? dynamicServices.map((s, i) => ({
-        id: String(i + 1).padStart(2, "0"),
-        cardTitle: s.shortDescription || s.features?.[0] || "Core Solutions",
-        cardHeading: s.serviceName,
-        cardText: s.description,
-        bgImage: s.image,
-      }))
-    : FALLBACK_SERVICES;
+  const SERVICES =
+    dynamicServices.length > 0
+      ? dynamicServices.map((s, i) => ({
+          id: String(i + 1).padStart(2, "0"),
+          cardTitle: s.category || "Core Solutions",
+          cardHeading: s.serviceName,
+          cardText: s.description?.replace(/<[^>]+>/g, "").slice(0, 200) || "",
+          bgImage: s.image,
+        }))
+      : FALLBACK_SERVICES;
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
+      const count = SERVICES.length;
+      if (count === 0 || isLoading) return;
 
-      // ── ALL DEVICES: pinned scroll with card transitions ──
       mm.add("(min-width: 0px)", () => {
         const section = containerRef.current;
         if (!section) return;
 
-        gsap.set(".card-1", { y: "100vh", opacity: 0 });
-        gsap.set(".card-2", { y: "100vh", opacity: 0 });
-        gsap.set(".card-3", { y: "100vh", opacity: 0 });
-        gsap.set(".bg-panel-1", { opacity: 0 });
-        gsap.set(".bg-panel-2", { opacity: 0 });
-        gsap.set(".bg-panel-3", { opacity: 0 });
+        // Hide all cards/bg except first
+        for (let i = 1; i < count; i++) {
+          gsap.set(`.card-${i}`, { y: "100vh", opacity: 0 });
+          gsap.set(`.bg-panel-${i}`, { opacity: 0 });
+        }
+
+        // If only 1 service, no scroll animation needed
+        if (count <= 1) return;
+
+        const scrollLength = `+=${count * 100}%`;
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "+=400%",
+            end: scrollLength,
             pin: true,
             scrub: 1,
           },
         });
 
-        // Hold Service 0
-        tl.to({}, { duration: 1 });
+        // Build transitions dynamically
+        for (let i = 0; i < count; i++) {
+          // Hold current service
+          tl.to({}, { duration: 1 });
 
-        // Transition 0 → 1
-        tl.addLabel("trans1")
-          .to(
-            ".card-0",
-            { y: "-100vh", opacity: 0, duration: 1, ease: "power2.inOut" },
-            "trans1",
-          )
-          .to(
-            ".bg-panel-0",
-            { opacity: 0, duration: 1, ease: "power2.inOut" },
-            "trans1",
-          )
-          .to(
-            ".bg-panel-1",
-            { opacity: 1, duration: 1, ease: "power2.inOut" },
-            "trans1",
-          )
-          .to(
-            ".card-1",
-            { y: "0vh", opacity: 1, duration: 1, ease: "power2.inOut" },
-            "trans1",
-          );
-
-        // Hold Service 1
-        tl.to({}, { duration: 1 });
-
-        // Transition 1 → 2
-        tl.addLabel("trans2")
-          .to(
-            ".card-1",
-            { y: "-100vh", opacity: 0, duration: 1, ease: "power2.inOut" },
-            "trans2",
-          )
-          .to(
-            ".bg-panel-1",
-            { opacity: 0, duration: 1, ease: "power2.inOut" },
-            "trans2",
-          )
-          .to(
-            ".bg-panel-2",
-            { opacity: 1, duration: 1, ease: "power2.inOut" },
-            "trans2",
-          )
-          .to(
-            ".card-2",
-            { y: "0vh", opacity: 1, duration: 1, ease: "power2.inOut" },
-            "trans2",
-          );
-
-        // Hold Service 2
-        tl.to({}, { duration: 1 });
-
-        // Transition 2 → 3
-        tl.addLabel("trans3")
-          .to(
-            ".card-2",
-            { y: "-100vh", opacity: 0, duration: 1, ease: "power2.inOut" },
-            "trans3",
-          )
-          .to(
-            ".bg-panel-2",
-            { opacity: 0, duration: 1, ease: "power2.inOut" },
-            "trans3",
-          )
-          .to(
-            ".bg-panel-3",
-            { opacity: 1, duration: 1, ease: "power2.inOut" },
-            "trans3",
-          )
-          .to(
-            ".card-3",
-            { y: "0vh", opacity: 1, duration: 1, ease: "power2.inOut" },
-            "trans3",
-          );
-
-        // Hold Service 3
-        tl.to({}, { duration: 1 });
+          // Transition to next (skip for last)
+          if (i < count - 1) {
+            const label = `trans${i + 1}`;
+            tl.addLabel(label)
+              .to(`.card-${i}`, { y: "-100vh", opacity: 0, duration: 1, ease: "power2.inOut" }, label)
+              .to(`.bg-panel-${i}`, { opacity: 0, duration: 1, ease: "power2.inOut" }, label)
+              .to(`.bg-panel-${i + 1}`, { opacity: 1, duration: 1, ease: "power2.inOut" }, label)
+              .to(`.card-${i + 1}`, { y: "0vh", opacity: 1, duration: 1, ease: "power2.inOut" }, label);
+          }
+        }
 
         // Parallax on backgrounds
         gsap.to(".parallax-bg", {
@@ -173,7 +114,7 @@ export function ServicesSection() {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "+=400%",
+            end: scrollLength,
             scrub: true,
           },
         });
@@ -181,14 +122,25 @@ export function ServicesSection() {
 
       return () => mm.revert();
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [SERVICES.length, isLoading] },
   );
+
+  if (SERVICES.length === 0 && !isLoading) return null;
 
   return (
     <section
       ref={containerRef}
       className="relative w-full h-[100svh] bg-[#1b1c19] overflow-hidden"
     >
+      {/* Loading State */}
+      {isLoading && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-[#1b1c19]">
+          <div className="text-center">
+            <div className="w-10 h-10 border-2 border-white/20 border-t-[var(--brand-blue)] rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-white/40 text-sm font-medium tracking-wide">Loading services...</p>
+          </div>
+        </div>
+      )}
       {/* ══════════ UNIVERSAL PINNED LAYOUT ══════════ */}
 
       {/* Background Layers */}
