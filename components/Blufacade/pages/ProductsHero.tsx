@@ -3,25 +3,27 @@
 import { PageHero } from "./PageHero";
 import { useBanner } from "@/hooks/use-banner";
 
-const FALLBACK = {
-  label: "Our Products",
-  headingLine1: "PACKAGING",
-  headingLine2: "PROTECTION",
-  description:
-    "Precision-engineered VCI & LDPE films, pouches, bags, and shrink wraps — delivering industrial-grade corrosion prevention and product protection across 16+ specialized solutions.",
-  image: "/images/products_hero_packaging_v2.png",
-};
-
 export function ProductsHero() {
-  const { banner } = useBanner("products");
+  const { banner, isLoading } = useBanner("products");
+
+  if (isLoading) {
+    return (
+      <div className="relative w-full h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 border-2 border-gray-200 border-t-[var(--brand-blue)] rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-400 text-sm font-medium tracking-wide">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <PageHero
-      label={banner?.label || FALLBACK.label}
-      headingLine1={banner?.headingLine1 || FALLBACK.headingLine1}
-      headingLine2={banner?.headingLine2 || FALLBACK.headingLine2}
-      description={banner?.description || FALLBACK.description}
-      image={banner?.image || FALLBACK.image}
+      label={banner?.label || "Our Products"}
+      headingLine1={banner?.headingLine1 || "PACKAGING"}
+      headingLine2={banner?.headingLine2 || "PROTECTION"}
+      description={banner?.description || ""}
+      image={banner?.image || "/images/products_hero_packaging_v2.png"}
       imageAlt="Rayzor Industrial Packaging Pvt Ltd VCI & LDPE Packaging Products"
       showPlayButton={false}
       bgGraphicTopRight="/images/rayzor/hero/hero_products_bg_tr.png"
