@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import SEO from "@/config/utils/admin/seo/seoSchema";
+import { uploadToCloudinary, deleteByUrl } from "@/config/utils/cloudinary";
 import connectDB from "@/config/models/connectDB";
 
 // GET - Fetch all SEO data
@@ -110,12 +111,34 @@ export async function GET() {
   }
 }
 
-// PUT - Update SEO data
+// PUT - Update SEO data (supports both JSON and multipart/form-data)
 export async function PUT(request: NextRequest) {
   try {
     await connectDB();
-    const body = await request.json();
-    const { id, title, description, keywords } = body;
+
+    const contentType = request.headers.get("content-type") || "";
+    let id: string, title: string, description: string, keywords: string;
+    let ogImageFile: File | null = null;
+    let existingOgImage: string = "";
+    let removeOgImage = false;
+
+    if (contentType.includes("multipart/form-data")) {
+      const formData = await request.formData();
+      id = formData.get("id") as string;
+      title = formData.get("title") as string;
+      description = formData.get("description") as string;
+      keywords = formData.get("keywords") as string;
+      ogImageFile = formData.get("ogImage") as File | null;
+      existingOgImage = formData.get("existingOgImage") as string || "";
+      removeOgImage = formData.get("removeOgImage") === "true";
+    } else {
+      const body = await request.json();
+      id = body.id;
+      title = body.title;
+      description = body.description;
+      keywords = body.keywords;
+      existingOgImage = body.ogImage || "";
+    }
 
     if (!id || !title || !description) {
       return NextResponse.json(
@@ -124,23 +147,49 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const updatedSEO = await SEO.findOneAndUpdate(
-      { id },
-      {
-        title,
-        description,
-        keywords: keywords || "",
-        lastUpdated: new Date(),
-      },
-      { new: true }
-    );
-
-    if (!updatedSEO) {
+    // Get current SEO record to check existing image
+    const currentSEO = await SEO.findOne({ id });
+    if (!currentSEO) {
       return NextResponse.json(
         { success: false, error: "SEO page not found" },
         { status: 404 }
       );
     }
+
+    const updateData: any = {
+      title,
+      description,
+      keywords: keywords || "",
+      lastUpdated: new Date(),
+    };
+
+    // Handle OG image
+    if (ogImageFile && ogImageFile.size > 0) {
+      // Upload new image to Cloudinary
+      const bytes = await ogImageFile.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const result = await uploadToCloudinary(buffer, `seo/${id}`);
+      updateData.ogImage = (result as any).secure_url;
+
+      // Delete old image from Cloudinary
+      if (currentSEO.ogImage) {
+        await deleteByUrl(currentSEO.ogImage).catch(() => {});
+      }
+    } else if (removeOgImage) {
+      // Remove image
+      if (currentSEO.ogImage) {
+        await deleteByUrl(currentSEO.ogImage).catch(() => {});
+      }
+      updateData.ogImage = "";
+    } else if (existingOgImage) {
+      updateData.ogImage = existingOgImage;
+    }
+
+    const updatedSEO = await SEO.findOneAndUpdate(
+      { id },
+      updateData,
+      { new: true }
+    );
 
     return NextResponse.json({
       success: true,

@@ -105,6 +105,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    ogImage: {
+      type: String,
+      trim: true,
+    },
     views: {
       type: Number,
       default: 0,

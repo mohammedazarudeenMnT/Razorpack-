@@ -6,9 +6,13 @@ interface SiteSettings {
   siteName: string
   siteNameAccent: string
   siteTagline: string
+  siteUrl: string
   logo: string | null
   favicon: string | null
   companyProfile: string | null
+  googleAnalyticsId: string | null
+  ga4PropertyId: string | null
+  ga4ServiceAccountKeyConfigured: boolean
 }
 
 export function useSettings() {

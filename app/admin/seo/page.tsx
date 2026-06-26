@@ -8,7 +8,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast"
-import { Save, Search, Edit, Loader2 } from "lucide-react"
+import { Save, Search, Edit, Loader2, ImageIcon, X } from "lucide-react"
+import Image from "next/image"
 
 interface SEOPage {
   _id?: string;
@@ -17,6 +18,7 @@ interface SEOPage {
   title: string;
   description: string;
   keywords: string;
+  ogImage?: string;
   lastUpdated: string;
 }
 
@@ -33,7 +35,10 @@ export default function SEOManagerPage() {
     title: "",
     description: "",
     keywords: "",
+    ogImage: "",
   })
+  const [ogImageFile, setOgImageFile] = useState<File | null>(null)
+  const [ogImagePreview, setOgImagePreview] = useState<string>("")
 
   useEffect(() => {
     fetchSEOData();
@@ -73,7 +78,10 @@ export default function SEOManagerPage() {
       title: page.title,
       description: page.description,
       keywords: page.keywords,
+      ogImage: page.ogImage || "",
     })
+    setOgImageFile(null)
+    setOgImagePreview(page.ogImage || "")
     setIsEditing(true)
   }
 
@@ -91,17 +99,23 @@ export default function SEOManagerPage() {
       try {
         setSaving(true);
         
+        const submitData = new FormData();
+        submitData.append("id", editingId);
+        submitData.append("title", formData.title);
+        submitData.append("description", formData.description);
+        submitData.append("keywords", formData.keywords);
+
+        if (ogImageFile) {
+          submitData.append("ogImage", ogImageFile);
+        } else if (formData.ogImage) {
+          submitData.append("existingOgImage", formData.ogImage);
+        } else if (ogImagePreview === "" && !formData.ogImage) {
+          submitData.append("removeOgImage", "true");
+        }
+
         const response = await fetch('/api/admin/seo', {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            id: editingId,
-            title: formData.title,
-            description: formData.description,
-            keywords: formData.keywords,
-          }),
+          body: submitData,
         });
 
         const result = await response.json();
@@ -147,7 +161,10 @@ export default function SEOManagerPage() {
       title: "",
       description: "",
       keywords: "",
+      ogImage: "",
     })
+    setOgImageFile(null)
+    setOgImagePreview("")
   }
 
   return (
@@ -230,6 +247,95 @@ export default function SEOManagerPage() {
               <p className="text-sm text-gray-500 mt-1">Separate keywords with commas</p>
             </div>
 
+            {/* OG Image */}
+            <div>
+              <Label className="text-base font-semibold">
+                OG Image (Social Sharing Preview)
+              </Label>
+              <p className="text-sm text-gray-500 mt-1 mb-3">
+                Image shown when this page is shared on Facebook, LinkedIn, WhatsApp, Twitter. Recommended: 1200 x 630px. Uploaded to Cloudinary.
+              </p>
+
+              {(ogImagePreview || formData.ogImage) ? (
+                <div className="space-y-3">
+                  <div className="relative w-full max-w-md aspect-[1200/630] rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                    <Image
+                      src={ogImagePreview || formData.ogImage}
+                      alt="OG Image Preview"
+                      fill
+                      className="object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormData({ ...formData, ogImage: "" });
+                        setOgImageFile(null);
+                        setOgImagePreview("");
+                      }}
+                      className="absolute top-2 right-2 w-7 h-7 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white shadow-md"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id={`og-image-upload-${editingId}`}
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setOgImageFile(file);
+                          setOgImagePreview(URL.createObjectURL(file));
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={`og-image-upload-${editingId}`}
+                      className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                    >
+                      <ImageIcon className="h-4 w-4" />
+                      Change Image
+                    </label>
+                    {ogImageFile && (
+                      <span className="ml-3 text-xs text-amber-600 font-medium">New image selected — save to upload</span>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="w-full max-w-md aspect-[1200/630] rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 flex flex-col items-center justify-center text-gray-400">
+                    <ImageIcon className="h-8 w-8 mb-2" />
+                    <p className="text-sm font-medium">No OG image set</p>
+                    <p className="text-xs">Upload an image (1200 x 630px)</p>
+                  </div>
+                  <div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id={`og-image-upload-${editingId}`}
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setOgImageFile(file);
+                          setOgImagePreview(URL.createObjectURL(file));
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor={`og-image-upload-${editingId}`}
+                      className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-[#26A8E0] text-white rounded-lg cursor-pointer hover:bg-[#1a8abf] transition-colors"
+                    >
+                      <ImageIcon className="h-4 w-4" />
+                      Upload OG Image
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <div className="flex gap-4 pt-4 border-t">
               <Button onClick={handleSave} className="bg-[#221E1F] hover:bg-[#333] text-white" disabled={saving}>
                 {saving ? (
@@ -293,6 +399,13 @@ export default function SEOManagerPage() {
                     <div>
                       <span className="text-sm font-medium text-gray-700">Keywords: </span>
                       <span className="text-sm text-gray-600">{page.keywords}</span>
+                    </div>
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">OG Image: </span>
+                      <span className="text-sm text-gray-600">{page.ogImage ? "Set" : "Not set"}</span>
+                      {page.ogImage && (
+                        <span className="text-green-500 text-xs ml-1">✓</span>
+                      )}
                     </div>
                     <div className="text-xs text-gray-500">Last updated: {new Date(page.lastUpdated).toLocaleDateString()}</div>
                   </div>

@@ -127,6 +127,7 @@ export default function ServicesPage() {
     seoTitle: "",
     seoDescription: "",
     seoKeywords: "",
+    ogImage: "",
   });
 
   const [selectedFiles, setSelectedFiles] = useState<{
@@ -136,6 +137,8 @@ export default function ServicesPage() {
     image: null,
     galleryImages: [],
   });
+  const [ogImageFile, setOgImageFile] = useState<File | null>(null);
+  const [ogImagePreview, setOgImagePreview] = useState("");
 
   // Fetch services
   const fetchServices = async (page = 1) => {
@@ -199,7 +202,10 @@ export default function ServicesPage() {
       seoTitle: service.seoTitle || "",
       seoDescription: service.seoDescription || "",
       seoKeywords: service.seoKeywords || "",
+      ogImage: service.ogImage || "",
     });
+    setOgImageFile(null);
+    setOgImagePreview(service.ogImage || "");
     setSelectedFiles({
       image: null,
       galleryImages: [],
@@ -280,6 +286,11 @@ export default function ServicesPage() {
       submitFormData.append("seoTitle", formData.seoTitle.trim());
       submitFormData.append("seoDescription", formData.seoDescription.trim());
       submitFormData.append("seoKeywords", formData.seoKeywords.trim());
+      if (ogImageFile) {
+        submitFormData.append("ogImageFile", ogImageFile);
+      } else if (formData.ogImage) {
+        submitFormData.append("ogImage", formData.ogImage);
+      }
 
       if (selectedFiles.image) {
         submitFormData.append("image", selectedFiles.image);
@@ -1247,46 +1258,75 @@ export default function ServicesPage() {
             {/* SEO */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-[#221E1F]">
-                SEO (Optional)
+                SEO & Social Sharing
               </h3>
               <div>
-                <Label>SEO Title</Label>
+                <Label className="text-sm font-medium">Meta Title</Label>
                 <Input
                   value={formData.seoTitle}
-                  onChange={(e) =>
-                    setFormData({ ...formData, seoTitle: e.target.value })
-                  }
-                  placeholder="e.g., VCI Film Rolls | Rayzor Industrial Packaging Pvt Ltd"
+                  onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
+                  placeholder={`Fallback: ${formData.serviceName || "Service Name"} | Site Name`}
                   maxLength={200}
-                  className="mt-2"
+                  className="mt-1.5"
                 />
+                <p className={`text-xs mt-1 ${formData.seoTitle.length > 60 ? 'text-red-500' : 'text-gray-400'}`}>
+                  {formData.seoTitle.length}/60 characters
+                  {!formData.seoTitle && <span className="text-amber-500 ml-1">— will use service name</span>}
+                </p>
               </div>
               <div>
-                <Label>SEO Description</Label>
+                <Label className="text-sm font-medium">Meta Description</Label>
                 <Textarea
                   value={formData.seoDescription}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      seoDescription: e.target.value,
-                    })
-                  }
-                  placeholder="Brief description for search engines (max 300 characters)"
+                  onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
+                  placeholder={`Fallback: ${formData.shortDescription || "Service short description"}`}
                   maxLength={300}
                   rows={3}
-                  className="mt-2"
+                  className="mt-1.5"
                 />
+                <p className={`text-xs mt-1 ${formData.seoDescription.length > 160 ? 'text-red-500' : 'text-gray-400'}`}>
+                  {formData.seoDescription.length}/160 characters
+                  {!formData.seoDescription && formData.shortDescription && <span className="text-amber-500 ml-1">— will use short description</span>}
+                </p>
               </div>
               <div>
-                <Label>SEO Keywords</Label>
+                <Label className="text-sm font-medium">Keywords</Label>
                 <Input
                   value={formData.seoKeywords}
-                  onChange={(e) =>
-                    setFormData({ ...formData, seoKeywords: e.target.value })
-                  }
-                  placeholder="e.g., VCI films, industrial packaging, rust prevention"
-                  className="mt-2"
+                  onChange={(e) => setFormData({ ...formData, seoKeywords: e.target.value })}
+                  placeholder={`Fallback: ${formData.serviceName || "Service"}, ${formData.category || "category"}`}
+                  className="mt-1.5"
                 />
+                {!formData.seoKeywords && <p className="text-xs text-amber-500 mt-1">Will auto-generate from service name & category</p>}
+              </div>
+              <div>
+                <Label className="text-sm font-medium">OG Image (Social Sharing)</Label>
+                <p className="text-xs text-gray-400 mt-0.5 mb-2">Recommended: 1200 x 630px. Uploaded to Cloudinary.</p>
+                {(ogImagePreview || formData.ogImage) ? (
+                  <div className="space-y-2">
+                    <div className="relative w-full max-w-sm aspect-[1200/630] rounded-lg overflow-hidden border border-gray-200 bg-gray-50">
+                      <img src={ogImagePreview || formData.ogImage} alt="OG Preview" className="w-full h-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => { setFormData({ ...formData, ogImage: "" }); setOgImageFile(null); setOgImagePreview(""); }}
+                        className="absolute top-1.5 right-1.5 w-6 h-6 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white shadow"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                    <div>
+                      <input type="file" accept="image/*" id="service-og-upload" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) { setOgImageFile(f); setOgImagePreview(URL.createObjectURL(f)); } }} />
+                      <label htmlFor="service-og-upload" className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">Change Image</label>
+                      {ogImageFile && <span className="ml-2 text-xs text-amber-600">New image — save to upload</span>}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <input type="file" accept="image/*" id="service-og-upload" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) { setOgImageFile(f); setOgImagePreview(URL.createObjectURL(f)); } }} />
+                    <label htmlFor="service-og-upload" className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs bg-[#26A8E0] text-white rounded-lg cursor-pointer hover:bg-[#1a8abf]">Upload OG Image</label>
+                    <p className="text-xs text-amber-500 mt-1.5">Leave empty — will use service main image</p>
+                  </div>
+                )}
               </div>
             </div>
 

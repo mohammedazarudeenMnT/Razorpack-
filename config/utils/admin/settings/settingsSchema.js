@@ -25,6 +25,11 @@ const settingsSchema = new mongoose.Schema(
       trim: true,
       default: "Premium Packaging Solutions & LDPE Films",
     },
+    siteUrl: {
+      type: String,
+      trim: true,
+      default: "https://www.rayzorpack.com",
+    },
     logo: {
       type: String,
       trim: true,
@@ -38,6 +43,20 @@ const settingsSchema = new mongoose.Schema(
     companyProfile: {
       type: String,
       trim: true,
+      default: null,
+    },
+    googleAnalyticsId: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    ga4PropertyId: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    ga4ServiceAccountKey: {
+      type: String,
       default: null,
     },
     isActive: {

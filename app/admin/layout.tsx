@@ -23,6 +23,7 @@ import {
   MessageSquare,
   ImageIcon,
   Globe,
+  BarChart3,
 } from "lucide-react"
 import { Suspense } from "react"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
@@ -135,6 +136,12 @@ export default function AdminLayout({
       href: "/admin",
       icon: <LayoutDashboard className="h-5 w-5" />,
       color: "text-[#221E1F]",
+    },
+    {
+      name: "Analytics",
+      href: "/admin/analytics",
+      icon: <BarChart3 className="h-5 w-5" />,
+      color: "text-[#26A8E0]",
     },
     {
       name: "SEO Manager",

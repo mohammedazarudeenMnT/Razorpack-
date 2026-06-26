@@ -10,14 +10,27 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSEO("gallery");
+  const title = seo?.title || "Gallery";
+  const description = seo?.description || "";
+
   return {
-    title:
-      seo?.title ||
-      "Project Gallery & Portfolio | Rayzor Industrial Packaging Pvt Ltd",
-    description:
-      seo?.description ||
-      "Explore our gallery of completed packaging projects.",
+    title,
+    description,
     keywords: seo?.keywords || "",
+    alternates: { canonical: "/gallery" },
+    openGraph: {
+      title,
+      description,
+      url: "/gallery",
+      type: "website",
+      ...(seo?.ogImage && { images: [{ url: seo.ogImage, width: 1200, height: 630 }] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(seo?.ogImage && { images: [seo.ogImage] }),
+    },
   };
 }
 
@@ -43,12 +56,30 @@ async function getGalleryPageData() {
 }
 
 export default async function GalleryPage() {
-  const { banner, works } = await getGalleryPageData();
+  const [{ banner, works }, seo] = await Promise.all([
+    getGalleryPageData(),
+    getSEO("gallery"),
+  ]);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: seo?.title || "Gallery",
+    description: seo?.description || "",
+    url: "https://www.rayzorpack.com/gallery",
+    mainEntity: {
+      "@type": "ImageGallery",
+      numberOfItems: works.length,
+    },
+  };
 
   return (
-    <main className="min-h-screen">
-      <GalleryHero initialBanner={banner} />
-      <OurWorksSection initialWorks={works} />
-    </main>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <main className="min-h-screen">
+        <GalleryHero initialBanner={banner} />
+        <OurWorksSection initialWorks={works} />
+      </main>
+    </>
   );
 }

@@ -126,6 +126,8 @@ export async function POST(request: NextRequest) {
     const seoTitle = formData.get("seoTitle") as string;
     const seoDescription = formData.get("seoDescription") as string;
     const seoKeywords = formData.get("seoKeywords") as string;
+    const ogImage = formData.get("ogImage") as string;
+    const ogImageFile = formData.get("ogImageFile") as File | null;
     const imageFile = formData.get("image") as File | null;
     const galleryFiles = formData.getAll("galleryImages") as File[];
 
@@ -210,7 +212,16 @@ export async function POST(request: NextRequest) {
       seoTitle,
       seoDescription,
       seoKeywords,
+      ogImage: ogImage || "",
     });
+
+    // Upload OG image if provided
+    if (ogImageFile && ogImageFile.size > 0) {
+      const ogBytes = await ogImageFile.arrayBuffer();
+      const ogBuffer = Buffer.from(ogBytes);
+      const ogResult = await uploadToCloudinary(ogBuffer, `services/${slug}/og`);
+      service.ogImage = (ogResult as any).secure_url;
+    }
 
     await service.save();
 

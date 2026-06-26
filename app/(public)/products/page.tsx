@@ -10,14 +10,27 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSEO("products");
+  const title = seo?.title || "Products";
+  const description = seo?.description || "";
+
   return {
-    title:
-      seo?.title ||
-      "Products | Rayzor Industrial Packaging Pvt Ltd - Industrial Strength",
-    description:
-      seo?.description ||
-      "Explore our range of industrial packaging solutions.",
+    title,
+    description,
     keywords: seo?.keywords || "",
+    alternates: { canonical: "/products" },
+    openGraph: {
+      title,
+      description,
+      url: "/products",
+      type: "website",
+      ...(seo?.ogImage && { images: [{ url: seo.ogImage, width: 1200, height: 630 }] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(seo?.ogImage && { images: [seo.ogImage] }),
+    },
   };
 }
 
@@ -60,21 +73,45 @@ async function getProductsPageData() {
 }
 
 export default async function ProductsPage() {
-  const { heroBanner, products } = await getProductsPageData();
+  const [{ heroBanner, products }, seo] = await Promise.all([
+    getProductsPageData(),
+    getSEO("products"),
+  ]);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: seo?.title || "Products",
+    description: seo?.description || heroBanner?.description || "",
+    url: "https://www.rayzorpack.com/products",
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: products.length,
+      itemListElement: products.map((p: any, i: number) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `https://www.rayzorpack.com/products/${p.slug}`,
+        name: p.name,
+      })),
+    },
+  };
 
   return (
-    <main className="min-h-screen bg-white">
-      {heroBanner && (
-        <PageHero
-          label={heroBanner.label}
-          headingLine1={heroBanner.headingLine1}
-          headingLine2={heroBanner.headingLine2}
-          description={heroBanner.description}
-          image={heroBanner.image}
-          imageAlt="Rayzor Industrial Packaging Pvt Ltd Products"
-        />
-      )}
-      <ProductsGrid initialProducts={products} />
-    </main>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <main className="min-h-screen bg-white">
+        {heroBanner && (
+          <PageHero
+            label={heroBanner.label}
+            headingLine1={heroBanner.headingLine1}
+            headingLine2={heroBanner.headingLine2}
+            description={heroBanner.description}
+            image={heroBanner.image}
+            imageAlt="Rayzor Industrial Packaging Pvt Ltd Products"
+          />
+        )}
+        <ProductsGrid initialProducts={products} />
+      </main>
+    </>
   );
 }

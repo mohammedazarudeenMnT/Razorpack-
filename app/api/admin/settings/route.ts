@@ -20,10 +20,17 @@ export async function GET() {
       );
     }
 
+    // Never expose sensitive credentials to the client
+    const { ga4ServiceAccountKey, ...safeSettings } = settings as Record<string, unknown>;
+
     return NextResponse.json(
       {
         success: true,
-        data: settings,
+        data: {
+          ...safeSettings,
+          // Only indicate whether a key is configured, never return the actual key
+          ga4ServiceAccountKeyConfigured: !!ga4ServiceAccountKey,
+        },
         message: "Site settings fetched successfully",
       },
       { status: 200 }
@@ -68,7 +75,7 @@ export async function PUT(request: NextRequest) {
     await connectDB();
 
     const body = await request.json();
-    const { siteName, siteNameAccent, siteTagline, logo, favicon, companyProfile } = body;
+    const { siteName, siteNameAccent, siteTagline, siteUrl, logo, favicon, companyProfile, googleAnalyticsId, ga4PropertyId, ga4ServiceAccountKey } = body;
 
     // Get current settings to access old file paths
     const currentSettings = await Settings.findOne({ id: "default" });
@@ -98,7 +105,7 @@ export async function PUT(request: NextRequest) {
     let companyProfilePath = companyProfile;
     if (companyProfile && companyProfile.startsWith("data:")) {
       if (currentSettings?.companyProfile) {
-        await deleteOldFile(currentSettings.companyProfile);
+        await deleteByUrl(currentSettings.companyProfile);
       }
       const base64Data = companyProfile.split(";base64,").pop();
       if (base64Data) {
@@ -115,18 +122,27 @@ export async function PUT(request: NextRequest) {
         ...(siteName && { siteName }),
         ...(siteNameAccent !== undefined && { siteNameAccent }),
         ...(siteTagline !== undefined && { siteTagline }),
+        ...(siteUrl !== undefined && { siteUrl }),
         ...(logoPath !== undefined && { logo: logoPath }),
         ...(faviconPath !== undefined && { favicon: faviconPath }),
         ...(companyProfilePath !== undefined && { companyProfile: companyProfilePath }),
+        ...(googleAnalyticsId !== undefined && { googleAnalyticsId }),
+        ...(ga4PropertyId !== undefined && { ga4PropertyId }),
+        ...(ga4ServiceAccountKey !== undefined && { ga4ServiceAccountKey }),
         lastUpdated: new Date(),
       },
       { new: true, runValidators: true, upsert: true }
     );
 
+    // Strip sensitive credentials from response
+    const responseData = updatedSettings.toObject();
+    delete responseData.ga4ServiceAccountKey;
+    responseData.ga4ServiceAccountKeyConfigured = !!updatedSettings.ga4ServiceAccountKey;
+
     return NextResponse.json(
       {
         success: true,
-        data: updatedSettings,
+        data: responseData,
         message: "Site settings updated successfully",
       },
       { status: 200 }
@@ -164,8 +180,12 @@ export async function POST() {
       id: "default",
       siteName: "Rayzor Industrial Packaging Pvt Ltd",
       siteTagline: "Premium Packaging Solutions & LDPE Films",
+      siteUrl: "https://www.rayzorpack.com",
       logo: null,
       favicon: null,
+      googleAnalyticsId: null,
+      ga4PropertyId: null,
+      ga4ServiceAccountKey: null,
       isActive: true,
       lastUpdated: new Date(),
     };
@@ -176,10 +196,14 @@ export async function POST() {
       { new: true, runValidators: true, upsert: true }
     );
 
+    const resetData = resetSettings.toObject();
+    delete resetData.ga4ServiceAccountKey;
+    resetData.ga4ServiceAccountKeyConfigured = false;
+
     return NextResponse.json(
       {
         success: true,
-        data: resetSettings,
+        data: resetData,
         message: "Site settings reset to default successfully",
       },
       { status: 200 }

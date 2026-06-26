@@ -14,6 +14,7 @@ import {
   ImageIcon,
   Upload,
   Building2,
+  BarChart3,
 } from "lucide-react";
 
 export default function SettingsPage() {
@@ -22,10 +23,14 @@ export default function SettingsPage() {
   const [siteName, setSiteName] = useState("Rayzor Industrial Packaging Pvt Ltd");
   const [siteNameAccent, setSiteNameAccent] = useState("PACK");
   const [siteTagline, setSiteTagline] = useState("Premium Packaging Solutions & LDPE Films");
+  const [siteUrl, setSiteUrl] = useState("https://www.rayzorpack.com");
   const [logo, setLogo] = useState<string | null>(null);
   const [favicon, setFavicon] = useState<string | null>(null);
   const [companyProfile, setCompanyProfile] = useState<string | null>(null);
   const [companyProfileName, setCompanyProfileName] = useState<string>("");
+  const [googleAnalyticsId, setGoogleAnalyticsId] = useState<string>("");
+  const [ga4PropertyId, setGa4PropertyId] = useState<string>("");
+  const [ga4ServiceAccountKey, setGa4ServiceAccountKey] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
 
@@ -40,9 +45,13 @@ export default function SettingsPage() {
           setSiteName(result.data.siteName || "Rayzor Industrial Packaging Pvt Ltd");
           setSiteNameAccent(result.data.siteNameAccent || "PACK");
           setSiteTagline(result.data.siteTagline || "Premium Packaging Solutions & LDPE Films");
+          setSiteUrl(result.data.siteUrl || "https://www.rayzorpack.com");
           setLogo(result.data.logo || null);
           setFavicon(result.data.favicon || null);
           setCompanyProfile(result.data.companyProfile || null);
+          setGoogleAnalyticsId(result.data.googleAnalyticsId || "");
+          setGa4PropertyId(result.data.ga4PropertyId || "");
+          setGa4ServiceAccountKey(result.data.ga4ServiceAccountKeyConfigured ? "********" : "");
         }
       } catch (error) {
         console.error("Error fetching settings:", error);
@@ -67,9 +76,13 @@ export default function SettingsPage() {
           siteName,
           siteNameAccent,
           siteTagline,
+          siteUrl,
           logo,
           favicon,
           companyProfile,
+          googleAnalyticsId: googleAnalyticsId || null,
+          ga4PropertyId: ga4PropertyId || null,
+          ...(ga4ServiceAccountKey && ga4ServiceAccountKey !== "********" && { ga4ServiceAccountKey }),
         }),
       });
 
@@ -111,8 +124,12 @@ export default function SettingsPage() {
       if (result.success) {
         setSiteName("Rayzor Industrial Packaging Pvt Ltd");
         setSiteTagline("Premium Packaging Solutions & LDPE Films");
+        setSiteUrl("https://www.rayzorpack.com");
         setLogo(null);
         setFavicon(null);
+        setGoogleAnalyticsId("");
+        setGa4PropertyId("");
+        setGa4ServiceAccountKey("");
 
         toast({
           title: "Success",
@@ -258,6 +275,22 @@ export default function SettingsPage() {
               />
               <p className="text-xs text-gray-500">
                 A short description of your services (optional)
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-sm font-semibold text-gray-700">
+                Site URL
+              </Label>
+              <Input
+                type="text"
+                value={siteUrl}
+                onChange={(e) => setSiteUrl(e.target.value)}
+                placeholder="https://www.example.com"
+                className="w-full font-mono text-sm"
+              />
+              <p className="text-xs text-gray-500">
+                Your website&apos;s full URL. Used in SEO metadata, JSON-LD, canonical URLs, and sitemap
               </p>
             </div>
           </CardContent>
@@ -425,6 +458,79 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Integrations */}
+      <Card className="shadow-lg border-0">
+        <CardHeader className="bg-gradient-to-r from-[#26A8E0]/10 to-[#221E1F]/10 p-6">
+          <CardTitle className="flex items-center gap-2 text-[#221E1F]">
+            <BarChart3 className="h-5 w-5 text-[#26A8E0]" />
+            Integrations
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-6 space-y-6">
+          <div className="space-y-3">
+            <Label className="text-sm font-semibold text-gray-700">
+              Google Analytics Measurement ID
+            </Label>
+            <Input
+              type="text"
+              value={googleAnalyticsId}
+              onChange={(e) => setGoogleAnalyticsId(e.target.value)}
+              placeholder="G-XXXXXXXXXX"
+              className="w-full font-mono"
+            />
+            <p className="text-xs text-gray-500">
+              Enter your GA4 Measurement ID (starts with <strong>G-</strong>). Find it in{" "}
+              Google Analytics &gt; Admin &gt; Data Streams. Leave empty to disable tracking.
+            </p>
+          </div>
+
+          <div className="border-t pt-6 space-y-4">
+            <h3 className="text-sm font-semibold text-gray-700">
+              Dashboard Analytics (GA4 Data API)
+            </h3>
+            <p className="text-xs text-gray-500">
+              To display analytics data on your admin dashboard, provide your GA4 Property ID and
+              a Google Cloud Service Account key with Viewer access to your GA4 property.
+            </p>
+
+            <div className="space-y-3">
+              <Label className="text-sm font-semibold text-gray-700">
+                GA4 Property ID
+              </Label>
+              <Input
+                type="text"
+                value={ga4PropertyId}
+                onChange={(e) => setGa4PropertyId(e.target.value)}
+                placeholder="123456789"
+                className="w-full font-mono"
+              />
+              <p className="text-xs text-gray-500">
+                Found in Google Analytics &gt; Admin &gt; Property Settings. A numeric ID like <strong>123456789</strong>.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-sm font-semibold text-gray-700">
+                Service Account Key (JSON)
+              </Label>
+              <textarea
+                value={ga4ServiceAccountKey}
+                onChange={(e) => setGa4ServiceAccountKey(e.target.value)}
+                onFocus={(e) => {
+                  if (e.target.value === "********") e.target.value = "";
+                  setGa4ServiceAccountKey("");
+                }}
+                placeholder='{"type":"service_account","project_id":"...","private_key":"..."}'
+                className="w-full font-mono text-xs p-3 border border-gray-300 rounded-lg min-h-[100px] resize-y focus:outline-none focus:ring-2 focus:ring-[#26A8E0]/50"
+              />
+              <p className="text-xs text-gray-500">
+                Paste the entire JSON key file content from Google Cloud Console &gt; IAM &gt; Service Accounts.
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Preview Card */}
       <Card className="shadow-lg border-0">

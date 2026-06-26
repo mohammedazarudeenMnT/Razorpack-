@@ -29,6 +29,10 @@ const seoSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    ogImage: {
+      type: String,
+      trim: true,
+    },
     lastUpdated: {
       type: Date,
       default: Date.now,

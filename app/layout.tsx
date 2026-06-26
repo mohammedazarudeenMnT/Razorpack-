@@ -6,6 +6,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { DynamicMetadata } from "@/components/DynamicMetadata";
 import FloatingContactButtons from "@/components/FloatingContactButtons";
+import { DynamicGoogleAnalytics } from "@/components/DynamicGoogleAnalytics";
 import { cn } from "@/lib/utils";
 
 const jost = Jost({
@@ -21,7 +22,10 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Rayzor Industrial Packaging Pvt Ltd | Premium Packaging Solutions & LDPE Films",
+  title: {
+    template: "%s | Rayzor Industrial Packaging Pvt Ltd",
+    default: "Rayzor Industrial Packaging Pvt Ltd | Premium Packaging Solutions & LDPE Films",
+  },
   description:
     "Rayzor Industrial Packaging Pvt Ltd is the leading manufacturer of premium packaging materials, LDPE Film Rolls, and Poly Bags in Madurai, Tamil Nadu.",
   generator: "Next.js",
@@ -30,6 +34,20 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   metadataBase: new URL("https://www.rayzorpack.com"),
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     title: "Rayzor Industrial Packaging Pvt Ltd | Premium Packaging Solutions",
     description:
@@ -67,6 +85,7 @@ export default function RootLayout({
         <FloatingContactButtons />
         <Toaster />
         <Analytics />
+        <DynamicGoogleAnalytics />
       </body>
     </html>
   );

@@ -11,14 +11,27 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSEO("about");
+  const title = seo?.title || "About Us";
+  const description = seo?.description || "";
+
   return {
-    title:
-      seo?.title ||
-      "About Us | Rayzor Industrial Packaging Pvt Ltd - Industrial Strength",
-    description:
-      seo?.description ||
-      "Learn about Rayzor Industrial Packaging Pvt Ltd - your trusted partner for innovative industrial packaging solutions.",
+    title,
+    description,
     keywords: seo?.keywords || "",
+    alternates: { canonical: "/about" },
+    openGraph: {
+      title,
+      description,
+      url: "/about",
+      type: "website",
+      ...(seo?.ogImage && { images: [{ url: seo.ogImage, width: 1200, height: 630 }] }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      ...(seo?.ogImage && { images: [seo.ogImage] }),
+    },
   };
 }
 
@@ -46,23 +59,37 @@ async function getAboutPageData() {
 }
 
 export default async function AboutPage() {
-  const heroBanner = await getAboutPageData();
+  const [heroBanner, seo] = await Promise.all([
+    getAboutPageData(),
+    getSEO("about"),
+  ]);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: seo?.title || "About Us",
+    description: seo?.description || heroBanner?.description || "",
+    url: "https://www.rayzorpack.com/about",
+  };
 
   return (
-    <main className="min-h-screen bg-white">
-      {heroBanner && (
-        <PageHero
-          label={heroBanner.label}
-          headingLine1={heroBanner.headingLine1}
-          headingLine2={heroBanner.headingLine2}
-          description={heroBanner.description}
-          image={heroBanner.image}
-          imageAlt="Rayzor Industrial Packaging Pvt Ltd — About Us"
-        />
-      )}
-      <AboutMissionVision />
-      <AboutBusinessAreas />
-      <AboutProcess />
-    </main>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <main className="min-h-screen bg-white">
+        {heroBanner && (
+          <PageHero
+            label={heroBanner.label}
+            headingLine1={heroBanner.headingLine1}
+            headingLine2={heroBanner.headingLine2}
+            description={heroBanner.description}
+            image={heroBanner.image}
+            imageAlt="Rayzor Industrial Packaging Pvt Ltd — About Us"
+          />
+        )}
+        <AboutMissionVision />
+        <AboutBusinessAreas />
+        <AboutProcess />
+      </main>
+    </>
   );
 }

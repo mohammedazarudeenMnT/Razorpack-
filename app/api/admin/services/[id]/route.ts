@@ -90,6 +90,8 @@ export async function PUT(
     const seoTitle = formData.get("seoTitle") as string;
     const seoDescription = formData.get("seoDescription") as string;
     const seoKeywords = formData.get("seoKeywords") as string;
+    const ogImage = formData.get("ogImage") as string;
+    const ogImageFile = formData.get("ogImageFile") as File | null;
     const imageFile = formData.get("image") as File | null;
     const existingImage = formData.get("existingImage") as string;
     const galleryFiles = formData.getAll("galleryImages") as File[];
@@ -202,6 +204,16 @@ export async function PUT(
     service.seoTitle = seoTitle;
     service.seoDescription = seoDescription;
     service.seoKeywords = seoKeywords;
+    // Handle OG image upload
+    if (ogImageFile && ogImageFile.size > 0) {
+      if (service.ogImage) await deleteByUrl(service.ogImage).catch(() => {});
+      const ogBytes = await ogImageFile.arrayBuffer();
+      const ogBuffer = Buffer.from(ogBytes);
+      const ogResult = await uploadToCloudinary(ogBuffer, `services/${newSlug}/og`);
+      service.ogImage = (ogResult as any).secure_url;
+    } else {
+      service.ogImage = ogImage || "";
+    }
 
     await service.save();
 
