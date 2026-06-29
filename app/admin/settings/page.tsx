@@ -15,6 +15,10 @@ import {
   Upload,
   Building2,
   BarChart3,
+  ChevronDown,
+  ExternalLink,
+  CheckCircle2,
+  Circle,
 } from "lucide-react";
 
 export default function SettingsPage() {
@@ -33,6 +37,7 @@ export default function SettingsPage() {
   const [ga4ServiceAccountKey, setGa4ServiceAccountKey] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
+  const [setupGuideOpen, setSetupGuideOpen] = useState(false);
 
   // Fetch settings on mount
   useEffect(() => {
@@ -468,6 +473,164 @@ export default function SettingsPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
+          {/* Setup Guide Toggle */}
+          <div className="border border-[#26A8E0]/30 rounded-lg overflow-hidden">
+            <button
+              onClick={() => setSetupGuideOpen(!setupGuideOpen)}
+              className="w-full flex items-center justify-between p-4 bg-[#26A8E0]/5 hover:bg-[#26A8E0]/10 transition-colors text-left"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-lg">📖</span>
+                <span className="text-sm font-semibold text-[#221E1F]">
+                  Setup Guide — How to Configure Google Analytics
+                </span>
+              </div>
+              <ChevronDown
+                className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+                  setupGuideOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {setupGuideOpen && (
+              <div className="p-5 space-y-6 border-t border-[#26A8E0]/20 bg-white text-sm">
+                {/* Step A */}
+                <div className="space-y-3">
+                  <h4 className="font-bold text-[#221E1F] flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-[#26A8E0] text-white text-xs flex items-center justify-center font-bold">A</span>
+                    Get Your Measurement ID
+                    <span className="text-xs font-normal text-gray-500">(for website tracking)</span>
+                  </h4>
+                  <ol className="list-decimal list-inside space-y-1.5 text-gray-700 text-xs ml-8">
+                    <li>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer" className="text-[#26A8E0] hover:underline inline-flex items-center gap-0.5">analytics.google.com <ExternalLink className="h-3 w-3" /></a></li>
+                    <li>Click <strong>Admin</strong> (gear icon, bottom left)</li>
+                    <li>Click <strong>Data Streams</strong> (under Data collection)</li>
+                    <li>Click your stream (e.g. &quot;Rayzor Pack Website&quot;)</li>
+                    <li>Copy the <strong>Measurement ID</strong> at the top right (e.g. <code className="bg-gray-100 px-1.5 py-0.5 rounded text-[#221E1F]">G-ABC123XYZ</code>)</li>
+                    <li>Paste it in the <strong>&quot;Google Analytics Measurement ID&quot;</strong> field below</li>
+                    <li>Click <strong>Save Changes</strong></li>
+                  </ol>
+                  <p className="text-xs text-green-600 ml-8 flex items-center gap-1">
+                    <CheckCircle2 className="h-3 w-3" /> Website tracking will be active after save.
+                  </p>
+                </div>
+
+                {/* Step B */}
+                <div className="space-y-3 border-t pt-4">
+                  <h4 className="font-bold text-[#221E1F] flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-[#26A8E0] text-white text-xs flex items-center justify-center font-bold">B</span>
+                    Get Your Property ID
+                    <span className="text-xs font-normal text-gray-500">(for dashboard analytics)</span>
+                  </h4>
+                  <ol className="list-decimal list-inside space-y-1.5 text-gray-700 text-xs ml-8">
+                    <li>In Google Analytics, look at the <strong>URL</strong> in your browser:</li>
+                  </ol>
+                  <div className="ml-8 bg-gray-50 p-3 rounded-lg font-mono text-xs overflow-x-auto">
+                    <div>analytics.google.com/analytics/web/#/<span className="text-[#26A8E0] font-bold">p456789123</span>/...</div>
+                    <div className="text-[#26A8E0] mt-1">↑ The number after &quot;p&quot; is your Property ID: <strong>456789123</strong></div>
+                  </div>
+                  <ol start={2} className="list-decimal list-inside space-y-1.5 text-gray-700 text-xs ml-8">
+                    <li>Or: <strong>Admin → Property Settings</strong> → The ID is shown at the top</li>
+                    <li>Copy just the <strong>numeric ID</strong> (e.g. <code className="bg-gray-100 px-1.5 py-0.5 rounded text-[#221E1F]">456789123</code>)</li>
+                    <li>Paste it in the <strong>&quot;GA4 Property ID&quot;</strong> field below</li>
+                  </ol>
+                </div>
+
+                {/* Step C */}
+                <div className="space-y-3 border-t pt-4">
+                  <h4 className="font-bold text-[#221E1F] flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-[#26A8E0] text-white text-xs flex items-center justify-center font-bold">C</span>
+                    Create a Google Cloud Service Account
+                  </h4>
+                  <div className="ml-8 space-y-4">
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-semibold text-gray-800 flex items-center gap-1"><Circle className="h-2.5 w-2.5 text-[#26A8E0]" /> Step 1: Create a Google Cloud Project</p>
+                      <ol className="list-decimal list-inside space-y-1 text-gray-600 text-xs ml-4">
+                        <li>Go to <a href="https://console.cloud.google.com" target="_blank" rel="noopener noreferrer" className="text-[#26A8E0] hover:underline inline-flex items-center gap-0.5">console.cloud.google.com <ExternalLink className="h-3 w-3" /></a></li>
+                        <li>Click the <strong>project dropdown</strong> (top bar) → <strong>New Project</strong></li>
+                        <li>Name it (e.g. &quot;Rayzor Analytics&quot;) → Click <strong>Create</strong></li>
+                      </ol>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-semibold text-gray-800 flex items-center gap-1"><Circle className="h-2.5 w-2.5 text-[#26A8E0]" /> Step 2: Enable the Google Analytics Data API</p>
+                      <ol className="list-decimal list-inside space-y-1 text-gray-600 text-xs ml-4">
+                        <li>Go to <strong>APIs &amp; Services → Library</strong></li>
+                        <li>Search for <strong>&quot;Google Analytics Data API&quot;</strong></li>
+                        <li>Click it → Click <strong>Enable</strong></li>
+                      </ol>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-semibold text-gray-800 flex items-center gap-1"><Circle className="h-2.5 w-2.5 text-[#26A8E0]" /> Step 3: Create a Service Account</p>
+                      <ol className="list-decimal list-inside space-y-1 text-gray-600 text-xs ml-4">
+                        <li>Go to <strong>IAM &amp; Admin → Service Accounts</strong></li>
+                        <li>Click <strong>&quot;+ CREATE SERVICE ACCOUNT&quot;</strong></li>
+                        <li>Name: <code className="bg-gray-100 px-1.5 py-0.5 rounded">rayzor-analytics</code></li>
+                        <li>Click <strong>CREATE AND CONTINUE → CONTINUE → DONE</strong></li>
+                      </ol>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-semibold text-gray-800 flex items-center gap-1"><Circle className="h-2.5 w-2.5 text-[#26A8E0]" /> Step 4: Download the JSON Key</p>
+                      <ol className="list-decimal list-inside space-y-1 text-gray-600 text-xs ml-4">
+                        <li>Click on the service account you just created</li>
+                        <li>Go to <strong>KEYS</strong> tab → <strong>ADD KEY → Create new key</strong></li>
+                        <li>Select <strong>JSON</strong> → Click <strong>CREATE</strong></li>
+                        <li>A <code className="bg-gray-100 px-1.5 py-0.5 rounded">.json</code> file will download — save it safely</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step D */}
+                <div className="space-y-3 border-t pt-4">
+                  <h4 className="font-bold text-[#221E1F] flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-[#26A8E0] text-white text-xs flex items-center justify-center font-bold">D</span>
+                    Grant Service Account Access to GA4
+                  </h4>
+                  <ol className="list-decimal list-inside space-y-1.5 text-gray-700 text-xs ml-8">
+                    <li>Go to <a href="https://analytics.google.com" target="_blank" rel="noopener noreferrer" className="text-[#26A8E0] hover:underline inline-flex items-center gap-0.5">analytics.google.com <ExternalLink className="h-3 w-3" /></a></li>
+                    <li>Click <strong>Admin</strong> → <strong>Property Access Management</strong></li>
+                    <li>Click <strong>&quot;+&quot;</strong> → <strong>Add users</strong></li>
+                    <li>Paste the service account email from the JSON file (<code className="bg-gray-100 px-1.5 py-0.5 rounded">client_email</code> field)</li>
+                    <li>Uncheck &quot;Notify new users by email&quot;</li>
+                    <li>Set role to <strong>Viewer</strong> → Click <strong>Add</strong></li>
+                  </ol>
+                </div>
+
+                {/* Step E */}
+                <div className="space-y-3 border-t pt-4">
+                  <h4 className="font-bold text-[#221E1F] flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-[#26A8E0] text-white text-xs flex items-center justify-center font-bold">E</span>
+                    Paste the JSON Key Below
+                  </h4>
+                  <ol className="list-decimal list-inside space-y-1.5 text-gray-700 text-xs ml-8">
+                    <li>Open the downloaded <code className="bg-gray-100 px-1.5 py-0.5 rounded">.json</code> file with Notepad</li>
+                    <li>Press <strong>Ctrl+A</strong> (select all) → <strong>Ctrl+C</strong> (copy)</li>
+                    <li>Paste into the <strong>&quot;Service Account Key&quot;</strong> field below</li>
+                    <li>Click <strong>Save Changes</strong></li>
+                  </ol>
+                </div>
+
+                {/* Step F */}
+                <div className="space-y-3 border-t pt-4">
+                  <h4 className="font-bold text-[#221E1F] flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-full bg-green-500 text-white text-xs flex items-center justify-center font-bold">F</span>
+                    View Your Analytics
+                  </h4>
+                  <ol className="list-decimal list-inside space-y-1.5 text-gray-700 text-xs ml-8">
+                    <li>Click <strong>&quot;Analytics&quot;</strong> in the admin sidebar</li>
+                    <li>You&apos;ll see: visitors, page views, sessions, top pages, traffic sources, devices</li>
+                  </ol>
+                  <div className="ml-8 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+                    <strong>Note:</strong> Data may take 24–48 hours to appear after initial setup. Visit your website a few times first to generate data.
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="space-y-3">
             <Label className="text-sm font-semibold text-gray-700">
               Google Analytics Measurement ID
@@ -506,7 +669,7 @@ export default function SettingsPage() {
                 className="w-full font-mono"
               />
               <p className="text-xs text-gray-500">
-                Found in Google Analytics &gt; Admin &gt; Property Settings. A numeric ID like <strong>123456789</strong>.
+                Found in Google Analytics URL after <strong>&quot;p&quot;</strong> — just the numeric part. Example: <strong>456789123</strong> (not the full &quot;a...p...&quot; string).
               </p>
             </div>
 
