@@ -12,6 +12,8 @@ import Product from "@/config/utils/admin/products/productSchema";
 import Contact from "@/config/utils/admin/contact/ContactSchema";
 import Settings from "@/config/utils/admin/settings/settingsSchema";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getSEO("home");
   const title = seo?.title || { absolute: "Rayzor Industrial Packaging Pvt Ltd | Premium Packaging Solutions & LDPE Films" };
