@@ -3,11 +3,8 @@ import connectDB from "@/config/models/connectDB";
 import Contact from "@/config/utils/admin/contact/ContactSchema";
 import { verifyAdmin } from "@/lib/admin-auth";
 
-// GET - Fetch contact information
-export async function GET(request: NextRequest) {
-  const auth = verifyAdmin(request);
-  if (!auth.ok) return auth.error!;
-
+// GET - Fetch contact information (public — used by contact page)
+export async function GET() {
   try {
     await connectDB();
 
